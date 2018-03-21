@@ -6,8 +6,17 @@
                    name="project"
                    (change)="onChange()"
                    value="{{p.project.name}}"
-                   [(ngModel)]="p.checked"/>
+                   [ngModel]="p.checked"/>
             {{p.project.name}}
         </label>
     </div>
-  </fieldset>
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div class="form-group">
+        <label class="control-label" >Novo Projeto
+            <input  ngModel class="form-control" name="novoProjeto" required/>
+            <button type="submit" class="btn btn-success" [disabled]="!form.valid">Add</button>
+        </label>
+    </div>
+        
+</form>
+</fieldset>

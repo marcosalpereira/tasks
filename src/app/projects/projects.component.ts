@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Project } from '../project.model';
 import { Subject } from 'rxjs/Subject';
+import { NgForm } from '@angular/forms';
 
 
 class SelectedProject {
@@ -26,6 +27,14 @@ export class ProjectsComponent implements OnInit {
     this.dataService.getProjects().forEach(project =>
       this.projects.push(new SelectedProject(project))
     );
+  }
+
+  onSubmit(form: NgForm) {
+    const name: string = form.value
+    console.log(name);
+    const project = new Project(name);
+    this.dataService.addProject( project );
+    this.projects.push(new SelectedProject(project));
   }
 
   onChange() {

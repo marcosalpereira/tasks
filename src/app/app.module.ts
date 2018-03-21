@@ -9,7 +9,7 @@ import { RecentsComponent } from './recents/recents.component';
 import { ActivateComponent } from './activate/activate.component';
 
 import { DataService } from './data.service';
-
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +20,8 @@ import { DataService } from './data.service';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
