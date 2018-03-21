@@ -1,0 +1,13 @@
+<fieldset>
+    <legend>Projects</legend>
+    <div *ngFor="let p of projects">
+        <label>
+            <input type="checkbox"
+                   name="project"
+                   (change)="onChange()"
+                   value="{{p.project.name}}"
+                   [(ngModel)]="p.checked"/>
+            {{p.project.name}}
+        </label>
+    </div>
+  </fieldset>
