@@ -1,3 +1,14 @@
-<p>
-  activate works!
-</p>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <div class="form-group">
+        <select ngModel class="form-control" name="project" required>
+          <option [ngValue]="undefined" selected="selected">Select Project</option>
+          <option *ngFor="let p of projects" [ngValue]="p">{{p.name}}</option>
+        </select>
+        <input placeholder="Task Name" ngModel name="taskName" required/>
+        <button type="submit" class="btn btn-success" [disabled]="!form.valid">Activate</button>
+      </div>
+    </form>
+  </div>
+</div>

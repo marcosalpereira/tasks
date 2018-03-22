@@ -1,22 +1,16 @@
-<fieldset>
-    <legend>Projects</legend>
-    <div *ngFor="let p of projects">
-        <label>
-            <input type="checkbox"
-                   name="project"
-                   (change)="onChange()"
-                   value="{{p.project.name}}"
-                   [ngModel]="p.checked"/>
-            {{p.project.name}}
-        </label>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 style="border-bottom: solid 0.1mm lightgrey">Projects</h4>
+        <div *ngFor="let p of projects">
+            <label>
+                <input type="checkbox" name="project" (change)="onChange()" [value]="p.project.name" [ngModel]="p.checked" /> {{p.project.name}}
+            </label>
+        </div>
+        <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+            <div class="form-group">
+                <input placeholder="New Project" ngModel name="newProject" required/>
+                <button type="submit" class="btn btn-success" [disabled]="!form.valid">Add</button>
+            </div>
+        </form>
     </div>
-    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
-    <div class="form-group">
-        <label class="control-label" >Novo Projeto
-            <input  ngModel class="form-control" name="novoProjeto" required/>
-            <button type="submit" class="btn btn-success" [disabled]="!form.valid">Add</button>
-        </label>
-    </div>
-        
-</form>
-</fieldset>
+</div>
