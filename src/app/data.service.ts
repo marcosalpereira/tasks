@@ -3,18 +3,49 @@ import { Project } from './project.model';
 import { Task, TaskCount } from './task.model';
 import { Event } from './event.model';
 import * as moment from 'moment';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class DataService {
 
-  public topTasks: TaskCount[] = [];
+  public eventAdded$ = new Subject<Event>();
+  public projectAdded$ = new Subject<Project>();
+  public tasksStatChanged$ = new Subject<TaskCount[]>();
+
+  private topTasks: TaskCount[] = [];
+
+  getTopTasks() {
+    if (this.topTasks.length === 0) {
+      this.getEvents();
+    }
+    return this.topTasks;
+  }
 
   addEvent(task: Task): void {
     const date = new Date();
     const key = this.getDayEventKey(date);
-    const events: Event[] = JSON.parse(localStorage.getItem(key));
-    events.push(new Event(task, date));
+    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+    const event = new Event(task, date);
+    events.unshift(event);
     localStorage.setItem(key, JSON.stringify(events));
+
+    this.eventAdded$.next(event);
+    this.updateTaskStats(task);
+  }
+
+  updateTaskStats(task: Task) {
+    const index = this.topTasks.findIndex((value: TaskCount) =>
+      value.task.name === task.name && value.task.project.name === task.project.name
+    );
+    if (index === -1) {
+      if (this.topTasks.length < 7) {
+        this.topTasks.push(new TaskCount(task, 1));
+        this.tasksStatChanged$.next(this.topTasks);
+      }
+    } else {
+      this.topTasks[index].count++;
+      this.tasksStatChanged$.next(this.topTasks);
+    }
   }
 
   getEvents(): Event[] {
@@ -25,11 +56,11 @@ export class DataService {
       events.push(...dayEvents);
       m.subtract(1, 'day');
     }
-    this.updateTopTasks(events);
+    this.updateTasksStats(events);
     return events;
   }
 
-  updateTopTasks(events: Event[]): void {
+  updateTasksStats(events: Event[]): void {
 
     const freq = events.reduce(function (map, event: Event) {
       const key = JSON.stringify(event.task);
@@ -37,20 +68,21 @@ export class DataService {
       return map;
     }, new Map());
 
-    const items = Object.keys(freq).map(function(key) {
-      return [key, freq[key]];
-    });
-  
-    // Sort the array based on the second element
-    items.sort(function(first, second) {
-      return second[1] - first[1];
+    const items = Object.keys(freq).map(function (key) {
+      return new TaskCount(JSON.parse(key), freq[key]);
     });
 
-    this.topTasks = a.slice(0, 7);
+    // Sort the array based on the second element
+    items.sort((left: TaskCount, right: TaskCount) =>
+      right.count - left.count
+    );
+
+    this.topTasks = items.slice(0, 7);
+
   }
 
   getDayEventKey(date: Date): string {
-    return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}}`;
+    return `ev-${date.getDate()}-${date.getMonth()}-${date.getFullYear()}}`;
   }
 
   getDayEvents(date: Date): Event[] {
@@ -62,6 +94,8 @@ export class DataService {
     const projects: Project[] = this.getProjects();
     projects.push(project);
     localStorage.setItem('projects', JSON.stringify(projects));
+
+    this.projectAdded$.next(project);
   }
   constructor() {
     //    localStorage.clear();

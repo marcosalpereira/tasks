@@ -16,8 +16,7 @@ class SelectedProject {
 })
 export class ProjectsComponent implements OnInit {
 
-  public projectFilter = new Subject<Project[]>();
-
+  public selectedProjects$ = new Subject<Project[]>();
 
   projects: SelectedProject[] = [];
 
@@ -41,7 +40,7 @@ export class ProjectsComponent implements OnInit {
       .filter(sp => sp.checked)
       .map(sp => sp.project);
 
-    this.projectFilter.next(selecteds);
+    this.selectedProjects$.next(selecteds);
   }
 
 }
