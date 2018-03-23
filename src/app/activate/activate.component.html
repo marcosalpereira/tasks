@@ -1,12 +1,15 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <h4 style="border-bottom: solid 0.1mm lightgrey">Start Task</h4>    
-    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
           <label>Project
-            <select  title="Select project" class="selectpicker" ngModel name="project" required>
+            <select ngModel title="Select project" class="selectpicker" name="project" required>
               <option *ngFor="let p of projects" [ngValue]="p">{{p.name}}</option>
             </select>
+            <button title="Create new Project" 
+                type="button" class="btn btn-success" 
+                (click)="onClickNewProject()">New</button>            
           </label>
           <input placeholder="Task ID" ngModel name="taskId" required 
               pattern="[1-9][0-9]{0,10}" size="6" maxlength="10"/>

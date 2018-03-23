@@ -6,20 +6,20 @@
         <thead>
           <tr>
             <th class="text-center">Reg</th>
-            <th class="text-center">Date</th>
-            <th class="text-center">Project</th>
-            <th class="text-center">Task</th>
+            <th class="text-left">Date</th>
+            <th class="text-left">Project</th>
+            <th class="text-left">Task</th>
             <th class="text-center">Restart</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let event of events">
             <td class="text-center">{{event.registered | boolean}}</td>
-            <td class="text-center">{{event.date | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-            <td class="text-center">{{event.task.project.name}}</td>
-            <td class="text-center">{{event.task.id}}-{{event.task.name}}</td>
+            <td class="text-left">{{event | interval}}</td>
+            <td class="text-left">{{event.task.project.name}}</td>
+            <td class="text-left">{{event.task.id}}-{{event.task.name}}</td>
             <td class="text-center">
-              <button type="button" class="btn btn-success">
+              <button (click)="restartTask(event.task)" type="button" class="btn btn-success">
                 <i class="fa fa-play"></i>
               </button>
             </td>

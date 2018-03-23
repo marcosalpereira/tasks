@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Task } from '../task.model';
 import { Project } from '../project.model';
 import { DataService } from '../data.service';
 import { Subscription } from 'rxjs/Subscription';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-activate',
@@ -14,6 +14,8 @@ export class ActivateComponent implements OnInit, OnDestroy {
 
   projectAddedSub: Subscription;
   projects: Project[] = [];
+
+  @ViewChild('form') form: NgForm;
 
   constructor(private dataService: DataService) { }
 
@@ -32,12 +34,20 @@ export class ActivateComponent implements OnInit, OnDestroy {
     this.projectAddedSub.unsubscribe();
   }
 
-  onSubmit(form: NgForm) {
-    const project: Project = form.value['project'];
-    const taskName: string = form.value['taskName'];
-    const taskId: number = +form.value['taskId'];
+  onSubmit() {
+    const project: Project = this.form.value['project'];
+    const taskName: string = this.form.value['taskName'];
+    const taskId: number = +this.form.value['taskId'];
     const task: Task = new Task(project, taskId, taskName);
     this.dataService.addEvent(task);
+  }
+
+  onClickNewProject() {
+    const newProject = window.prompt('New project Name');
+    if (!newProject) {
+      return;
+    }
+    this.dataService.addProject(new Project(newProject));
   }
 
 }

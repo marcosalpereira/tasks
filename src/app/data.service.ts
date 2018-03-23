@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class DataService {
 
-  public eventAdded$ = new Subject<Event>();
+  public eventsChanged$ = new Subject<Event[]>();
   public projectAdded$ = new Subject<Project>();
   public tasksStatChanged$ = new Subject<TaskCount[]>();
 
@@ -25,11 +25,20 @@ export class DataService {
     const date = new Date();
     const key = this.getDayEventKey(date);
     const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+
+    // finalizar anterior
+    if (events.length > 0) {
+      if (!events[0].endDate) {
+        events[0].endDate = date;
+      }
+    }
+
     const event = new Event(task, date);
+
     events.unshift(event);
     localStorage.setItem(key, JSON.stringify(events));
 
-    this.eventAdded$.next(event);
+    this.eventsChanged$.next(events);
     this.updateTaskStats(task);
   }
 
