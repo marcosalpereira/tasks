@@ -5,6 +5,7 @@
       <table class="table table-striped">
         <thead>
           <tr>
+            <th class="text-center">Actions</th>
             <th class="text-center">Reg</th>
             <th class="text-left">Date</th>
             <th class="text-left">Start</th>
@@ -12,11 +13,22 @@
             <th class="text-left">Duration</th>
             <th class="text-left">Project</th>
             <th class="text-left">Task</th>
-            <th class="text-center">Restart</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let event of events">
+            <td class="text-center">
+              <button title="Restart Task" (click)="restartTask(event.task)" type="button" class="btn btn-success btn-xs">
+                <i class="fa fa-play"></i>
+              </button>
+              <button *ngIf="canStopTask(event)" title="Stop Task" (click)="stopTask(event.task)" type="button" class="btn btn-success btn-xs">
+                  <i class="fa fa-stop"></i>
+              </button>
+              <button [disabled]="event.registered" title="Edit Event" 
+                    (click)="editEvent(event)" type="button" class="btn btn-danger btn-xs">
+                  <i class="fa fa-edit"></i>
+              </button>
+            </td>
             <td class="text-center">{{event.registered | boolean}}</td>
             <td class="text-left">{{event.startDate | date : 'dd/MM/yy'}}</td>
             <td class="text-left">{{event.startDate | date : 'HH:mm:ss'}}</td>
@@ -24,11 +36,6 @@
             <td class="text-left">{{event | duration}}</td>
             <td class="text-left">{{event.task.project.name}}</td>
             <td class="text-left">{{event.task.id}}-{{event.task.name}}</td>
-            <td class="text-center">
-              <button (click)="restartTask(event.task)" type="button" class="btn btn-success btn-xs">
-                <i class="fa fa-play"></i>
-              </button>
-            </td>
           </tr>
         </tbody>
       </table>

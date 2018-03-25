@@ -27,7 +27,7 @@ export class TopTasksComponent implements OnInit, OnDestroy {
   }
 
   onClick(task: Task) {
-    this.dataService.addEvent(task);
+    this.dataService.startTask(task);
   }
 
 }

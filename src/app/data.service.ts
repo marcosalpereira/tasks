@@ -21,7 +21,33 @@ export class DataService {
     return this.topTasks;
   }
 
-  addEvent(task: Task): void {
+  stopTask(task: Task) {
+      const date = new Date();
+      const key = this.getDayEventKey(date);
+      const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+      events[0].endDate = date;
+      localStorage.setItem(key, JSON.stringify(events));
+      this.eventsChanged$.next(events);
+  }
+
+  findEvent(id: number): Event {
+    const date = new Date(id);
+    const key = this.getDayEventKey(date);
+    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+    const event = events.find(e => e.id === id);
+    return event;
+  }
+
+  updateEvent(event: Event) {
+    const date = new Date(event.id);
+    const key = this.getDayEventKey(date);
+    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+    const index = events.findIndex(e => e.id === event.id);
+    events[index] = event;
+    localStorage.setItem(key, JSON.stringify(events));
+  }
+
+  startTask(task: Task): void {
     const date = new Date();
     const key = this.getDayEventKey(date);
     const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
@@ -33,7 +59,9 @@ export class DataService {
       }
     }
 
-    const event = new Event(task, date);
+    const id = date.getTime();
+
+    const event = new Event(id, task, date);
 
     events.unshift(event);
     localStorage.setItem(key, JSON.stringify(events));
