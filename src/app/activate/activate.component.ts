@@ -26,6 +26,9 @@ export class ActivateComponent implements OnInit, OnDestroy {
       project => {
         this.projects.push(project);
         this.projects = this.projects.slice();
+        const v = this.form.value;
+        v['project'] = project;
+        this.form.setValue(v);
       }
     );
   }

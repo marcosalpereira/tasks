@@ -113,7 +113,7 @@ export class DataService {
   }
 
   getProjects(): Project[] {
-    const s = localStorage.getItem('projects');
+    const s = localStorage.getItem('projects') || '[]';
     return JSON.parse(s);
   }
 

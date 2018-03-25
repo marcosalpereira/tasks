@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { BooleanPipe } from './boolean.pipe';
 import { TopTasksComponent } from './top-tasks/top-tasks.component';
 import { HeaderComponent } from './header/header.component';
-import { IntervalPipe } from './interval.pipe';
+import { DurationPipe } from './duration.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { IntervalPipe } from './interval.pipe';
     BooleanPipe,
     TopTasksComponent,
     HeaderComponent,
-    IntervalPipe,
+    DurationPipe,
   ],
   imports: [
     BrowserModule,
