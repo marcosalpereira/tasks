@@ -16,6 +16,7 @@ import { DurationPipe } from './duration.pipe';
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { Route } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const ROUTES: Route[] = [
   {
@@ -43,7 +44,8 @@ const ROUTES: Route[] = [
     BrowserModule,
     FormsModule,
     CommonModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    BsDatepickerModule.forRoot()
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

@@ -12,24 +12,34 @@
                     <div class="col-sm-4">
                         <div class="row">
                             <label class="control-label">Start Date
-                                <input name="startDate" class="form-control" type="datetime-local" [(ngModel)]="startDate" required>
+                                <input type="text" name="startDate" required
+                                    placeholder="DD/MM/YYYY HH:mm:ss"
+                                    title="DD/MM/YYYY HH:mm:ss"
+                                    class="form-control"
+                                    [(ngModel)]="startDate"
+                                    bsDatepicker                                    
+                                    [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY HH:mm:ss' }">
                             </label>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="row">
                             <label class="control-label">End Date
-                                <input name="endDate" class="form-control" type="datetime-local" [(ngModel)]="endDate">
+                                <input type="text" name="endDate"
+                                    placeholder="DD/MM/YYYY HH:mm:ss"
+                                    title="DD/MM/YYYY HH:mm:ss"
+                                    class="form-control"
+                                    [(ngModel)]="endDate"
+                                    bsDatepicker                                    
+                                    [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY HH:mm:ss' }">
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-sm-12">
-                        <button class="btn btn-success" type="submit" [disabled]="form.invalid">Save</button>
+                        <button class="btn btn-success" type="submit" [disabled]="!form.valid">Save</button>
                         <button class="btn btn-primary" type="button" (click)="goBack()">Back</button>
-
                     </div>
                 </div>
             </div>

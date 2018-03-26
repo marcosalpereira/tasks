@@ -4,6 +4,7 @@ import { DataService } from '../data.service';
 import { Event } from '../event.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-edit-event',
@@ -33,15 +34,18 @@ export class EditEventComponent implements OnInit {
     const param = this.activeRoute.snapshot.paramMap;
     const id = +param.get('id');
     this.event = this.dataService.findEvent(id);
-    this.startDate = this.event.startDate.toISOString().slice(0,16);
-    this.endDate = this.event.endDate;
-    this.startTime = this.event.startDate;
-    this.endTime = this.event.endDate;
 
+    const start = moment(this.event.startDate);
+    this.startDate = start.format('DD/MM/YYYY HH:mm:ss');
+    console.log(this.startDate);
+
+    const end = moment(this.event.endDate);
+    this.endDate = end.format('DD/MM/YYYY  HH:mm:ss');
   }
-
   onSubmit() {
+    
     this.dataService.updateEvent(this.event);
+    this.goBack();
   }
 
 }
