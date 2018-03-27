@@ -43,7 +43,6 @@ export class EditEventComponent implements OnInit {
     this.endDate = end.format('DD/MM/YYYY  HH:mm:ss');
   }
   onSubmit() {
-    
     this.dataService.updateEvent(this.event);
     this.goBack();
   }

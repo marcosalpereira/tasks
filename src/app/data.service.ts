@@ -4,6 +4,9 @@ import { Task, TaskCount } from './task.model';
 import { Event } from './event.model';
 import * as moment from 'moment';
 import { Subject } from 'rxjs/Subject';
+import {Summary, TaskSummary} from './summary.model';
+
+import { WeekRange, DateUtil } from './date-util';
 
 @Injectable()
 export class DataService {
@@ -144,5 +147,41 @@ export class DataService {
     const s = localStorage.getItem('projects') || '[]';
     return JSON.parse(s);
   }
+
+  getSummary(): Summary[] {
+    const events = this.getEvents();
+
+    const tmpMap = events.reduce(function (map, event: Event) {
+      const startMoment = moment(event.startDate);
+      const key = event.task.id + ':' + startMoment.week();
+      let summary: Summary = map[key];
+      if (!summary) {
+        const weekRange = DateUtil.weekRange(event.startDate);
+        summary = new Summary(weekRange.startDate, weekRange.endDate);
+        map[key] = summary;
+      }
+
+      if (event.endDate) {
+        let taskSummary = summary.taskSummaryMap[event.task.id];
+        if (!taskSummary) {
+          taskSummary = new TaskSummary(event.task);
+          summary.taskSummaryMap[event.task.id] = taskSummary;
+        }
+        const minutes = DateUtil.durationMinutes(startMoment, moment(event.endDate));
+        if (event.registered) {
+          taskSummary.minutesRegistered[startMoment.weekday()] += minutes;
+        } else {
+          taskSummary.minutesPending[startMoment.weekday()] += minutes;
+        }
+        taskSummary.events.push(event);
+      }
+
+      return map;
+    }, new Map());
+
+    return Object.keys(tmpMap).map(key => tmpMap[key]);
+  }
+
+
 
 }

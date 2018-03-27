@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4 style="border-bottom: solid 0.1mm lightgrey">Summary</h4>
+
+    <div class="panel-body" *ngFor="let summary of summarys">
+      <h4 style="border-bottom: solid 0.1mm lightgrey">Week: {{summary.startDate | date: 'dd/MM/yy'}} - {{summary.endDate | date : 'dd/MM/yy'}}</h4>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="text-left">Task</th>
+              <th class="text-left">Status</th>              
+              <th class="text-center">Sun</th>
+              <th class="text-center">Mon</th>
+              <th class="text-center">Tue</th>
+              <th class="text-center">Wed</th>
+              <th class="text-center">Thu</th>
+              <th class="text-center">Fri</th>
+              <th class="text-center">Sat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let taskSummary of summary.getTaskSummary()">
+              <tr>
+                <td class="text-left">{{taskSummary.task.id}}-{{taskSummary.task.name}}</td>
+                <td class="text-left">Registered</td>
+                <td *ngFor="let i of [0,1,2,3,4,5,6]" class="text-center">{{taskSummary.minutesRegistered[i] | formatMinutes}}</td>
+              </tr>
+              <tr>
+                  <td class="text-left"></td>
+                  <td class="text-left">To Register</td>
+                  <td *ngFor="let i of [0,1,2,3,4,5,6]" class="text-center">{{taskSummary.minutesPending[i] | formatMinutes}}</td>
+                </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

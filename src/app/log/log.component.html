@@ -33,7 +33,7 @@
             <td class="text-left">{{event.startDate | date : 'dd/MM/yy'}}</td>
             <td class="text-left">{{event.startDate | date : 'HH:mm:ss'}}</td>
             <td class="text-left">{{event?.endDate | date : 'HH:mm:ss'}}</td>
-            <td class="text-left">{{event | duration}}</td>
+            <td class="text-left">{{event | eventDuration}}</td>
             <td class="text-left">{{event.task.project.name}}</td>
             <td class="text-left">{{event.task.id}}-{{event.task.name}}</td>
           </tr>
