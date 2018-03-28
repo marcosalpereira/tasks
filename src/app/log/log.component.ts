@@ -33,7 +33,7 @@ export class LogComponent implements OnInit, OnDestroy {
   }
 
   restartTask(task: Task) {
-    this.dataService.startTask(task);
+    this.dataService.startTask(task, '');
   }
   stopTask(task: Task) {
     this.dataService.stopTask(task);

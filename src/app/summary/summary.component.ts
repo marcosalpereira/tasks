@@ -13,7 +13,6 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit() {
     this.summarys = this.dataService.getSummary();
-    console.log(this.summarys);
   }
 
 }

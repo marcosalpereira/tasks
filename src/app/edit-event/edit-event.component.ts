@@ -17,8 +17,7 @@ export class EditEventComponent implements OnInit {
   startTime: string;
   endTime: string;
 
-  @Input() event: Event;
-  @Output() eventChange = new EventEmitter<Event>();
+  event: Event;
 
   constructor(
     private dataService: DataService,
@@ -37,7 +36,6 @@ export class EditEventComponent implements OnInit {
 
     const start = moment(this.event.startDate);
     this.startDate = start.format('DD/MM/YYYY HH:mm:ss');
-    console.log(this.startDate);
 
     const end = moment(this.event.endDate);
     this.endDate = end.format('DD/MM/YYYY  HH:mm:ss');

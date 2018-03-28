@@ -19,18 +19,16 @@ import { Route } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SummaryComponent } from './summary/summary.component';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 const ROUTES: Route[] = [
-  {
-    path: 'summary', component: SummaryComponent
-  },
   {
     path: 'log', component: LogComponent
   },
   {
     path: 'event/:id', component: EditEventComponent
   },
-  { path: '', redirectTo: 'summary', pathMatch: 'full' }
+  { path: '', redirectTo: 'log', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -52,7 +50,8 @@ const ROUTES: Route[] = [
     FormsModule,
     CommonModule,
     RouterModule.forRoot(ROUTES),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    AccordionModule.forRoot()
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

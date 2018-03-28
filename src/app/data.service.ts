@@ -129,8 +129,7 @@ export class DataService {
   getDayEvents(date: Date): Event[] {
     const key = this.getDayEventKey(date);
     const events = localStorage.getItem(key);
-    console.log(key, events);
-    return JSON.parse(events);
+    return JSON.parse(events) | [];
   }
 
   addProject(project: Project): void {
