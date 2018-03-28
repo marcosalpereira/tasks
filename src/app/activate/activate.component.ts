@@ -42,7 +42,8 @@ export class ActivateComponent implements OnInit, OnDestroy {
     const taskName: string = this.form.value['taskName'];
     const taskId: number = +this.form.value['taskId'];
     const task: Task = new Task(project, taskId, taskName);
-    this.dataService.startTask(task);
+    const remarks = this.form.value['eventRemarks'];
+    this.dataService.startTask(task, remarks);
   }
 
   onClickNewProject() {

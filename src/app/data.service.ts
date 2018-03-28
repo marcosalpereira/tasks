@@ -50,7 +50,7 @@ export class DataService {
     localStorage.setItem(key, JSON.stringify(events));
   }
 
-  startTask(task: Task): void {
+  startTask(task: Task, remarks: string): void {
     const date = new Date();
     const key = this.getDayEventKey(date);
     const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
@@ -65,6 +65,7 @@ export class DataService {
     const id = date.getTime();
 
     const event = new Event(id, task, date);
+    event.remarks = remarks;
 
     events.unshift(event);
     localStorage.setItem(key, JSON.stringify(events));
@@ -122,12 +123,14 @@ export class DataService {
   }
 
   getDayEventKey(date: Date): string {
-    return `ev-${date.getDate()}-${date.getMonth()}-${date.getFullYear()}}`;
+    return `ev-${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
   }
 
   getDayEvents(date: Date): Event[] {
     const key = this.getDayEventKey(date);
-    return JSON.parse(localStorage.getItem(key));
+    const events = localStorage.getItem(key);
+    console.log(key, events);
+    return JSON.parse(events);
   }
 
   addProject(project: Project): void {

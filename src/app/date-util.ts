@@ -13,7 +13,7 @@ export class DateUtil {
         const m = moment(date);
         const weekday = m.weekday();
         m.subtract(weekday, 'days');
-        return new WeekRange(m.toDate(), m.add(7, 'days').toDate());
+        return new WeekRange(m.toDate(), m.add(6, 'days').toDate());
     }
 
     public static durationMinutes(start: moment.Moment, end: moment.Moment): number {
@@ -22,8 +22,15 @@ export class DateUtil {
     }
 
     public static formatHour(mins: number): string {
+        if (mins === 0) return '';
         return (mins / 60).toFixed() + ':' + DateUtil.lpadMask('00', (mins % 60).toFixed());
     }
+
+    public static formatDecimalHour(mins: number): string {
+        if (mins === 0) return '';
+        return (mins / 60).toFixed(2);
+    }
+    
 
     private static lpadMask(mask: string, value: any): string {
         return ((mask + value).slice(-mask.length));

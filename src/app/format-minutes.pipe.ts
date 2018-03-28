@@ -8,7 +8,7 @@ import { DateUtil } from './date-util';
 export class FormatMinutesPipe implements PipeTransform {
 
   transform(minutes: number): string {
-    return DateUtil.formatHour(minutes);
+    return DateUtil.formatDecimalHour(minutes);
   }
 
 }

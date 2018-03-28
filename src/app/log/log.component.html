@@ -35,7 +35,7 @@
             <td class="text-left">{{event?.endDate | date : 'HH:mm:ss'}}</td>
             <td class="text-left">{{event | eventDuration}}</td>
             <td class="text-left">{{event.task.project.name}}</td>
-            <td class="text-left">{{event.task.id}}-{{event.task.name}}</td>
+            <td class="text-left">{{event.task.id}}-{{event.task.name}}{{event.remarks ? '-' + event.remarks : ''}}</td>
           </tr>
         </tbody>
       </table>
