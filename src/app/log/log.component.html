@@ -22,7 +22,7 @@
               <button *ngIf="canStopTask(event)" title="Stop Task" (click)="stopTask(event.task)" type="button" class="btn btn-success btn-xs">
                   <i class="fa fa-stop"></i>
               </button>
-              <button [disabled]="event.registered" title="Edit Event" 
+              <button title="Edit Event" 
                     (click)="editEvent(event)" type="button" class="btn btn-danger btn-xs">
                   <i class="fa fa-edit"></i>
               </button>

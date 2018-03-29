@@ -1,4 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-.ng-invalid.ng-touched {
+.ng-invalid.ng-dirty {
     border-color: red;
+    color: red;
+}
+
+.panel-default > .panel-heading {
+    background-color: lightgray;
+    border: gray
+}
+
+label.required:before {
+    content:"* ";
+    color:  red; 
 }

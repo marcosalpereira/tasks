@@ -6,14 +6,16 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
 
+const TIME_FORMAT = 'HH:mm:ss';
+
 @Component({
   selector: 'app-edit-event',
   templateUrl: './edit-event.component.html',
   styleUrls: ['./edit-event.component.css']
 })
 export class EditEventComponent implements OnInit {
-  startDate: string;
-  endDate: string;
+  startMoment: moment.Moment;
+  endMoment: moment.Moment;
   startTime: string;
   endTime: string;
 
@@ -34,15 +36,48 @@ export class EditEventComponent implements OnInit {
     const id = +param.get('id');
     this.event = this.dataService.findEvent(id);
 
-    const start = moment(this.event.startDate);
-    this.startDate = start.format('DD/MM/YYYY HH:mm:ss');
+    this.startMoment = moment(this.event.startDate);
+    this.startTime = this.startMoment.format(TIME_FORMAT);
 
-    const end = moment(this.event.endDate);
-    this.endDate = end.format('DD/MM/YYYY  HH:mm:ss');
+    if (this.event.endDate) {
+      this.endMoment = moment(this.event.endDate);
+      this.endTime = this.endMoment.format(TIME_FORMAT);
+    }
   }
+
   onSubmit() {
+    let startMoment = moment(this.startTime, TIME_FORMAT);
+    let endMoment = this.endTime ? moment(this.endTime, TIME_FORMAT) : undefined;
+
+    if (endMoment) {
+      if (endMoment.isBefore(startMoment)) {
+        const tmp = startMoment;
+        startMoment = endMoment;
+        endMoment = tmp;
+      }
+
+      if (!this.endMoment) {
+        this.endMoment = this.startMoment.clone();
+      } 
+      this.setTime(this.endMoment, endMoment);
+      this.event.endDate = this.endMoment.toDate();
+
+    } else {
+      this.event.endDate = undefined;
+    }
+
+    this.setTime(this.startMoment, startMoment);
+    this.event.startDate = this.startMoment.toDate();
+
+
     this.dataService.updateEvent(this.event);
     this.goBack();
+  }
+
+  private setTime(m: moment.Moment, novo: moment.Moment): void {
+    m.hour(novo.hour());
+    m.minute(novo.minute());
+    m.second(novo.second());
   }
 
 }

@@ -128,8 +128,13 @@ export class DataService {
 
   getDayEvents(date: Date): Event[] {
     const key = this.getDayEventKey(date);
-    const events = localStorage.getItem(key);
-    return JSON.parse(events) | [];
+    const events = JSON.parse(localStorage.getItem(key)) || [];
+    // tmp: gerar ID
+    // if (events.length > 0) {
+    //   events.forEach(e => e.id = new Date(e.startDate).getTime());
+    //   localStorage.setItem(key, JSON.stringify(events));
+    // }
+    return events;
   }
 
   addProject(project: Project): void {

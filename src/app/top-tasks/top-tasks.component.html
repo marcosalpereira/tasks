@@ -1,9 +1,4 @@
-<div class="panel panel-default">
-    <div class="panel-body">
-      <h4 style="border-bottom: solid 0.1mm lightgrey">Top Tasks</h4>
-      <button *ngFor="let tc of topTasks"
-        type="button" title="Start Again"(click)="onClick(tc.task)">{{tc.task.id}}-{{tc.task.name}}
-          <span class="badge">{{tc.count}}</span>
-      </button>
-    </div>
-  </div>
+<button *ngFor="let tc of topTasks" type="button" title="Start Again" (click)="onClick(tc.task)">
+  {{tc.task.id}}-{{tc.task.name}}
+  <span class="badge">{{tc.count}}</span>
+</button>
