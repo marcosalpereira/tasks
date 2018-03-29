@@ -14,10 +14,10 @@ const TIME_FORMAT = 'HH:mm:ss';
   styleUrls: ['./edit-event.component.css']
 })
 export class EditEventComponent implements OnInit {
+  maxTimeEnd: Date;
+  minTimeStart: Date;
   startMoment: moment.Moment;
   endMoment: moment.Moment;
-  startTime: string;
-  endTime: string;
 
   event: Event;
 
@@ -36,38 +36,51 @@ export class EditEventComponent implements OnInit {
     const id = +param.get('id');
     this.event = this.dataService.findEvent(id);
 
-    this.startMoment = moment(this.event.startDate);
-    this.startTime = this.startMoment.format(TIME_FORMAT);
+    // this.startMoment = moment(this.event.startDate);
+    // this.startTime = this.startMoment.format(TIME_FORMAT);
 
-    if (this.event.endDate) {
-      this.endMoment = moment(this.event.endDate);
-      this.endTime = this.endMoment.format(TIME_FORMAT);
+    // if (this.event.endDate) {
+    //   this.endMoment = moment(this.event.endDate);
+    //   this.endTime = this.endMoment.format(TIME_FORMAT);
+    // }
+
+    const previousNext = this.dataService.findPreviousAndNextEvent(this.event.id);
+    console.log(previousNext);
+    if (previousNext.previous) {
+      this.minTimeStart = moment(previousNext.previous.endDate).toDate();
     }
+    console.log(this.minTimeStart, this.maxTimeEnd);
+
+    if (previousNext.next) {
+      this.maxTimeEnd = moment(previousNext.next.startDate).toDate();
+    }
+    
+
   }
 
   onSubmit() {
-    let startMoment = moment(this.startTime, TIME_FORMAT);
-    let endMoment = this.endTime ? moment(this.endTime, TIME_FORMAT) : undefined;
+    // let startMoment = moment(this.startTime, TIME_FORMAT);
+    // let endMoment = this.endTime ? moment(this.endTime, TIME_FORMAT) : undefined;
 
-    if (endMoment) {
-      if (endMoment.isBefore(startMoment)) {
-        const tmp = startMoment;
-        startMoment = endMoment;
-        endMoment = tmp;
-      }
+    // if (endMoment) {
+    //   if (endMoment.isBefore(startMoment)) {
+    //     const tmp = startMoment;
+    //     startMoment = endMoment;
+    //     endMoment = tmp;
+    //   }
 
-      if (!this.endMoment) {
-        this.endMoment = this.startMoment.clone();
-      } 
-      this.setTime(this.endMoment, endMoment);
-      this.event.endDate = this.endMoment.toDate();
+    //   if (!this.endMoment) {
+    //     this.endMoment = this.startMoment.clone();
+    //   } 
+    //   this.setTime(this.endMoment, endMoment);
+    //   this.event.endDate = this.endMoment.toDate();
 
-    } else {
-      this.event.endDate = undefined;
-    }
+    // } else {
+    //   this.event.endDate = undefined;
+    // }
 
-    this.setTime(this.startMoment, startMoment);
-    this.event.startDate = this.startMoment.toDate();
+    // this.setTime(this.startMoment, startMoment);
+    // this.event.startDate = this.startMoment.toDate();
 
 
     this.dataService.updateEvent(this.event);

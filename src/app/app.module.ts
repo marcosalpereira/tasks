@@ -17,7 +17,7 @@ import { FormatMinutesPipe } from './format-minutes.pipe';
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { Route } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { SummaryComponent } from './summary/summary.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 
@@ -50,7 +50,7 @@ const ROUTES: Route[] = [
     FormsModule,
     CommonModule,
     RouterModule.forRoot(ROUTES),
-    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
     AccordionModule.forRoot()
   ],
   providers: [DataService],

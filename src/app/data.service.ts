@@ -8,6 +8,8 @@ import {Summary, TaskSummary} from './summary.model';
 
 import { WeekRange, DateUtil } from './date-util';
 
+export interface PreviousNextEvent { previous?: Event; next?: Event; }
+
 @Injectable()
 export class DataService {
 
@@ -22,6 +24,17 @@ export class DataService {
       this.getEvents();
     }
     return this.topTasks;
+  }
+
+  findPreviousAndNextEvent(id: number): PreviousNextEvent {
+    const date = new Date(id);
+    const key = this.getDayEventKey(date);
+    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+    const index = events.findIndex(e => e.id === id);
+    const ret: PreviousNextEvent = {};
+    if (index > 0) { ret.next = events[index - 1]; }
+    if (index < events.length - 1) { ret.previous = events[index + 1]; }
+    return ret;
   }
 
   stopTask(task: Task) {
