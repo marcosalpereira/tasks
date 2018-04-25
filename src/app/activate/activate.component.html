@@ -1,19 +1,42 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>Project
+      <select ngModel title="Select project" class="selectpicker" name="project" required>
+        <option *ngFor="let p of projects" [ngValue]="p">{{p.name}}</option>
+      </select>
+      <button title="Create new Project" type="button" class="btn btn-success" (click)="onClickNewProject(newProjectTemplate)">New</button>
+    </label>
+    <label>Task
+      <input placeholder="Task ID" ngModel name="taskId" required pattern="[1-9][0-9]{0,10}" size="6" maxlength="10" />
+      <input placeholder="Task Name" ngModel name="taskName" required maxlength="50" />
+      <input placeholder="Remarks" ngModel name="eventRemarks" maxlength="50" />
+    </label>
+    <button type="submit" class="btn btn-success" [disabled]="!form.valid">
+      <i class="fa fa-play"></i>
+    </button>
+  </div>
+</form>
 
-    <form #form="ngForm" (ngSubmit)="onSubmit()">
+<ng-template #newProjectTemplate>
+  <div class="modal-body text-center">
+    <form #formModal="ngForm">
       <div class="form-group">
-        <label>Project
-          <select ngModel title="Select project" class="selectpicker" name="project" required>
-            <option *ngFor="let p of projects" [ngValue]="p">{{p.name}}</option>
-          </select>
-          <button title="Create new Project" type="button" class="btn btn-success" (click)="onClickNewProject()">New</button>
-        </label>
-        <label>Task
-          <input placeholder="Task ID" ngModel name="taskId" required pattern="[1-9][0-9]{0,10}" size="6" maxlength="10" />
-          <input placeholder="Task Name" ngModel name="taskName" required maxlength="50" />
-          <input placeholder="Remarks" ngModel name="eventRemarks" maxlength="50" />
-        </label>
-        <button type="submit" class="btn btn-success" [disabled]="!form.valid">
-          <i class="fa fa-play"></i>
-        </button>
+        <div class="row">
+          <div class="col-sm-12">
+            <label class="control-label">Project Name
+              <input class="form-control" #newProjectNameInput ngModel type="text" name="newProjectName" required>
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+
+            <button type="button" class="btn btn-success" (click)="confirmNewProject(newProjectNameInput.value)" [disabled]="!formModal.valid">OK</button>
+            <button type="button" class="btn btn-primary" (click)="cancelNewProject()">Cancel</button>
+          </div>
+        </div>
+
       </div>
     </form>
+  </div>
+</ng-template>

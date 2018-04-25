@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './projects/projects.component';
@@ -20,6 +21,8 @@ import { RouterModule } from '@angular/router';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { SummaryComponent } from './summary/summary.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+
+import {NgxChildProcessModule} from 'ngx-childprocess';
 
 const ROUTES: Route[] = [
   {
@@ -51,7 +54,9 @@ const ROUTES: Route[] = [
     CommonModule,
     RouterModule.forRoot(ROUTES),
     TimepickerModule.forRoot(),
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    ModalModule.forRoot(),
+    NgxChildProcessModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

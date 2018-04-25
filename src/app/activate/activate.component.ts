@@ -1,4 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
 import { Task } from '../task.model';
 import { Project } from '../project.model';
 import { DataService } from '../data.service';
@@ -12,12 +15,15 @@ import { NgForm, NgModel } from '@angular/forms';
 })
 export class ActivateComponent implements OnInit, OnDestroy {
 
+  modalRef: BsModalRef;
   projectAddedSub: Subscription;
   projects: Project[] = [];
 
   @ViewChild('form') form: NgForm;
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private dataService: DataService,
+    private modalService: BsModalService) { }
 
   ngOnInit() {
     this.projects = this.dataService.getProjects();
@@ -46,12 +52,17 @@ export class ActivateComponent implements OnInit, OnDestroy {
     this.dataService.startTask(task, remarks);
   }
 
-  onClickNewProject() {
-    const newProject = window.prompt('New project Name');
-    if (!newProject) {
-      return;
-    }
+  confirmNewProject(newProject) {
+    this.modalRef.hide();
     this.dataService.addProject(new Project(newProject));
+  }
+
+  cancelNewProject() {
+    this.modalRef.hide();
+  }
+
+  onClickNewProject(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
 }
