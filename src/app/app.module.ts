@@ -21,8 +21,7 @@ import { RouterModule } from '@angular/router';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { SummaryComponent } from './summary/summary.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
-
-import {NgxChildProcessModule} from 'ngx-childprocess';
+import { ElectronService } from './electron.service';
 
 const ROUTES: Route[] = [
   {
@@ -56,9 +55,8 @@ const ROUTES: Route[] = [
     TimepickerModule.forRoot(),
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
-    NgxChildProcessModule
   ],
-  providers: [DataService],
+  providers: [DataService, ElectronService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
