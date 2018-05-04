@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "package": "electron-packager . --no-prune",
+    "package": "electron-packager . --no-prune --overwrite",
     "electron": "ng build && electron .",
     "electron-aot": "ng build --prod && electron ."    
   },

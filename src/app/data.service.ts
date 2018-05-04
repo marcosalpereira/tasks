@@ -7,12 +7,12 @@ import { Subject } from 'rxjs/Subject';
 import {Summary, TaskSummary} from './summary.model';
 
 import { WeekRange, DateUtil } from './date-util';
+import { Config } from './config.model';
 
 export interface PreviousNextEvent { previous?: Event; next?: Event; }
 
 @Injectable()
 export class DataService {
-
   public eventsChanged$ = new Subject<Event[]>();
   public projectAdded$ = new Subject<Project>();
   public tasksStatChanged$ = new Subject<TaskCount[]>();
@@ -158,9 +158,9 @@ export class DataService {
     this.projectAdded$.next(project);
   }
   constructor() {
-    //    localStorage.clear();
-    //    const projects = [ new Project('Almoço'), new Project('Merenda'), new Project('Janta')];
-    //    localStorage.setItem('projects', JSON.stringify(projects));
+        localStorage.clear();
+        const projects = [ new Project('DEDAT - Departamento de Arquitetura')];
+        localStorage.setItem('projects', JSON.stringify(projects));
   }
 
   getProjects(): Project[] {
@@ -202,6 +202,11 @@ export class DataService {
     return Object.keys(tmpMap).map(key => tmpMap[key]);
   }
 
+  getConfig(): Config {
+    return new Config('/home/54706424372/Documentos/apropriacao',
+      '54706424372', 'firefox', 'selenium',
+      '/home/54706424372/bin/firefox-dev/firefox');
+  }
 
 
 }
