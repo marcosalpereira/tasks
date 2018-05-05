@@ -63,6 +63,19 @@ export class DataService {
     localStorage.setItem(key, JSON.stringify(events));
   }
 
+  addEvent(task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string) {
+    const id = startDate.getTime();
+    const event: Event = new Event(id, task, startDate);
+    event.registered = registered;
+    event.remarks = remarks;
+    event.endDate = endDate;
+    const key = this.getDayEventKey(startDate);
+    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+    events.unshift(event);
+    console.log(event);
+    localStorage.setItem(key, JSON.stringify(events));
+  }
+
   startTask(task: Task, remarks: string): void {
     const date = new Date();
     const key = this.getDayEventKey(date);
@@ -157,10 +170,9 @@ export class DataService {
 
     this.projectAdded$.next(project);
   }
-  constructor() {
-        localStorage.clear();
-        const projects = [ new Project('DEDAT - Departamento de Arquitetura')];
-        localStorage.setItem('projects', JSON.stringify(projects));
+
+  clearAllData() {
+    localStorage.clear();
   }
 
   getProjects(): Project[] {

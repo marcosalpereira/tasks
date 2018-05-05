@@ -22,6 +22,8 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { SummaryComponent } from './summary/summary.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { ElectronService } from './electron.service';
+import { ApropriateService } from './apropriate.service';
+import { ImportCsvService } from './import-csv.service';
 
 const ROUTES: Route[] = [
   {
@@ -56,7 +58,7 @@ const ROUTES: Route[] = [
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
   ],
-  providers: [DataService, ElectronService],
+  providers: [DataService, ElectronService, ApropriateService, ImportCsvService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
