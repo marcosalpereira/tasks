@@ -19,7 +19,8 @@ export class HeaderComponent {
   }
 
   importCsv() {
-    this.importCsvService.importCsv('/home/marcos/git/tasks/src/selenium/apropriacao.csv');
+    // this.importCsvService.importCsv('/home/marcos/git/tasks/src/selenium/apropriacao.csv');
+    this.importCsvService.importCsv('/home/54706424372/git/tasks/src/selenium/apropriacao.csv');
   }
 
 }

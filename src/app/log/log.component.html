@@ -16,15 +16,16 @@
         <tbody>
           <tr *ngFor="let event of events">
             <td class="text-center">
-              <button title="Restart Task" (click)="restartTask(event.task)" type="button" class="btn btn-success btn-xs">
-                <i class="fa fa-play"></i>
+              <button *ngIf="!canStopTask(event)" title="Restart Task" (click)="restartTask(event.task)" 
+                  type="button" class="btn btn-success btn-xs">
+                <i class="fa fa-recycle fa-lg"></i>
               </button>
-              <button *ngIf="canStopTask(event)" title="Stop Task" (click)="stopTask(event.task)" type="button" class="btn btn-success btn-xs">
-                  <i class="fa fa-stop"></i>
+              <button *ngIf="canStopTask(event)" title="Current Task, click to stop" (click)="stopTask(event.task)" type="button" class="btn btn-success btn-xs">
+                  <i class="fa fa-spinner fa-spin fa-lg"></i>
               </button>
               <button title="Edit Event" 
                     (click)="editEvent(event)" type="button" class="btn btn-danger btn-xs">
-                  <i class="fa fa-edit"></i>
+                  <i class="fa fa-edit fa-lg"></i>
               </button>
             </td>
             <td class="text-center">{{event.registered | boolean}}</td>
