@@ -16,7 +16,7 @@
         <tbody>
           <tr *ngFor="let event of events">
             <td class="text-center">
-              <button *ngIf="!canStopTask(event)" title="Restart Task" (click)="restartTask(event.task)" 
+              <button *ngIf="!canStopTask(event)" title="Restart Task" (click)="restartTask(event)" 
                   type="button" class="btn btn-success btn-xs">
                 <i class="fa fa-recycle fa-lg"></i>
               </button>

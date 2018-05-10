@@ -12,7 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class LogComponent implements OnInit, OnDestroy {
 
-  eventAddedSub: Subscription;
+  eventsChanged$: Subscription;
   events: Event[];
 
   constructor(
@@ -23,17 +23,17 @@ export class LogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.events = this.dataService.getEvents();
 
-    this.eventAddedSub = this.dataService.eventsChanged$.subscribe(
+    this.eventsChanged$ = this.dataService.eventsChanged$.subscribe(
       events => this.events = events
     );
   }
 
   ngOnDestroy() {
-    this.eventAddedSub.unsubscribe();
+    this.eventsChanged$.unsubscribe();
   }
 
-  restartTask(task: Task) {
-    this.dataService.startTask(task, '');
+  restartTask(event: Event) {
+    this.dataService.startTask(event.task, event.remarks);
   }
   stopTask(task: Task) {
     this.dataService.stopTask(task);

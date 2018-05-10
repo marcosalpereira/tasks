@@ -21,7 +21,7 @@ export class ImportCsvService {
   }
 
   importCsv(csvFile: string): void {
-    this.dataService.clearAllData();
+    this.dataService.bulkImportBegin();
     const fs = this.electronService.fs;
     const projects = new Map();
 
@@ -47,10 +47,11 @@ export class ImportCsvService {
         const startDate = this.parseDate(data, inicio);
         const endDate = this.parseDate(data, fim);
         const task = this.parseTask(project, item);
-        this.dataService.addEvent(task, startDate, endDate, registered, comentario);
+        this.dataService.bulkImportAddEvent(task, startDate, endDate, registered, comentario);
       }
     });
 
+    this.dataService.bulkImportEnd();
 
   }
 

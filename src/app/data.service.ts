@@ -14,10 +14,15 @@ export interface PreviousNextEvent { previous?: Event; next?: Event; }
 @Injectable()
 export class DataService {
   public eventsChanged$ = new Subject<Event[]>();
-  public projectAdded$ = new Subject<Project>();
+  public projectsChanged$ = new Subject<Project[]>();
   public tasksStatChanged$ = new Subject<TaskCount[]>();
 
   private topTasks: TaskCount[] = [];
+
+  private events: Event[];
+
+  constructor() {
+  }
 
   getTopTasks() {
     if (this.topTasks.length === 0) {
@@ -43,7 +48,7 @@ export class DataService {
       const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
       events[0].endDate = date;
       localStorage.setItem(key, JSON.stringify(events));
-      this.eventsChanged$.next(events);
+      this.eventsChanged$.next(this.getEvents());
   }
 
   findEvent(id: number): Event {
@@ -63,7 +68,7 @@ export class DataService {
     localStorage.setItem(key, JSON.stringify(events));
   }
 
-  addEvent(task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string) {
+  bulkImportAddEvent(task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string) {
     const id = startDate.getTime();
     const event: Event = new Event(id, task, startDate);
     event.registered = registered;
@@ -96,24 +101,24 @@ export class DataService {
     events.unshift(event);
     localStorage.setItem(key, JSON.stringify(events));
 
-    this.eventsChanged$.next(events);
-    this.updateTaskStats(task);
+    this.eventsChanged$.next(this.getEvents());
+    // this.updateTaskStats(task);
   }
 
-  updateTaskStats(task: Task) {
-    const index = this.topTasks.findIndex((value: TaskCount) =>
-      value.task.name === task.name && value.task.project.name === task.project.name
-    );
-    if (index === -1) {
-      if (this.topTasks.length < 7) {
-        this.topTasks.push(new TaskCount(task, 1));
-        this.tasksStatChanged$.next(this.topTasks);
-      }
-    } else {
-      this.topTasks[index].count++;
-      this.tasksStatChanged$.next(this.topTasks);
-    }
-  }
+  // update_TaskStats(task: Task) {
+  //   const index = this.topTasks.findIndex((value: TaskCount) =>
+  //     value.task.name === task.name && value.task.project.name === task.project.name
+  //   );
+  //   if (index === -1) {
+  //     if (this.topTasks.length < 7) {
+  //       this.topTasks.push(new TaskCount(task, 1));
+  //       this.tasksStatChanged$.next(this.topTasks);
+  //     }
+  //   } else {
+  //     this.topTasks[index].count++;
+  //     this.tasksStatChanged$.next(this.topTasks);
+  //   }
+  // }
 
   getEvents(): Event[] {
     const events: Event[] = [];
@@ -146,6 +151,7 @@ export class DataService {
 
     this.topTasks = items.slice(0, 7);
 
+    this.tasksStatChanged$.next(this.topTasks);
   }
 
   getDayEventKey(date: Date): string {
@@ -155,11 +161,6 @@ export class DataService {
   getDayEvents(date: Date): Event[] {
     const key = this.getDayEventKey(date);
     const events = JSON.parse(localStorage.getItem(key)) || [];
-    // tmp: gerar ID
-    // if (events.length > 0) {
-    //   events.forEach(e => e.id = new Date(e.startDate).getTime());
-    //   localStorage.setItem(key, JSON.stringify(events));
-    // }
     return events;
   }
 
@@ -168,11 +169,16 @@ export class DataService {
     projects.push(project);
     localStorage.setItem('projects', JSON.stringify(projects));
 
-    this.projectAdded$.next(project);
+    this.projectsChanged$.next(projects);
   }
 
-  clearAllData() {
+  bulkImportBegin() {
     localStorage.clear();
+  }
+
+  bulkImportEnd() {
+    this.eventsChanged$.next(this.getEvents());
+    this.projectsChanged$.next(this.getProjects());
   }
 
   getProjects(): Project[] {
