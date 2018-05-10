@@ -13,6 +13,9 @@ export interface PreviousNextEvent { previous?: Event; next?: Event; }
 
 @Injectable()
 export class DataService {
+  markEventAsRegistered(arg0: any): any {
+    throw new Error("Method not implemented.");
+  }
   public eventsChanged$ = new Subject<Event[]>();
   public projectsChanged$ = new Subject<Project[]>();
   public tasksStatChanged$ = new Subject<TaskCount[]>();
@@ -176,8 +179,12 @@ export class DataService {
   }
 
   bulkImportEnd() {
-    this.eventsChanged$.next(this.getEvents());
+    this.fireEventsChanged();
     this.projectsChanged$.next(this.getProjects());
+  }
+
+  fireEventsChanged() {
+    this.eventsChanged$.next(this.getEvents());
   }
 
   getProjects(): Project[] {

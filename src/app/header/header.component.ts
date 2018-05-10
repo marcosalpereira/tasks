@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApropriateService } from '../apropriate.service';
 import { ImportCsvService } from '../import-csv.service';
+import { ElectronService } from '../electron.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,8 @@ export class HeaderComponent {
 
   constructor(
     private apropriateService: ApropriateService,
-    private importCsvService: ImportCsvService) {
+    private importCsvService: ImportCsvService,
+    private electronService: ElectronService) {
   }
 
   apropriate() {
@@ -19,8 +21,18 @@ export class HeaderComponent {
   }
 
   importCsv() {
-    // this.importCsvService.importCsv('/home/marcos/git/tasks/src/selenium/apropriacao.csv');
-    this.importCsvService.importCsv('/home/54706424372/git/tasks/src/selenium/apropriacao.csv');
+    const csvFiles = this.electronService.remote.dialog.showOpenDialog({
+        title: 'Choose CSV File',
+        properties: ['openFile'],
+        filters: [
+          {name: 'CSV', extensions: ['csv']},
+          {name: 'All Files', extensions: ['*']}
+        ]
+      });
+
+    if (csvFiles) {
+      this.importCsvService.importCsv(csvFiles[0]);
+    }
   }
 
 }

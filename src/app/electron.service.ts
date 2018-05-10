@@ -1,21 +1,20 @@
-import { app } from 'electron';
+import { remote } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as process from 'process';
 
 export class ElectronService {
-  process: typeof process;
   childProcess: typeof childProcess;
   fs: typeof fs;
   path: typeof path;
+  remote: typeof remote;
 
   constructor() {
     if (this.isElectron()) {
-      this.process = process;
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
       this.path = window.require('path');
+      this.remote = window.require('electron').remote;
     }
   }
 

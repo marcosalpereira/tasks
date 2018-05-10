@@ -24,6 +24,8 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { ElectronService } from './electron.service';
 import { ApropriateService } from './apropriate.service';
 import { ImportCsvService } from './import-csv.service';
+import { MessagesService } from './messages.service';
+import { MessagesComponent } from './messages/messages.component';
 
 const ROUTES: Route[] = [
   {
@@ -48,6 +50,7 @@ const ROUTES: Route[] = [
     FormatMinutesPipe,
     EditEventComponent,
     SummaryComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,11 @@ const ROUTES: Route[] = [
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
   ],
-  providers: [DataService, ElectronService, ApropriateService, ImportCsvService],
+  providers: [DataService,
+    ElectronService,
+    ApropriateService,
+    ImportCsvService,
+    MessagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

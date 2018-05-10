@@ -28,7 +28,6 @@ export class ImportCsvService {
     fs.readFileSync(csvFile).toString().split('\n').forEach(line => {
       const tokens = line.split(',');
       if (tokens && tokens[0] !== 'Reg' && tokens[1]) {
-        console.log(tokens);
         const registered = tokens[0] === 'Sim';
         const data = tokens[1].substring(0, 8);
         const contexto = tokens[3];
@@ -58,7 +57,6 @@ export class ImportCsvService {
   parseDate(data: string, hora: string): Date {
     if (hora) {
       const d = data + ' ' + hora;
-      console.log('parse', d);
       return moment(d, 'DD/MM/YY HH.mm').toDate();
     }
     return undefined;
