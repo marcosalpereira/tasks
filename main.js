@@ -19,7 +19,7 @@ app.on('ready', () => {
         win = null;
     })
 
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 })
 
 app.on('activate', () => {

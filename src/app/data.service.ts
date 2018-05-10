@@ -144,7 +144,6 @@ export class DataService {
       return new TaskCount(JSON.parse(key), freq[key]);
     });
 
-    // Sort the array based on the second element
     items.sort((left: TaskCount, right: TaskCount) =>
       right.count - left.count
     );
@@ -191,7 +190,7 @@ export class DataService {
 
     const tmpMap = events.reduce(function (map, event: Event) {
       const startMoment = moment(event.startDate);
-      const key = event.task.id + ':' + startMoment.week();
+      const key = startMoment.week();
       let summary: Summary = map[key];
       if (!summary) {
         const weekRange = DateUtil.weekRange(event.startDate);
@@ -217,7 +216,16 @@ export class DataService {
       return map;
     }, new Map());
 
-    return Object.keys(tmpMap).map(key => tmpMap[key]);
+    console.log('map', tmpMap);
+
+    const items = Object.keys(tmpMap).map(key => tmpMap[key]);
+    items.sort((left: Summary, right: Summary) =>
+      right.startDate.getTime() - left.startDate.getTime()
+    );
+
+    console.log('items', items);
+
+    return items;
   }
 
   getConfig(): Config {
