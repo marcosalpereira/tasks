@@ -6,11 +6,13 @@ import { Config } from './config.model';
 import { DateUtil } from './date-util';
 import * as moment from 'moment';
 import { MessagesService } from './messages.service';
+import { Event } from './event.model';
 
 @Injectable()
 export class ApropriateService {
 
   private config: Config;
+  private events: Event[];
 
   constructor(
     private electronService: ElectronService,
@@ -18,6 +20,7 @@ export class ApropriateService {
     private alertService: MessagesService
   ) {
     this.config = dataService.getConfig();
+    this.events = dataService.getEvents();
   }
 
   apropriate() {
@@ -42,7 +45,8 @@ export class ApropriateService {
         if (type === 'err') {
           this.alertService.error(tokens[1]);
         } else if (type === 'mcr') {
-          this.dataService.markEventAsRegistered(+tokens[1]);
+          const index = +tokens[1];
+          this.dataService.markEventAsRegistered(this.events[index].id);
         }
       }
     });
@@ -59,17 +63,16 @@ export class ApropriateService {
 
   private convertEventsToCsv(): string {
     const config = this.config;
-    const events = this.dataService.getEvents();
     const data: string[] = [];
 
-    const regs = events
-      .map(event => {
+    const regs = this.events
+      .map( (event: Event, index: number) => {
         const cols: any[] = [];
         const start = moment(event.startDate);
         const end = moment(event.endDate);
 
         cols.push('reg');
-        cols.push(event.id);
+        cols.push(index);
         cols.push(event.registered ? 'Sim' : 'Não');
         cols.push(start.format('DD/MM/YY'));
         cols.push('');

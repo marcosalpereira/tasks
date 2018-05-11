@@ -16,9 +16,16 @@ export class DateUtil {
         return new WeekRange(m.toDate(), m.add(6, 'days').toDate());
     }
 
+    public static add(date: Date, n: number): Date {
+        const m = moment(date);
+        m.add(n, 'days');
+        return m.toDate();
+    }
+
     public static durationMinutes(start: moment.Moment, end: moment.Moment): number {
         const milis = end.diff(start);
-        return milis / 1000 / 60;
+        const minutes: number = milis / 1000 / 60;
+        return Math.round(minutes);
     }
 
     public static formatHour(mins: number): string {

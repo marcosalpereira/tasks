@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Summary } from '../summary.model';
 import { DataService } from '../data.service';
 import { Subscription } from 'rxjs/Subscription';
+import { DateUtil } from '../date-util';
 
 @Component({
   selector: 'app-summary',
@@ -19,6 +20,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.eventsChanged$ = this.dataService.eventsChanged$.subscribe(
       _ => this.summarys = this.dataService.getSummary()
     );
+  }
+
+  calcDate(summary: Summary, i): Date {
+    return DateUtil.add(summary.startDate, i);
   }
 
   isAtipicTime(minutes: number) {
