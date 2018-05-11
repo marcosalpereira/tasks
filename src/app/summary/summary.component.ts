@@ -21,6 +21,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
     );
   }
 
+  isAtipicTime(minutes: number) {
+    return minutes <= 400 || minutes >= 480;
+  }
+
   ngOnDestroy(): void {
     this.eventsChanged$.unsubscribe();
   }
