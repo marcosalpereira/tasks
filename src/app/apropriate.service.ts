@@ -40,7 +40,7 @@ export class ApropriateService {
       if (tokens) {
         const type = tokens[0];
         if (type === 'err') {
-           this.alertService.error(tokens[1]);
+          this.alertService.error(tokens[1]);
         } else if (type === 'mcr') {
           this.dataService.markEventAsRegistered(+tokens[1]);
         }
@@ -71,7 +71,7 @@ export class ApropriateService {
         cols.push('reg');
         cols.push(event.id);
         cols.push(event.registered ? 'Sim' : 'Não');
-        cols.push(start.format('DD/MM/YY'))
+        cols.push(start.format('DD/MM/YY'));
         cols.push('');
         cols.push(event.task.project.name);
         cols.push(event.task.id + ';' + event.task.name);
@@ -91,7 +91,7 @@ export class ApropriateService {
     data.push(`cfg|browser.type|${config.browserType}`);
     data.push(`cfg|browser.firefox.profile|${config.browserFirefoxProfile}`);
     data.push(`cfg|browser.location|${config.browserLocation}`);
-    
+
     return data.join('\n')
       .concat('\n')
       .concat(regs.join('\n'));

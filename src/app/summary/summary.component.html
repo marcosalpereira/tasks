@@ -17,18 +17,29 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let taskSummary of summary.getTaskSummary()">
-          <tr>
+            <tr *ngIf="taskSummary.minutesRegistered">
             <td class="text-left">{{taskSummary.task.id}}-{{taskSummary.task.name}}</td>
             <td class="text-left">Registered</td>
-            <td *ngFor="let i of [0,1,2,3,4,5,6]" class="text-center">{{taskSummary.minutesRegistered[i] | formatMinutes}}</td>
+            <td *ngFor="let i of [0,1,2,3,4,5,6]" 
+                class="text-center">{{taskSummary.minutesRegistered[i] | formatMinutes}}</td>
           </tr>
-          <tr>
-            <td class="text-left"></td>
+          <tr *ngIf="taskSummary.minutesPending">
+              <td *ngIf="!taskSummary.minutesRegistered" class="text-left">{{taskSummary.task.id}}-{{taskSummary.task.name}}</td>
+              <td *ngIf="taskSummary.minutesRegistered"></td>
             <td class="text-left">To Register</td>
-            <td *ngFor="let i of [0,1,2,3,4,5,6]" class="text-center">{{taskSummary.minutesPending[i] | formatMinutes}}</td>
+            <td *ngFor="let i of [0,1,2,3,4,5,6]" 
+                class="text-center">{{taskSummary.minutesPending[i] | formatMinutes}}</td>
           </tr>
         </ng-container>
       </tbody>
+      <tfoot>
+        <tr>
+          <td class="text-left"></td>
+          <td class="text-left">Total</td>
+          <td *ngFor="let i of [0,1,2,3,4,5,6]" 
+              class="text-center">{{summary.minutesTotal[i] | formatMinutes}}</td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </div>

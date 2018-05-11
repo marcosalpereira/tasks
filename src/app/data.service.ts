@@ -13,9 +13,6 @@ export interface PreviousNextEvent { previous?: Event; next?: Event; }
 
 @Injectable()
 export class DataService {
-  markEventAsRegistered(arg0: any): any {
-    throw new Error("Method not implemented.");
-  }
   public eventsChanged$ = new Subject<Event[]>();
   public projectsChanged$ = new Subject<Project[]>();
   public tasksStatChanged$ = new Subject<TaskCount[]>();
@@ -25,6 +22,15 @@ export class DataService {
   private events: Event[];
 
   constructor() {
+  }
+
+  markEventAsRegistered(eventId: number): void {
+    const date = new Date(eventId);
+    const key = this.getDayEventKey(date);
+    const events: Event[] = JSON.parse(localStorage.getItem(key));
+    const index = events.findIndex(e => e.id === eventId);
+    events[index].registered = true;
+    localStorage.setItem(key, JSON.stringify(events));
   }
 
   getTopTasks() {
@@ -206,31 +212,34 @@ export class DataService {
       }
 
       if (event.endDate) {
-        let taskSummary = summary.taskSummaryMap[event.task.id];
-        if (!taskSummary) {
-          taskSummary = new TaskSummary(event.task);
-          summary.taskSummaryMap[event.task.id] = taskSummary;
+        let taskSummaryMap = summary.taskSummaryMap[event.task.id];
+        if (!taskSummaryMap) {
+          taskSummaryMap = new TaskSummary(event.task);
+          summary.taskSummaryMap[event.task.id] = taskSummaryMap;
         }
         const minutes = DateUtil.durationMinutes(startMoment, moment(event.endDate));
         if (event.registered) {
-          taskSummary.minutesRegistered[startMoment.weekday()] += minutes;
+          if (!taskSummaryMap.minutesRegistered) {
+            taskSummaryMap.minutesRegistered = [0, 0, 0, 0, 0, 0, 0, 0];
+          }
+          taskSummaryMap.minutesRegistered[startMoment.weekday()] += minutes;
         } else {
-          taskSummary.minutesPending[startMoment.weekday()] += minutes;
+          if (!taskSummaryMap.minutesPending) {
+            taskSummaryMap.minutesPending = [0, 0, 0, 0, 0, 0, 0, 0];
+          }
+          taskSummaryMap.minutesPending[startMoment.weekday()] += minutes;
         }
-        taskSummary.events.push(event);
+        summary.minutesTotal[startMoment.weekday()] += minutes;
+        taskSummaryMap.events.push(event);
       }
 
       return map;
     }, new Map());
 
-    console.log('map', tmpMap);
-
     const items = Object.keys(tmpMap).map(key => tmpMap[key]);
     items.sort((left: Summary, right: Summary) =>
       right.startDate.getTime() - left.startDate.getTime()
     );
-
-    console.log('items', items);
 
     return items;
   }

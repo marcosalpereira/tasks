@@ -4,6 +4,7 @@ import { Event } from './event.model';
 
 export class Summary {
     public taskSummaryMap: Map<number, TaskSummary> = new Map();
+    public minutesTotal: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
     constructor(
         public startDate: Date,
         public endDate: Date,
@@ -17,8 +18,8 @@ export class Summary {
 }
 
 export class TaskSummary {
-    public minutesRegistered: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
-    public minutesPending: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
+    public minutesRegistered: number[];
+    public minutesPending: number[];
     public events: Event[] = [];
     constructor(public task: Task) {}
 
