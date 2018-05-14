@@ -112,7 +112,18 @@ export class DataService {
     const index = events.findIndex(e => e.id === event.id);
     events[index] = event;
     localStorage.setItem(key, JSON.stringify(events));
+    this.eventsChanged$.next(this.getEvents());
   }
+
+  deleteEvent(event: Event) {
+    const date = new Date(event.id);
+    const key = this.getDayEventKey(date);
+    let events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+    events = events.filter(e => e.id !== event.id);
+    localStorage.setItem(key, JSON.stringify(events));
+    this.eventsChanged$.next(this.getEvents());
+  }
+
 
   bulkImportAddEvent(task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string) {
     const id = startDate.getTime();

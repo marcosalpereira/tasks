@@ -43,6 +43,10 @@ export class LogComponent implements OnInit, OnDestroy {
     this.router.navigate(['event', event.id]);
   }
 
+  deleteEvent(event: Event) {
+    this.dataService.deleteEvent(event);
+  }
+
   canStopTask(event: Event) {
     return !event.endDate
       && new Date(event.startDate).getDate() === new Date().getDate();
