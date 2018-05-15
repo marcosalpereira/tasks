@@ -26,6 +26,7 @@ import { ApropriateService } from './apropriate.service';
 import { ImportCsvService } from './import-csv.service';
 import { MessagesService } from './messages.service';
 import { MessagesComponent } from './messages/messages.component';
+import { ConfigComponent } from './config/config.component';
 
 const ROUTES: Route[] = [
   {
@@ -51,6 +52,7 @@ const ROUTES: Route[] = [
     EditEventComponent,
     SummaryComponent,
     MessagesComponent,
+    ConfigComponent,
   ],
   imports: [
     BrowserModule,
