@@ -13,7 +13,8 @@ app.on('ready', () => {
       protocol: 'file:',
       slashes: true
     }));
-    
+
+    win.maximize();    
 
     win.on('closed', () => {
         win = null;

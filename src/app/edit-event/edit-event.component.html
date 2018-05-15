@@ -1,48 +1,90 @@
 <div class="panel panel-default">
     <div class="panel-body">
-        <h4 style="border-bottom: solid 0.1mm lightgrey">
-            Edit Event for '{{event.task.name}}' at '{{event.startDate | date: 'dd/MM/yyyy'}}''
-        </h4>
         <form #form="ngForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label class="control-label">Registered
-                            <input class="form-control" type="checkbox" 
-                                [(ngModel)]="event.registered" name="registered"
-                                >
-                        </label>
-                    </div>
-                    <div class="col-sm-3">                            
-                            <label class="control-label" class="required">Start Time
-                                <timepicker name="startTime" [(ngModel)]="event.startDate" 
-                                    [showSpinners]="false" [showMeridian]="false" [mousewheel]="true" [showSeconds]="true"
-                                    [disabled]="event.registered" 
-                                    required></timepicker>
-                                    <!-- [min]="minTimeStart" -->
-                                </label>
-                    </div>
-                    <div class="col-sm-3">
-                            <label class="control-label" [class.required]="event.endDate !== undefined">End Time
-                                <timepicker name="endTime" [(ngModel)]="event.endDate" 
-                                    [showSpinners]="false" [showMeridian]="false" [mousewheel]="true" [showSeconds]="true"
-                                    [disabled]="event.registered" 
-                                    [required]="event.endDate !== undefined">
-                                </timepicker>                                
-                                <!-- [min]="event.startDate" [max]="maxTimeEnd" -->
-                            </label>
-                    </div>
-                    <div class="col-sm-3">
-                        
-                            <label class="control-label">Remark
-                                <input type="text" name="eventRemark"
-                                    placeholder="Remark"
-                                    class="form-control"
-                                    [(ngModel)]="event.remarks"
-                                    >
-                            </label>
-                        
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center"></th>
+                                <th class="text-center">Reg</th>
+                                <th class="text-left">Date</th>
+                                <th class="text-left">Start</th>
+                                <th class="text-left">End</th>
+                                <th class="text-left">Project</th>
+                                <th class="text-left">Task</th>
+                                <th class="text-left">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="previousNext.next">
+                                <td>Next (same day)</td>
+                                <td class="text-center">
+                                    <input class="form-control" type="checkbox" [value]="previousNext.next.registered" name="registeredNext" disabled>
+                                </td>
+                                <td class="text-left">{{previousNext.next.startDate | date : 'dd/MM/yy' }}</td>
+                                <td class="text-left">
+                                    <timepicker name="startTimeNext" [ngModel]="previousNext.next.startDate" [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
+                                        [disabled]="true"></timepicker>
+
+                                </td>
+                                <td class="text-left">
+                                    <timepicker name="endTimeNext" [ngModel]="previousNext.next?.endDate" [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
+                                        [disabled]="true"></timepicker>
+
+                                </td>
+                                <td class="text-left">{{previousNext.next.task.project.name}}</td>
+                                <td class="text-left">{{previousNext.next.task.id}}-{{previousNext.next.task.name}}</td>
+                                <td class="text-left">{{previousNext.next.remarks}}</td>
+                            </tr>
+                            <tr>
+                                <td>Current</td>
+                                <td class="text-center">
+                                    <input class="form-control" type="checkbox" [(ngModel)]="event.registered" name="registered">
+
+                                </td>
+                                <td class="text-left">{{event.startDate | date : 'dd/MM/yy' }}</td>
+                                <td class="text-left">
+                                    <timepicker name="startTime" [(ngModel)]="event.startDate" [showSpinners]="false" [showMeridian]="false" [mousewheel]="true"
+                                        [showSeconds]="true" [disabled]="event.registered" [min]="minTimeStart" required></timepicker>
+
+                                </td>
+                                <td class="text-left">
+                                    <timepicker name="endTime" [(ngModel)]="event.endDate" [showSpinners]="false" [showMeridian]="false" [mousewheel]="true"
+                                        [showSeconds]="true" [disabled]="event.registered" [required]="previousNext.next !== undefined"
+                                        [min]="event.startDate" [max]="maxTimeEnd">
+                                    </timepicker>
+
+                                </td>
+                                <td class="text-left">{{event.task.project.name}}</td>
+                                <td class="text-left">{{event.task.id}}-{{event.task.name}}</td>
+                                <td>
+                                    <input type="text" name="eventRemark" placeholder="Remark" class="form-control" [(ngModel)]="event.remarks">
+
+                                </td>
+                            </tr>
+                            <tr *ngIf="previousNext.previous">
+                                <td>Previous (same day)</td>
+                                <td class="text-center">
+                                    <input class="form-control" type="checkbox" [value]="previousNext.previous.registered" name="registeredNext" disabled>
+                                </td>
+                                <td class="text-left">{{previousNext.previous.startDate | date : 'dd/MM/yy' }}</td>
+                                <td class="text-left">
+                                    <timepicker name="startTimeNext" [ngModel]="previousNext.previous.startDate" [showSpinners]="false" [showMeridian]="false"
+                                        [showSeconds]="true" [disabled]="true"></timepicker>
+
+                                </td>
+                                <td class="text-left">
+                                    <timepicker name="endTimeNext" [ngModel]="previousNext.previous.endDate" [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
+                                        [disabled]="true"></timepicker>
+
+                                </td>
+                                <td class="text-left">{{previousNext.previous.task.project.name}}</td>
+                                <td class="text-left">{{previousNext.previous.task.id}}-{{previousNext.previous.task.name}}</td>
+                                <td class="text-left">{{previousNext.previous.remarks ? '-' + previousNext.previous.remarks : ''}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">

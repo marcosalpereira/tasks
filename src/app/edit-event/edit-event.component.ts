@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { DataService } from '../data.service';
+import { DataService, PreviousNextEvent } from '../data.service';
 import { Event } from '../event.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -14,6 +14,7 @@ const TIME_FORMAT = 'HH:mm:ss';
   styleUrls: ['./edit-event.component.css']
 })
 export class EditEventComponent implements OnInit {
+  previousNext: PreviousNextEvent;
   maxTimeEnd: Date;
   minTimeStart: Date;
   startMoment: moment.Moment;
@@ -36,6 +37,10 @@ export class EditEventComponent implements OnInit {
     const id = +param.get('id');
     this.event = this.dataService.findEvent(id);
 
+    if (!this.event.endDate) {
+      this.event.endDate = moment(this.event.startDate).startOf('day').toDate();
+    }
+
     // this.startMoment = moment(this.event.startDate);
     // this.startTime = this.startMoment.format(TIME_FORMAT);
 
@@ -43,18 +48,23 @@ export class EditEventComponent implements OnInit {
     //   this.endMoment = moment(this.event.endDate);
     //   this.endTime = this.endMoment.format(TIME_FORMAT);
     // }
+    const now = moment();
 
-    const previousNext = this.dataService.findPreviousAndNextEvent(this.event.id);
-    console.log(previousNext);
-    if (previousNext.previous) {
-      this.minTimeStart = moment(previousNext.previous.endDate).toDate();
-    }
-    console.log(this.minTimeStart, this.maxTimeEnd);
+    this.previousNext = this.dataService.findPreviousAndNextEvent(this.event.id);
+    if (this.previousNext.previous) {
+      this.minTimeStart = moment(this.previousNext.previous.endDate).toDate();
+      } else {
+          this.minTimeStart = now.subtract(1, 'months').toDate();
+      }
+      console.log('start', this.minTimeStart);
 
-    if (previousNext.next) {
-      this.maxTimeEnd = moment(previousNext.next.startDate).toDate();
+    if (this.previousNext.next) {
+      this.maxTimeEnd = moment(this.previousNext.next.startDate).toDate();
+    } else {
+      this.minTimeStart = new Date();
     }
-    
+    console.log('end', this.maxTimeEnd);
+
 
   }
 
@@ -71,7 +81,7 @@ export class EditEventComponent implements OnInit {
 
     //   if (!this.endMoment) {
     //     this.endMoment = this.startMoment.clone();
-    //   } 
+    //   }
     //   this.setTime(this.endMoment, endMoment);
     //   this.event.endDate = this.endMoment.toDate();
 
@@ -82,15 +92,21 @@ export class EditEventComponent implements OnInit {
     // this.setTime(this.startMoment, startMoment);
     // this.event.startDate = this.startMoment.toDate();
 
+    if (this.event.endDate
+      && this.event.endDate.getHours() === 0
+      && this.event.endDate.getMinutes() === 0
+      && this.event.endDate.getSeconds() === 0) {
+        this.event.endDate = undefined;
+    }
 
     this.dataService.updateEvent(this.event);
     this.goBack();
   }
 
-  private setTime(m: moment.Moment, novo: moment.Moment): void {
-    m.hour(novo.hour());
-    m.minute(novo.minute());
-    m.second(novo.second());
-  }
+  // private setTime(m: moment.Moment, novo: moment.Moment): void {
+  //   m.hour(novo.hour());
+  //   m.minute(novo.minute());
+  //   m.second(novo.second());
+  // }
 
 }
