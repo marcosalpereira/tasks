@@ -1,4 +1,8 @@
-<button *ngFor="let tc of topTasks" type="button" title="Start Again" (click)="onClick(tc.task)">
-  {{tc.task.id}}-{{tc.task.name}}
-  <span class="badge">{{tc.count}}</span>
-</button>
+<div class="row" *ngFor="let tc of topTasks">
+  <div class="col-md-12">
+    <button type="button" title="Start Again" (click)="onClick(tc.task)">
+      {{tc.task.id}}-{{tc.task.name}}
+      <span class="badge badge-info">{{tc.count}}</span>
+    </button>
+  </div>
+</div>
