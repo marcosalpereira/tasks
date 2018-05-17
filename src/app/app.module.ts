@@ -27,6 +27,7 @@ import { ImportCsvService } from './import-csv.service';
 import { MessagesService } from './messages.service';
 import { MessagesComponent } from './messages/messages.component';
 import { ConfigComponent } from './config/config.component';
+import { BrowserService } from './browser.service';
 
 const ROUTES: Route[] = [
   {
@@ -67,7 +68,9 @@ const ROUTES: Route[] = [
     ElectronService,
     ApropriateService,
     ImportCsvService,
-    MessagesService],
+    MessagesService,
+    BrowserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

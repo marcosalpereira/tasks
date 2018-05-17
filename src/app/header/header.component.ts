@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApropriateService } from '../apropriate.service';
 import { ImportCsvService } from '../import-csv.service';
 import { ElectronService } from '../electron.service';
+import { BrowserService } from '../browser.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,8 @@ export class HeaderComponent {
   constructor(
     private apropriateService: ApropriateService,
     private importCsvService: ImportCsvService,
-    private electronService: ElectronService) {
+    private electronService: ElectronService,
+    private browserService: BrowserService) {
   }
 
   apropriate() {
@@ -33,6 +35,10 @@ export class HeaderComponent {
     if (csvFiles) {
       this.importCsvService.importCsv(csvFiles[0]);
     }
+  }
+
+  openBi() {
+    this.browserService.openBiCorporativo();
   }
 
 }

@@ -3,7 +3,8 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th class="text-left" style="width: 10px"></th>
+          <th class="text-left" style="width: 10px"></th>    
+          <th class="text-left">Actions</th>
           <th class="text-left">Task</th>
           <th class="text-left">Status</th>
           <th class="text-center">Sun</th>
@@ -27,6 +28,12 @@
           <ng-container *ngFor="let taskSummary of summary.getTaskSummary()">
             <tr *ngIf="taskSummary.minutesRegistered">
               <td style="width: 10px"></td>
+              <td>                  
+                <button title="Open in ALM" (click)="openAlm(taskSummary.task)" type="button" 
+                  class="btn btn-info btn-xs">
+                  <i class="fa fa-external-link fa-lg"></i>
+                </button>  
+              </td>              
               <td class="text-left">{{taskSummary.task.id}}-{{taskSummary.task.name}}</td>
               <td class="text-left">Registered</td>
               <td *ngFor="let i of [0,1,2,3,4,5,6]" class="text-center">

@@ -4,6 +4,7 @@ import { Event } from '../event.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Task } from '../task.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BrowserService } from '../browser.service';
 
 @Component({
   selector: 'app-log',
@@ -51,4 +52,6 @@ export class LogComponent implements OnInit, OnDestroy {
     return !event.endDate
       && new Date(event.startDate).getDate() === new Date().getDate();
   }
+
+
 }

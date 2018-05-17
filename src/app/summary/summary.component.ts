@@ -3,6 +3,8 @@ import { Summary } from '../summary.model';
 import { DataService } from '../data.service';
 import { Subscription } from 'rxjs/Subscription';
 import { DateUtil } from '../date-util';
+import { BrowserService } from '../browser.service';
+import { Task } from '../task.model';
 
 @Component({
   selector: 'app-summary',
@@ -12,7 +14,11 @@ import { DateUtil } from '../date-util';
 export class SummaryComponent implements OnInit, OnDestroy {
   eventsChanged$: Subscription;
   summarys: Summary[];
-  constructor(private dataService: DataService) { }
+
+  constructor(
+    private dataService: DataService,
+    private browserService: BrowserService
+  ) { }
 
   ngOnInit() {
     this.summarys = this.dataService.getSummary();
@@ -34,5 +40,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.eventsChanged$.unsubscribe();
   }
 
+  openAlm(task: Task) {
+    this.browserService.openAlmTrackTime(task);
+  }
 
 }
