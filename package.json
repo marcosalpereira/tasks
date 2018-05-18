@@ -1,6 +1,6 @@
 {
   "name": "tasks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "main": "main.js",
   "scripts": {
@@ -10,6 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "version": "echo $*",
     "preversion": "sh scripts/release-notes.sh %s",
     "postversion": "git push --follow-tags",
     "package": "electron-packager . --no-prune --overwrite",
