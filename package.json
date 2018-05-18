@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "version": "echo v=$*",
-    "preversion": "sh scripts/release-notes.sh %s",
+    "preversion": "sh scripts/release-notes.sh $*",
     "postversion": "git push --follow-tags",
     "package": "electron-packager . --no-prune --overwrite",
     "electron": "ng build && electron .",
