@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "version": "echo $*",
+    "version": "echo v=$*",
     "preversion": "sh scripts/release-notes.sh %s",
     "postversion": "git push --follow-tags",
     "package": "electron-packager . --no-prune --overwrite",
