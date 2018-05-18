@@ -1,7 +1,5 @@
-if (process.argv.length < 2) {
-  console.log('Usage: node version');
-  process.exit(1);
-}
+var newVersion = require('../package.json').version;
+process.exit(1);
 
 var fs = require('fs');
 var inputFileName = process.argv[2];
