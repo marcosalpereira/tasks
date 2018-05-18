@@ -1,9 +1,11 @@
-var newVersion = require('../package.json').version;
-process.exit(1);
+if (process.argv.length < 3) {
+  console.log('Usage: node <gitLogFile> <outputFile>');
+  process.exit(1);
+}
 
 var fs = require('fs');
 var inputFileName = process.argv[2];
-var outputFileName = 'release-notes.md';
+var outputFileName = process.argv[3];
 
 var out = fs.createWriteStream(outputFileName);
 
