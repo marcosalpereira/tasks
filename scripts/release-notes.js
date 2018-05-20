@@ -1,17 +1,23 @@
-if (process.argv.length < 3) {
-  console.log('Usage: node <gitLogFile> <outputFile>');
+// Acrescenta no inicio do arquivo 'releaseNotesFile' 
+// a versao corrente e abaixo dela as
+// URLs para as issues informadas nas mensagens de commit
+
+if (process.argv.length < 4) {
+  console.log('Usage: node <gitIssuesUrl> <gitLogFile> <releaseNotesFile>');
+  console.log('Usage: node  <gitLogFile> <releaseNotesFile>');
   process.exit(1);
 }
 
 var fs = require('fs');
-var inputFileName = process.argv[2];
-var outputFileName = process.argv[3];
+var gitIssuesUrl = process.argv[2];
+var gitLogFile = process.argv[3];
+var releaseNotesFile = process.argv[4];
 
-var out = fs.createWriteStream(outputFileName);
+var out = fs.createWriteStream(releaseNotesFile);
 
 let issues = [];
 
-fs.readFileSync(inputFileName).toString().split('\n').forEach(function (line) { 
+fs.readFileSync(gitLogFile).toString().split('\n').forEach(function (line) { 
 	// console.log('line', line);
 
     const er = /\(.*tag: v([\d\.\-a-z]+)/g;
@@ -21,10 +27,10 @@ fs.readFileSync(inputFileName).toString().split('\n').forEach(function (line) {
 		issues.sort((a,b) => +a - +b).forEach(
 			item => {
                 // curl -k --header "Private-Token: sm_C1qjuSEH7vtiAwfyy" https://git.serpro/api/v4/projects/dedat%2Fdeat3%2Fngx-suite-rfb/issues/101
-                out.write(`- https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/${item}\n`)
-            }
+                out.write(`- ${}/${item}\n`)
+   gitIssuesUrl         }
 		)
-		issues = [];		
+		issues = [];		https://git.serpro/dedat/deat3/ngx-suite-rfb/issues
 		out.write(`\n# ${tagMatch[1]}\n`);
 	
 	} else {		
@@ -40,5 +46,5 @@ fs.readFileSync(inputFileName).toString().split('\n').forEach(function (line) {
 });
 
 issues.sort((a,b) => +a - +b).forEach(
-	s => out.write(`- https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/${s}\n`)
+	s => out.write(`- ${gitIssuesUrl}/${s}\n`)
 )
