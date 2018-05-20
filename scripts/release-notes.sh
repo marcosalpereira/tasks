@@ -14,6 +14,6 @@ node scripts/release-notes.js ${tmpLogFile} ${tmpRelNotes}
 cat ${rnFile} >> ${tmpRelNotes}
 mv ${tmpRelNotes} ${rnFile} 
 
-gedit --wait ${rnFile}
+gedit --new-window --wait ${rnFile}
 git add package.json ${rnFile}
 git commit -m 'Release notes of ${currentVersion}'

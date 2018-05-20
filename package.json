@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "v_ersion": "scripts/release-notes.sh docs/release-notes.md",
+    "version": "scripts/release-notes.sh docs/release-notes.md",
     "postversion": "git push --follow-tags",
     "package": "electron-packager . --no-prune --overwrite",
     "electron": "ng build && electron .",
