@@ -5,7 +5,8 @@ currentVersion=v$(grep version package.json | head -1 | awk -F: '{print $2}' | s
 previousVersion=$(git tag --sort=-taggerdate | awk "/$currentVersion/{getline; print}")
 
 tmpLogFile=$(mktemp /tmp/rn-git-log.XXXXXX)
-git log ${previousVersion}..${previousVersion} --format="%d%s" > ${tmpLogFile}
+echo  "git log ${previousVersion}..${currentVersion} --format='%d%s'"
+#git log ${previousVersion}..${currentVersion} --format="%d%s" > ${tmpLogFile}
 
 tmpRelNotes=$(mktemp /tmp/rn-new.XXXXXX)
 node scripts/release-notes.js ${tmpLogFile} ${tmpRelNotes}
