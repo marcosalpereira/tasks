@@ -16,4 +16,4 @@ mv ${tmpRelNotes} ${rnFile}
 
 gedit --new-window --wait ${rnFile}
 git add package.json ${rnFile}
-git commit -m 'Release notes of ${currentVersion}'
+git commit -m "Release notes of ${currentVersion}"
