@@ -1,19 +1,17 @@
 <form #form="ngForm" (ngSubmit)="onSubmit()">
   <div class="row">
-    <div class="col-md-11">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
       <div class="form-group">
         <label class="control-label" for="project">Project</label>
-        <span class="select-container">
-          <select id="project" ngModel title="Select project" class="form-control" name="project" required>
+        <div id="project">
+          <select ngModel title="Select project" style="width:75%" class="f_orm-control selectpicker" name="project" required>
             <option *ngFor="let p of projects" [ngValue]="p">{{p.name}}</option>
           </select>
-        </span>
+          <button title="Create new Project" type="button" class="btn btn-primary btn-sm" (click)="onClickNewProject(newProjectTemplate)">
+            <i class="fa fa-plus fa-sm"></i>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="col-md-1">
-      <button title="Create new Project" type="button" class="btn btn-success" (click)="onClickNewProject(newProjectTemplate)">
-          <i class="fa fa-plus"></i>
-      </button>
     </div>
   </div>
   <div class="row">
@@ -46,8 +44,8 @@
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
-        <button title="Submit" type="submit" class="btn btn-success" [disabled]="!form.valid">
-          <i class="fa fa-play"></i>
+        <button title="Submit" type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">
+          Submit
         </button>
       </div>
     </div>

@@ -1,5 +1,14 @@
-<button class="btn btn-primary" (click)="apropriate()">Apropriate</button>
-<button class="btn btn-primary" (click)="importCsv()">Import CSV</button>
-<button class="btn btn-primary" (click)="openBi()" type="button">Open BI Corporative</button>
-
-<app-messages></app-messages>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <button class="btn btn-primary btn-xs" (click)="apropriate()" title="Apropriate in ALM">
+            <i class="fa fa-adn fa-lg"></i>
+        </button>
+        <button title="Open BI Corporative" class="btn btn-primary btn-xs" (click)="openBi()" type="button">
+            <i class="fa fa-bar-chart fa-lg"></i>
+        </button>
+        <button class="btn btn-primary btn-xs" (click)="importCsv()" title="Import CSV from BrOffice Version">
+            <i class="fa fa-download fa-lg"></i>
+        </button>
+    </div>
+</div>
+<!-- <app-messages></app-messages> -->

@@ -19,7 +19,7 @@
       <tbody>
         <ng-container *ngFor="let summary of summarys">
           <tr>
-            <td colspan="10" class="text-left">
+            <td colspan="11" class="text-left">
               <span class="strong badge">
                 Week: {{summary.startDate | date: 'dd/MM/yy'}} - {{summary.endDate | date : 'dd/MM/yy'}}
               </span>
@@ -28,6 +28,7 @@
           <ng-container *ngFor="let taskSummary of summary.getTaskSummary()">
             <tr *ngIf="taskSummary.minutesRegistered">
               <td style="width: 10px"></td>
+              <td></td>
               <td>                  
                 <button title="Open in ALM" (click)="openAlm(taskSummary.task)" type="button" 
                   class="btn btn-info btn-xs">
@@ -42,6 +43,7 @@
             </tr>
             <tr *ngIf="taskSummary.minutesPending">
               <td style="width: 10px"></td>
+              <td></td>
               <td *ngIf="!taskSummary.minutesRegistered" class="text-left">{{taskSummary.task.id}}-{{taskSummary.task.name}}</td>
               <td *ngIf="taskSummary.minutesRegistered"></td>
               <td class="text-left">To Register</td>
@@ -52,7 +54,7 @@
           </ng-container>
           <tr>
             <td style="width: 10px"></td>
-            <td class="text-left"></td>
+            <td colspan="2"></td>
             <td class="text-left"><span class="font-weight-bold">Total</span></td>
             <td *ngFor="let i of [0,1,2,3,4,5,6]" class="text-center">
               <span class="font-weight-bold" [title]="calcDate(summary, i) | date : 'dd/MM/yy'"
