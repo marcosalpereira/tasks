@@ -28,7 +28,6 @@
           <ng-container *ngFor="let taskSummary of summary.getTaskSummary()">
             <tr *ngIf="taskSummary.minutesRegistered">
               <td style="width: 10px"></td>
-              <td></td>
               <td>                  
                 <button title="Open in ALM" (click)="openAlm(taskSummary.task)" type="button" 
                   class="btn btn-info btn-xs">
@@ -43,7 +42,12 @@
             </tr>
             <tr *ngIf="taskSummary.minutesPending">
               <td style="width: 10px"></td>
-              <td></td>
+              <td>                  
+                  <button title="Open in ALM" (click)="openAlm(taskSummary.task)" type="button" 
+                    class="btn btn-info btn-xs">
+                    <i class="fa fa-external-link fa-lg"></i>
+                  </button>  
+              </td>               
               <td *ngIf="!taskSummary.minutesRegistered" class="text-left">{{taskSummary.task.id}}-{{taskSummary.task.name}}</td>
               <td *ngIf="taskSummary.minutesRegistered"></td>
               <td class="text-left">To Register</td>
