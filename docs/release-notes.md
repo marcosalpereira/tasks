@@ -1,4 +1,9 @@
 
+# 0.0.10
+- https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/10
+- https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/11
+- https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/12
+
 # 0.0.9
 - https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/5
 
