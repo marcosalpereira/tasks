@@ -3,6 +3,7 @@
 - https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/5
 
 # 0.0.8
+fdsfds
 
 # 0.0.6
 - https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/6
