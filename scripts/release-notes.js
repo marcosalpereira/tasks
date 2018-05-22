@@ -4,21 +4,21 @@
 // a versao corrente e abaixo dela as
 // URLs para as issues informadas nas mensagens de commit
 
-if (process.argv.length < 4) {
-  console.log('Usage: node <gitIssuesUrl> <gitLogFile> <releaseNotesFile>');
-  console.log('Usage: node  <gitLogFile> <releaseNotesFile>');
+if (process.argv.length < 5) {
+  console.log('Usage: node <nextVersion> <gitIssuesUrl> <gitLogFile> <releaseNotesFile>');
   process.exit(1);
 }
 
 var fs = require('fs');
-var gitIssuesUrl = process.argv[2];
-var gitLogFile = process.argv[3];
-var releaseNotesFile = process.argv[4];
+var nextVersion = process.argv[2];
+var gitIssuesUrl = process.argv[3];
+var gitLogFile = process.argv[4];
+var releaseNotesFile = process.argv[5];
 
 var out = fs.createWriteStream(releaseNotesFile);
 
 let issues = [];
-
+out.write(`\n# ${nextVersion}\n`);
 fs.readFileSync(gitLogFile).toString().split('\n').forEach(function (line) { 
 	// console.log('line', line);
 
