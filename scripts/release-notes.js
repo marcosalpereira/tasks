@@ -1,3 +1,5 @@
+
+
 // Acrescenta no inicio do arquivo 'releaseNotesFile' 
 // a versao corrente e abaixo dela as
 // URLs para as issues informadas nas mensagens de commit
