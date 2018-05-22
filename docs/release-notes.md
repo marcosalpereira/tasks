@@ -1,4 +1,6 @@
 
+# 0.0.8
+
 # 0.0.6
 - https://git.serpro/dedat/deat3/ngx-suite-rfb/issues/6
 
