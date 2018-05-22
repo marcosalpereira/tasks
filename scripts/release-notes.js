@@ -27,10 +27,10 @@ fs.readFileSync(gitLogFile).toString().split('\n').forEach(function (line) {
 		issues.sort((a,b) => +a - +b).forEach(
 			item => {
                 // curl -k --header "Private-Token: sm_C1qjuSEH7vtiAwfyy" https://git.serpro/api/v4/projects/dedat%2Fdeat3%2Fngx-suite-rfb/issues/101
-                out.write(`- ${}/${item}\n`)
-   gitIssuesUrl         }
+                out.write(`- ${gitIssuesUrl}/${item}\n`)
+            }
 		)
-		issues = [];		https://git.serpro/dedat/deat3/ngx-suite-rfb/issues
+		issues = [];	
 		out.write(`\n# ${tagMatch[1]}\n`);
 	
 	} else {		
