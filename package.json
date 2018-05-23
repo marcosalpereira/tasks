@@ -10,8 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postversion": "scripts/release-notes.sh https://git.serpro/dedat/deat3/ngx-suite-rfb/issues docs/release-notes.md; git push --follow-tags",
-    "package": "electron-packager . --no-prune --overwrite",
+    "bin": "ng build --prod && electron-packager . --no-prune --overwrite",
     "electron": "ng build && electron .",
     "electron-aot": "ng build --prod && electron ."
   },
