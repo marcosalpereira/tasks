@@ -20,7 +20,8 @@ export class ApropriateService {
     private alertService: MessagesService
   ) {
     this.config = dataService.getConfig();
-    this.events = dataService.getEvents();
+    this.events = dataService.getEvents()
+      .filter( (event: Event) => event.endDate);
   }
 
   apropriate() {
@@ -88,6 +89,8 @@ export class ApropriateService {
         cols.push('');
         return cols.join('|');
       });
+
+    console.log('regs', regs);
 
     data.push(`cfg|version|1.13`);
     data.push(`cfg|login.cpf|${config.cpf}`);
