@@ -1,8 +1,11 @@
 <div class="container-fluid">
   <app-header></app-header>
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
       <accordion>
+        <accordion-group heading="Config">
+          <app-config></app-config>
+        </accordion-group>
         <accordion-group isOpen="true" heading="Top Tasks">
           <app-top-tasks></app-top-tasks>
         </accordion-group>
@@ -11,7 +14,7 @@
         </accordion-group>
       </accordion>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-9">
       <accordion>
         <accordion-group heading="Summary">
           <app-summary></app-summary>
