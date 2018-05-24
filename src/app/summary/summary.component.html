@@ -43,7 +43,7 @@
             <tr *ngIf="taskSummary.minutesPending">
               <td style="width: 10px"></td>
               <td>                  
-                  <button title="Open in ALM" (click)="openAlm(taskSummary.task)" type="button" 
+                  <button *ngIf="!taskSummary.minutesRegistered" title="Open in ALM" (click)="openAlm(taskSummary.task)" type="button" 
                     class="btn btn-info btn-xs">
                     <i class="fa fa-external-link fa-lg"></i>
                   </button>  

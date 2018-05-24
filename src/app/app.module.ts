@@ -28,6 +28,7 @@ import { MessagesService } from './messages.service';
 import { MessagesComponent } from './messages/messages.component';
 import { ConfigComponent } from './config/config.component';
 import { BrowserService } from './browser.service';
+import { ExportCsvService } from './export-csv.service';
 
 const ROUTES: Route[] = [
   {
@@ -69,7 +70,8 @@ const ROUTES: Route[] = [
     ApropriateService,
     ImportCsvService,
     MessagesService,
-    BrowserService
+    BrowserService,
+    ExportCsvService
   ],
   bootstrap: [AppComponent]
 })
