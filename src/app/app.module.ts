@@ -29,6 +29,10 @@ import { MessagesComponent } from './messages/messages.component';
 import { ConfigComponent } from './config/config.component';
 import { BrowserService } from './browser.service';
 import { ExportCsvService } from './export-csv.service';
+import { EventDaoService } from './event-dao.service';
+import { TaskDaoService } from './task-dao.service';
+import { ProjectDaoService } from './project-dao.service';
+import { ConfigService } from './config.service';
 
 const ROUTES: Route[] = [
   {
@@ -71,7 +75,11 @@ const ROUTES: Route[] = [
     ImportCsvService,
     MessagesService,
     BrowserService,
-    ExportCsvService
+    ExportCsvService,
+    EventDaoService,
+    TaskDaoService,
+    ProjectDaoService,
+    ConfigService
   ],
   bootstrap: [AppComponent]
 })

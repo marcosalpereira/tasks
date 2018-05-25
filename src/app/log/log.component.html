@@ -16,7 +16,7 @@
           <tr *ngFor="let event of events">
             <td class="text-center">
               <button *ngIf="canStopTask(event)" title="Current Task, click to stop" 
-                    (click)="stopTask(event.task)" type="button" class="btn btn-success btn-xs">
+                    (click)="stopTask(event)" type="button" class="btn btn-success btn-xs">
                   <i class="fa fa-spinner fa-spin fa-lg"></i>
               </button>  
               <button *ngIf="!canStopTask(event)" title="Restart Task" 

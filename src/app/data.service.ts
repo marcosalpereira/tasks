@@ -4,10 +4,14 @@ import { Task, TaskCount } from './task.model';
 import { Event } from './event.model';
 import * as moment from 'moment';
 import { Subject } from 'rxjs/Subject';
-import {Summary, TaskSummary} from './summary.model';
+import { Summary, TaskSummary } from './summary.model';
 
 import { WeekRange, DateUtil } from './date-util';
 import { Config } from './config.model';
+import { EventDaoService } from './event-dao.service';
+import { TaskDaoService } from './task-dao.service';
+import { ProjectDaoService } from './project-dao.service';
+import { last } from '@angular/router/src/utils/collection';
 
 export interface PreviousNextEvent { previous?: Event; next?: Event; }
 
@@ -19,20 +23,17 @@ export class DataService {
 
   private topTasks: TaskCount[] = [];
 
-  private events: Event[];
-
-  constructor() {
-
+  constructor(
+    private eventDao: EventDaoService,
+    private taskDao: TaskDaoService,
+    private projectDao: ProjectDaoService) {
   }
 
-  markEventAsRegistered(eventId: number): void {
-    const date = new Date(eventId);
-    const key = this.getDayEventKey(date);
-    const events: Event[] = JSON.parse(localStorage.getItem(key));
-    const index = events.findIndex(e => e.id === eventId);
-    events[index].registered = true;
-    localStorage.setItem(key, JSON.stringify(events));
+  markEventAsRegistered(event: Event): void {
+    event.registered = true;
+    this.eventDao.persist(event);
   }
+
 
   getTopTasks() {
     if (this.topTasks.length === 0) {
@@ -41,53 +42,21 @@ export class DataService {
     return this.topTasks;
   }
 
-  findPreviousAndNextEvent(id: number): PreviousNextEvent {
-    const date = new Date(id);
-    const key = this.getDayEventKey(date);
-    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
-    const index = events.findIndex(e => e.id === id);
-    const ret: PreviousNextEvent = {};
-    if (index > 0) { ret.next = events[index - 1]; }
-    if (index < events.length - 1) { ret.previous = events[index + 1]; }
-    return ret;
-  }
-
-  stopTask(task: Task) {
-      const date = new Date();
-      const key = this.getDayEventKey(date);
-      const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
-      events[0].endDate = date;
-      localStorage.setItem(key, JSON.stringify(events));
-      this.eventsChanged$.next(this.getEvents());
-  }
-
-  findEvent(id: number): Event {
-    const date = new Date(id);
-    const key = this.getDayEventKey(date);
-    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
-    const event = events.find(e => e.id === id);
-    return event;
+  stopTask(event: Event) {
+    event.endDate = new Date();
+    this.eventDao.persist(event);
+    this.eventsChanged$.next(this.eventDao.getEvents());
   }
 
   updateEvent(event: Event) {
-    const date = new Date(event.id);
-    const key = this.getDayEventKey(date);
-    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
-    const index = events.findIndex(e => e.id === event.id);
-    events[index] = event;
-    localStorage.setItem(key, JSON.stringify(events));
-    this.eventsChanged$.next(this.getEvents());
+    this.eventDao.persist(event);
+    this.eventsChanged$.next(this.eventDao.getEvents());
   }
 
   deleteEvent(event: Event) {
-    const date = new Date(event.id);
-    const key = this.getDayEventKey(date);
-    let events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
-    events = events.filter(e => e.id !== event.id);
-    localStorage.setItem(key, JSON.stringify(events));
-    this.eventsChanged$.next(this.getEvents());
+    this.eventDao.delete(event);
+    this.eventsChanged$.next(this.eventDao.getEvents());
   }
-
 
   bulkImportAddEvent(task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string) {
     const id = startDate.getTime();
@@ -95,101 +64,50 @@ export class DataService {
     event.registered = registered;
     event.remarks = remarks;
     event.endDate = endDate;
-    const key = this.getDayEventKey(startDate);
-    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
-    events.unshift(event);
-    console.log(event);
-    localStorage.setItem(key, JSON.stringify(events));
+    this.eventDao.persist(event);
   }
 
-  startTask(task: Task, remarks: string): void {
+  startTask(project: Project, taskId: number, taskName: string, remarks: string): void {
     const date = new Date();
-    const key = this.getDayEventKey(date);
-    const events: Event[] = JSON.parse(localStorage.getItem(key)) || [];
+    const lastEvent: Event = this.eventDao.selectLastEvent();
 
-    // finalizar anterior
-    if (events.length > 0) {
-      if (!events[0].endDate) {
-        events[0].endDate = date;
+    const task: Task = this.getTask(project, taskId, taskName);
+    const id = date.getTime();
+    const newEvent = new Event(id, task, date);
+    newEvent.previous = lastEvent;
+    newEvent.remarks = remarks;
+    this.eventDao.persist(newEvent);
+
+    if (lastEvent) {
+      if (!lastEvent.endDate) {
+        lastEvent.endDate = date;
+        lastEvent.next = newEvent;
+        this.eventDao.persist(lastEvent);
       }
     }
 
-    const id = date.getTime();
-
-    const event = new Event(id, task, date);
-    event.remarks = remarks;
-
-    events.unshift(event);
-    localStorage.setItem(key, JSON.stringify(events));
-
     this.eventsChanged$.next(this.getEvents());
-    // this.updateTaskStats(task);
-  }
 
-  // update_TaskStats(task: Task) {
-  //   const index = this.topTasks.findIndex((value: TaskCount) =>
-  //     value.task.name === task.name && value.task.project.name === task.project.name
-  //   );
-  //   if (index === -1) {
-  //     if (this.topTasks.length < 7) {
-  //       this.topTasks.push(new TaskCount(task, 1));
-  //       this.tasksStatChanged$.next(this.topTasks);
-  //     }
-  //   } else {
-  //     this.topTasks[index].count++;
-  //     this.tasksStatChanged$.next(this.topTasks);
-  //   }
-  // }
-
-  getEvents(): Event[] {
-    const events: Event[] = [];
-    const m = moment();
-    for (let i = 0; i < 20; i++) {
-      const dayEvents = this.getDayEvents(m.toDate());
-      events.push(...dayEvents);
-      m.subtract(1, 'day');
-    }
-    this.updateTasksStats(events);
-    return events;
-  }
-
-  updateTasksStats(events: Event[]): void {
-
-    const freq = events.reduce(function (map, event: Event) {
-      const key = JSON.stringify(event.task);
-      map[key] ? map[key]++ : map[key] = 1;
-      return map;
-    }, new Map());
-
-    const items = Object.keys(freq).map(function (key) {
-      return new TaskCount(JSON.parse(key), freq[key]);
-    });
-
-    items.sort((left: TaskCount, right: TaskCount) =>
-      right.count - left.count
-    );
-
-    this.topTasks = items.slice(0, 7);
-
+    task.counter++;
+    this.taskDao.persist(task);
     this.tasksStatChanged$.next(this.topTasks);
   }
 
-  getDayEventKey(date: Date): string {
-    return `ev-${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
+  getEvents(): Event[] {
+    return this.eventDao.selectLastEvents();
   }
 
-  getDayEvents(date: Date): Event[] {
-    const key = this.getDayEventKey(date);
-    const events = JSON.parse(localStorage.getItem(key)) || [];
-    return events;
+  private getTask(project, id, name) {
+    return this.taskDao.find(id) || new Task(project, name);
   }
 
-  addProject(project: Project): void {
-    const projects: Project[] = this.getProjects();
-    projects.push(project);
-    localStorage.setItem('projects', JSON.stringify(projects));
+  addProject(projectName: string): void {
+    const project = this.getProject(projectName);
+    this.projectsChanged$.next(this.projectDao.getProjects());
+  }
 
-    this.projectsChanged$.next(projects);
+  private getProject(name: string) {
+    return this.projectDao.find(name) || new Project(name);
   }
 
   bulkImportBegin() {
@@ -206,8 +124,7 @@ export class DataService {
   }
 
   getProjects(): Project[] {
-    const s = localStorage.getItem('projects') || '[]';
-    return JSON.parse(s);
+    return this.projectDao.select();
   }
 
   getSummary(): Summary[] {
