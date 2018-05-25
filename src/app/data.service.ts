@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Project } from './project.model';
-import { Task, TaskCount } from './task.model';
+import { Task } from './task.model';
 import { Event } from './event.model';
 import * as moment from 'moment';
 import { Subject } from 'rxjs/Subject';
@@ -19,9 +19,7 @@ export interface PreviousNextEvent { previous?: Event; next?: Event; }
 export class DataService {
   public eventsChanged$ = new Subject<Event[]>();
   public projectsChanged$ = new Subject<Project[]>();
-  public tasksStatChanged$ = new Subject<TaskCount[]>();
-
-  private topTasks: TaskCount[] = [];
+  public tasksStatChanged$ = new Subject<Task[]>();
 
   constructor(
     private eventDao: EventDaoService,
@@ -34,12 +32,8 @@ export class DataService {
     this.eventDao.persist(event);
   }
 
-
   getTopTasks() {
-    if (this.topTasks.length === 0) {
-      this.getEvents();
-    }
-    return this.topTasks;
+    return this.taskDao.getTopTasks();
   }
 
   stopTask(event: Event) {
@@ -59,8 +53,7 @@ export class DataService {
   }
 
   bulkImportAddEvent(task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string) {
-    const id = startDate.getTime();
-    const event: Event = new Event(id, task, startDate);
+    const event: Event = new Event(task, startDate);
     event.registered = registered;
     event.remarks = remarks;
     event.endDate = endDate;
@@ -72,8 +65,11 @@ export class DataService {
     const lastEvent: Event = this.eventDao.selectLastEvent();
 
     const task: Task = this.getTask(project, taskId, taskName);
-    const id = date.getTime();
-    const newEvent = new Event(id, task, date);
+    task.counter++;
+    this.taskDao.persist(task);
+    this.tasksStatChanged$.next(this.getTopTasks());
+
+    const newEvent = new Event(task, date);
     newEvent.previous = lastEvent;
     newEvent.remarks = remarks;
     this.eventDao.persist(newEvent);
@@ -87,18 +83,14 @@ export class DataService {
     }
 
     this.eventsChanged$.next(this.getEvents());
-
-    task.counter++;
-    this.taskDao.persist(task);
-    this.tasksStatChanged$.next(this.topTasks);
   }
 
   getEvents(): Event[] {
-    return this.eventDao.selectLastEvents();
+    return this.eventDao.getEvents();
   }
 
   private getTask(project, id, name) {
-    return this.taskDao.find(id) || new Task(project, name);
+    return this.taskDao.find(id) || new Task(project, id, name);
   }
 
   addProject(projectName: string): void {

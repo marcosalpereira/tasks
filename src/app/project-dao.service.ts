@@ -5,25 +5,33 @@ import { Project } from './project.model';
 
 @Injectable()
 export class ProjectDaoService {
-
+  private projects: Project[];
   private config: Config;
+
   constructor(private configService: ConfigService) {
     this.config = this.configService.getConfig();
   }
 
+  getProjects(): Project[] {
+    if (!this.projects) {
+      const key = 'tasks.projects';
+      this.projects = JSON.parse(localStorage.getItem(key));
+    }
+    return this.projects;
+  }
+
   private persist(project: Project) {
-    const key = this.getKey(project.name);
-    localStorage.setItem(key, JSON.stringify(project));
+    if (this.find(project.name)) {
+      return;
+    }
+
+    this.projects.push(project);
+    const key = 'tasks.projects';
+    localStorage.setItem(key, JSON.stringify(this.projects));
   }
 
-  private find(id: string): Project {
-    const key = this.getKey(id);
-    return JSON.parse(localStorage.getItem(key)) || undefined;
+  find(name: string): Project {
+    return this.getProjects().find(p => p.name === name);
   }
-
-  getKey(id: string): string {
-    return `ev-${id}`;
-  }
-
 
 }
