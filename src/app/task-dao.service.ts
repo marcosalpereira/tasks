@@ -11,7 +11,7 @@ export class TaskDaoService {
     const index = this.tasks.findIndex(t => t.id === task.id);
     if (index === -1) {
       this.tasks.push(task);
-      this.writeAllTasks();
+      this.writeAllTasksIds();
     }
     const key = this.getKey(task.id);
     localStorage.setItem(key, JSON.stringify(task));
@@ -44,7 +44,7 @@ export class TaskDaoService {
     return ids
         .map(id => this.find(id));
   }
-  private writeAllTasks(): void {
+  private writeAllTasksIds(): void {
     const ids = this.getTasks()
       .map(task => task.id);
     localStorage.setItem('tasks.all', JSON.stringify(ids));
