@@ -8,22 +8,22 @@ export class TaskDaoService {
   constructor() { }
 
   persist(task: Task): void {
-    const index = this.tasks.findIndex(t => t.id === task.id);
-    if (index === -1) {
+    if (!task.id) {
+      task.id = task.code;
       this.tasks.push(task);
-      this.writeAllTasksIds();
+      this.writeAllTasks();
     }
-    const key = this.getKey(task.id);
+    const key = this.getKey(task.code);
     localStorage.setItem(key, JSON.stringify(task));
   }
 
-  find(id: number): Task {
-    const key = this.getKey(id);
+  findByCode(code: number): Task {
+    const key = this.getKey(code);
     return JSON.parse(localStorage.getItem(key));
   }
 
-  getKey(id: number): string {
-    return `ts-${id}`;
+  getKey(code: number): string {
+    return `tc-${code}`;
   }
 
   getTopTasks(): any {
@@ -40,14 +40,14 @@ export class TaskDaoService {
   }
 
   private readAllTasks(): Task[] {
-    const ids: number[] = JSON.parse(localStorage.getItem('tasks.all')) || [];
-    return ids
-        .map(id => this.find(id));
+    const codess: number[] = JSON.parse(localStorage.getItem('tasks.all')) || [];
+    return codess
+        .map(code => this.findByCode(code));
   }
-  private writeAllTasksIds(): void {
-    const ids = this.getTasks()
-      .map(task => task.id);
-    localStorage.setItem('tasks.all', JSON.stringify(ids));
+  private writeAllTasks(): void {
+    const codes = this.getTasks()
+      .map(task => task.code);
+    localStorage.setItem('tasks.all', JSON.stringify(codes));
   }
 
 }

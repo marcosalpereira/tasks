@@ -17,8 +17,8 @@
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
-        <label class="control-label" for="taskId">Task Id</label>
-        <input class="form-control" placeholder="Task ID" ngModel id="taskId" name="taskId" required pattern="[1-9][0-9]{0,10}" size="6"
+        <label class="control-label" for="code">Task Code</label>
+        <input class="form-control" placeholder="Task Code" ngModel id="code" name="code" required pattern="[1-9][0-9]{0,10}" size="6"
           maxlength="10" />
       </div>
     </div>
@@ -27,7 +27,7 @@
 
     <div class="col-md-12">
       <div class="form-group">
-        <label class="control-label" for="taskId">Task Name</label>
+        <label class="control-label" for="code">Task Name</label>
         <input class="form-control" placeholder="Task Name" ngModel id="taskName" name="taskName" required maxlength="50" />
       </div>
     </div>
@@ -36,7 +36,7 @@
 
     <div class="col-md-12">
       <div class="form-group">
-        <label class="control-label" for="taskId">Remarks</label>
+        <label class="control-label" for="code">Remarks</label>
         <input class="form-control" placeholder="Remarks" ngModel id="eventRemarks" name="eventRemarks" maxlength="50" />
       </div>
     </div>
@@ -55,15 +55,15 @@
 <ng-template #newProjectTemplate>
   <div class="modal-body text-center">
     <form #formModal="ngForm">
-      <div class="form-group">
-        <div class="row">
-          <div class="col-sm-12">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
             <label for="newProjectName" class="control-label">Project Name</label>
             <input id="newProjectName" class="form-control" #newProjectNameInput ngModel type="text" name="newProjectName" required>
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-m2-12">
             <div class="form-group">
               <button type="button" class="btn btn-success" (click)="confirmNewProject(newProjectNameInput.value)" [disabled]="!formModal.valid">OK</button>
               <button type="button" class="btn btn-primary" (click)="cancelNewProject()">Cancel</button>

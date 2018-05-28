@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../data.service';
 import { Subscription } from 'rxjs/Subscription';
-import { TaskCount, Task } from '../task.model';
+import { Task } from '../task.model';
 
 @Component({
   selector: 'app-top-tasks',
@@ -10,24 +10,24 @@ import { TaskCount, Task } from '../task.model';
 })
 export class TopTasksComponent implements OnInit, OnDestroy {
 
-  taskStatsdSub: Subscription;
-  topTasks: TaskCount[];
+  topTaskSub: Subscription;
+  topTasks: Task[];
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
     this.topTasks = this.dataService.getTopTasks();
 
-    this.taskStatsdSub = this.dataService.tasksStatChanged$.subscribe(
+    this.topTaskSub = this.dataService.topTasksChanged$.subscribe(
       topTasks => this.topTasks = topTasks
     );
   }
 
   ngOnDestroy() {
-    this.taskStatsdSub.unsubscribe();
+    this.topTaskSub.unsubscribe();
   }
 
   onClick(task: Task) {
-    this.dataService.startTask(task, '');
+    this.dataService.startTask(task.project, task.code, task.name, '');
   }
 
 }

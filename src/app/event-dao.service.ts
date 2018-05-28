@@ -14,7 +14,11 @@ export class EventDaoService {
   constructor(
     private configService: ConfigService,
     private taskDao: TaskDaoService) {
-      this.config = this.configService.getConfig();
+    this.config = this.configService.getConfig();
+  }
+
+  deleteAll(): any {
+    localStorage.clear();
   }
 
   getEvents() {
@@ -27,7 +31,7 @@ export class EventDaoService {
   private readLastEvents(): Event[] {
     const lastEventsIds: number[] = JSON.parse(localStorage.getItem('tasks.events.last')) || [];
     return lastEventsIds
-        .map(id => this.find(id));
+      .map(id => this.find(id));
   }
   private writeLastEvents(): void {
     const lastEventsIds = this.lastEvents
@@ -60,32 +64,35 @@ export class EventDaoService {
       endDate: event.endDate,
       registered: event.registered,
       remarks: event.remarks,
-      next: event.next.id || undefined,
-      previous: event.previous.id || undefined,
-      task: event.task.id,
+      next: event.next && event.id,
+      previous: event.previous && event.previous.id,
+      task: event.task.code,
       startDate: event.startDate
     };
     return JSON.stringify(entity);
   }
 
-  private toModel(str: string): string {
-    const entity: EventEntity = JSON.parse(str);
-    const model = {
-      id: entity.id,
-      endDate: entity.endDate,
-      registered: entity.registered,
-      remarks: entity.remarks,
-      next: this.find(entity.next) || undefined,
-      previous: this.find(entity.previous) || undefined,
-      task: this.taskDao.find(entity.task),
-      startDate: entity.startDate
-    };
-    return JSON.stringify(entity);
+  private toModel(entity: EventEntity): Event {
+    const task = this.taskDao.findByCode(entity.task);
+    const model = new Event(task, entity.startDate);
+    model.id = entity.id;
+    model.endDate = entity.endDate;
+    model.registered = entity.registered;
+    model.remarks = entity.remarks;
+    return model;
+  }
+
+  private load(id: number): EventEntity {
+    const key = this.getKey(id);
+    return JSON.parse(localStorage.getItem(key));
   }
 
   find(id: number): Event {
-    const key = this.getKey(id);
-    return JSON.parse(localStorage.getItem(key));
+    const eventEntity = this.load(id);
+    const event = this.toModel(eventEntity);
+    event.previous = eventEntity.previous && this.toModel(this.load(eventEntity.previous));
+    event.next = eventEntity.next && this.toModel(this.load(eventEntity.next));
+    return event;
   }
 
   selectLastEvent(): Event {

@@ -15,17 +15,16 @@ export class ProjectDaoService {
   getProjects(): Project[] {
     if (!this.projects) {
       const key = 'tasks.projects';
-      this.projects = JSON.parse(localStorage.getItem(key));
+      this.projects = JSON.parse(localStorage.getItem(key)) || [];
     }
     return this.projects;
   }
 
-  private persist(project: Project) {
-    if (this.find(project.name)) {
-      return;
+  persist(project: Project) {
+    if (!project.id) {
+      project.id = new Date().getTime();
+      this.projects.push(project);
     }
-
-    this.projects.push(project);
     const key = 'tasks.projects';
     localStorage.setItem(key, JSON.stringify(this.projects));
   }

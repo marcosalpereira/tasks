@@ -20,7 +20,7 @@ export class BrowserService {
   openAlmTrackTime(task: Task) {
     const almUrl = 'https://alm.serpro/ccm/web';
     const project = `projects/${encodeURI(task.project.name)}`;
-    const action = `#action=com.ibm.team.workitem.viewWorkItem&id=${task.id}`;
+    const action = `#action=com.ibm.team.workitem.viewWorkItem&id=${task.code}`;
     const tab = '&tab=rastreamentodehoras';
     const url = `${almUrl}/${project}${action}${tab}`;
     const cmd = `firefox "${url}"`;

@@ -20,11 +20,12 @@ export class ApropriateService {
     private alertService: MessagesService
   ) {
     this.config = dataService.getConfig();
-    this.events = dataService.getEvents()
-      .filter( (event: Event) => event.endDate);
   }
 
   apropriate() {
+    this.events = this.dataService.getEvents()
+      .filter( (event: Event) => event.endDate);
+
     this.alertService.clear();
     const path = this.electronService.path;
     const csvFile = this.writeCsvFile();
@@ -47,7 +48,7 @@ export class ApropriateService {
           this.alertService.error(tokens[1]);
         } else if (type === 'mcr') {
           const index = +tokens[1];
-          this.dataService.markEventAsRegistered(this.events[index].id);
+          this.dataService.markEventAsRegistered(this.events[index]);
         }
       }
     });
@@ -78,7 +79,7 @@ export class ApropriateService {
         cols.push(start.format('DD/MM/YY'));
         cols.push('');
         cols.push(event.task.project.name);
-        cols.push(event.task.id + ';' + event.task.name);
+        cols.push(event.task.code + ';' + event.task.name);
         cols.push(event.remarks);
         cols.push(start.format('HH.mm'));
         cols.push(end.format('HH.mm'));

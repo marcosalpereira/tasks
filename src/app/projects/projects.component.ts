@@ -29,9 +29,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    const name: string = form.value['newProject'];
-    const project = new Project(name);
-    this.dataService.addProject( project );
+    const projectName: string = form.value['newProject'];
+    const project = this.dataService.addProject( projectName );
+    this.dataService.addProject( projectName );
     this.projects.push(new SelectedProject(project));
   }
 
