@@ -10,7 +10,7 @@ export class TaskDaoService {
   persist(task: Task): void {
     if (!task.id) {
       task.id = task.code;
-      this.tasks.push(task);
+      this.getTasks().push(task);
       this.writeAllTasks();
     }
     const key = this.getKey(task.code);

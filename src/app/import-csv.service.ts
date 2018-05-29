@@ -22,7 +22,7 @@ export class ImportCsvService {
     const events: Event[] = [];
 
     fs.readFileSync(csvFile).toString().split('\n').forEach(line => {
-      const tokens = line.split(',');
+      const tokens = line.split('|');
       if (tokens && tokens[0] !== 'Reg' && tokens[1]) {
         const registered = tokens[0] === 'Sim';
         const data = tokens[1].substring(0, 8);

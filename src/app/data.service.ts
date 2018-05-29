@@ -85,11 +85,8 @@ export class DataService {
   }
 
   bulkImportAddProject(projectName: string): Project {
-    console.log('projectName', projectName);
     const project = this.getProject(projectName);
     this.projectDao.persist(project);
-    console.log('project', project);
-    console.log('projects', this.getProjects());
     return project;
   }
 

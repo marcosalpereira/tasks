@@ -30,7 +30,6 @@ export class ActivateComponent implements OnInit, OnDestroy {
 
     this.projectsChangedSub = this.dataService.projectsChanged$.subscribe(
       projects => {
-        console.log('projects', projects);
         this.projects = projects;
         if (projects.length > 0) {
           const v = this.form.value;

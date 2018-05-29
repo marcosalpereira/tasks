@@ -52,7 +52,7 @@ export class EventDaoService {
   persist(event: Event): void {
     if (!event.id) {
       event.id = event.startDate.getTime();
-      this.lastEvents.unshift(event);
+      this.getEvents().unshift(event);
       this.writeLastEvents();
     }
     const key = this.getKey(event.id);

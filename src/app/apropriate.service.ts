@@ -33,7 +33,6 @@ export class ApropriateService {
     const jarFile = path.resolve(this.config.workFolder, 'alm-apropriator-2.10.jar');
     const cmd = `${script} ${jarFile} ${csvFile}`;
     const output = this.electronService.childProcess.execSync(cmd);
-    console.log('output', output.toString());
     this.readReturnFile();
     callback();
   }
@@ -91,8 +90,6 @@ export class ApropriateService {
         cols.push('');
         return cols.join('|');
       });
-
-    console.log('regs', regs);
 
     data.push(`cfg|version|1.13`);
     data.push(`cfg|login.cpf|${config.cpf}`);

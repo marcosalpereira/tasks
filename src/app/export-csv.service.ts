@@ -45,6 +45,7 @@ export class ExportCsvService {
 
         cols.push(event.registered ? 'Sim' : 'Não');
         cols.push(start.format('DD/MM/YY'));
+        cols.push('');
         cols.push(event.task.project.name);
         cols.push(event.task.code + ';' + event.task.name);
         cols.push(event.remarks);
