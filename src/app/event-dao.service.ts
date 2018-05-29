@@ -19,6 +19,7 @@ export class EventDaoService {
 
   deleteAll(): any {
     localStorage.clear();
+    this.lastEvents = undefined;
   }
 
   getEvents() {

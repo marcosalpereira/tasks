@@ -22,7 +22,7 @@ export class ApropriateService {
     this.config = dataService.getConfig();
   }
 
-  apropriate() {
+  apropriate(callback) {
     this.events = this.dataService.getEvents()
       .filter( (event: Event) => event.endDate);
 
@@ -35,6 +35,7 @@ export class ApropriateService {
     const output = this.electronService.childProcess.execSync(cmd);
     console.log('output', output.toString());
     this.readReturnFile();
+    callback();
   }
 
   private readReturnFile() {

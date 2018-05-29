@@ -16,7 +16,7 @@ import { NgForm, NgModel } from '@angular/forms';
 export class ActivateComponent implements OnInit, OnDestroy {
 
   modalRef: BsModalRef;
-  projectsChanged$: Subscription;
+  projectsChangedSub: Subscription;
   projects: Project[] = [];
 
   @ViewChild('form') form: NgForm;
@@ -28,18 +28,21 @@ export class ActivateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.projects = this.dataService.getProjects();
 
-    this.projectsChanged$ = this.dataService.projectsChanged$.subscribe(
+    this.projectsChangedSub = this.dataService.projectsChanged$.subscribe(
       projects => {
+        console.log('projects', projects);
         this.projects = projects;
-        const v = this.form.value;
-        v['project'] = projects[projects.length - 1];
-        this.form.setValue(v);
+        if (projects.length > 0) {
+          const v = this.form.value;
+          v['project'] = projects[projects.length - 1];
+          this.form.setValue(v);
+        }
       }
     );
   }
 
   ngOnDestroy() {
-    this.projectsChanged$.unsubscribe();
+    this.projectsChangedSub.unsubscribe();
   }
 
   onSubmit() {

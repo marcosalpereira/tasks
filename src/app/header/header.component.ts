@@ -11,6 +11,7 @@ import { ExportCsvService } from '../export-csv.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  apropriando = false;
 
   constructor(
     private apropriateService: ApropriateService,
@@ -21,7 +22,10 @@ export class HeaderComponent {
   }
 
   apropriate() {
-    this.apropriateService.apropriate();
+    this.apropriando = true;
+    setTimeout(() => {
+      this.apropriateService.apropriate(_ => this.apropriando = false);
+    }, 500);
   }
 
   importCsv() {

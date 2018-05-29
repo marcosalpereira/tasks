@@ -60,19 +60,44 @@ export class DataService {
 
   bulkImportBegin() {
     this.eventDao.deleteAll();
+    this.taskDao.deleteAll();
+    this.projectDao.deleteAll();
   }
 
   bulkImportEnd() {
     this.fireEventsChanged();
     this.fireProjectsChanged();
+    this.fireTopTasksChanged();
   }
 
-  bulkImportAddEvent(task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string) {
+  bulkImportAddEvent(previousEvent: Event, task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string): Event {
     const event: Event = new Event(task, startDate);
     event.registered = registered;
     event.remarks = remarks;
     event.endDate = endDate;
+    event.previous = previousEvent;
     this.eventDao.persist(event);
+    return event;
+  }
+
+  bulkImportPersistEvent(event: Event): void {
+    this.eventDao.persist(event);
+  }
+
+  bulkImportAddProject(projectName: string): Project {
+    console.log('projectName', projectName);
+    const project = this.getProject(projectName);
+    this.projectDao.persist(project);
+    console.log('project', project);
+    console.log('projects', this.getProjects());
+    return project;
+  }
+
+  bulkImportAddTask(project: Project, taskCode: number, taskName: string): Task {
+    const task: Task = this.getTask(project, taskCode, taskName);
+    task.counter++;
+    this.taskDao.persist(task);
+    return task;
   }
 
   startTask(project: Project, taskCode: number, taskName: string, remarks: string): void {
@@ -82,7 +107,7 @@ export class DataService {
     const task: Task = this.getTask(project, taskCode, taskName);
     task.counter++;
     this.taskDao.persist(task);
-    this.topTasksChanged$.next(this.getTopTasks());
+    this.fireTopTasksChanged();
 
     const newEvent = new Event(task, date);
     newEvent.previous = lastEvent;
@@ -98,6 +123,10 @@ export class DataService {
     }
 
     this.fireEventsChanged();
+  }
+
+  private fireTopTasksChanged() {
+    this.topTasksChanged$.next(this.getTopTasks());
   }
 
   getEvents(): Event[] {

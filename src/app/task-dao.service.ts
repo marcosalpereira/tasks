@@ -17,6 +17,11 @@ export class TaskDaoService {
     localStorage.setItem(key, JSON.stringify(task));
   }
 
+  deleteAll(): any {
+    localStorage.clear();
+    this.tasks = undefined;
+  }
+
   findByCode(code: number): Task {
     const key = this.getKey(code);
     return JSON.parse(localStorage.getItem(key));

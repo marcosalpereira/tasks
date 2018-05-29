@@ -12,6 +12,11 @@ export class ProjectDaoService {
     this.config = this.configService.getConfig();
   }
 
+  deleteAll(): any {
+    localStorage.clear();
+    this.projects = undefined;
+  }
+
   getProjects(): Project[] {
     if (!this.projects) {
       const key = 'tasks.projects';

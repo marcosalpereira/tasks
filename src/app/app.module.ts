@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app.component';
-import { ProjectsComponent } from './projects/projects.component';
 import { LogComponent } from './log/log.component';
 import { ActivateComponent } from './activate/activate.component';
 
@@ -47,7 +46,6 @@ const ROUTES: Route[] = [
 @NgModule({
   declarations: [
     AppComponent,
-    ProjectsComponent,
     LogComponent,
     ActivateComponent,
     BooleanPipe,

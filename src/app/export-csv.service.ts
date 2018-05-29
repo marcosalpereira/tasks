@@ -23,7 +23,7 @@ export class ExportCsvService {
 
   exportCsv(): void {
     this.alertService.clear();
-    const csvFile = this.electronService.path.resolve(this.config.workFolder, 'dados.csv');
+    const csvFile = this.electronService.path.resolve(this.config.workFolder, `dados-${new Date().getTime()}.csv`);
     const data = this.convertEventsToCsv();
     this.electronService.fs.writeFileSync(csvFile, data);
     this.alertService.info(`Exported to ${csvFile}`);
@@ -33,7 +33,10 @@ export class ExportCsvService {
     const config = this.config;
     const data: string[] = [];
 
-    const events = this.dataService.getEvents();
+    const events =
+      this.dataService.getEvents()
+        .reverse();
+
     const regs = events
       .map( (event: Event, index: number) => {
         const cols: any[] = [];

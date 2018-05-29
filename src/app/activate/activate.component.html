@@ -4,7 +4,7 @@
       <div class="form-group">
         <label class="control-label" for="project">Project</label>
         <div id="project">
-          <select ngModel title="Select project" style="width:75%" class="f_orm-control selectpicker" name="project" required>
+          <select ngModel="" title="Select project" style="width:75%" class="f_orm-control selectpicker" name="project" required>
             <option *ngFor="let p of projects" [ngValue]="p">{{p.name}}</option>
           </select>
           <button title="Create new Project" type="button" class="btn btn-primary btn-sm" (click)="onClickNewProject(newProjectTemplate)">
@@ -59,7 +59,8 @@
         <div class="col-md-12">
           <div class="form-group">
             <label for="newProjectName" class="control-label">Project Name</label>
-            <input id="newProjectName" class="form-control" #newProjectNameInput ngModel type="text" name="newProjectName" required>
+            <input id="newProjectName" class="form-control" #newProjectNameInput ngModel 
+              type="text" name="newProjectName" required>
           </div>
         </div>
         <div class="row">
