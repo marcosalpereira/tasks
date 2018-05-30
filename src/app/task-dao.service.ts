@@ -5,7 +5,7 @@ import { Task } from './task.model';
 export class TaskDaoService {
   private tasks: Task[];
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   persist(task: Task): void {
     const tasks = this.getTasks();
@@ -49,8 +49,9 @@ export class TaskDaoService {
   }
 
   private readAllTasks(): Task[] {
-    const codess: number[] = JSON.parse(localStorage.getItem('tasks.all')) || [];
-    return codess
+    const key = 
+    const codes: number[] = JSON.parse(localStorage.getItem('tasks.all')) || [];
+    return codes
         .map(code => this.findByCode(code));
   }
   private writeAllTasks(): void {

@@ -1,3 +1,48 @@
-<p>
-  config works!
-</p>
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label" for="workFolder">Apropriation Work Folder</label>
+        <input class="form-control" placeholder="Apropriation Work Folder" [(ngModel)]="config.workFolder" id="workFolder" name="workFolder" required />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label" for="cpf">CPF</label>
+        <input class="form-control" placeholder="CPF" [(ngModel)]="config.cpf" id="cpf" name="cpf" required />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label" for="browserType">Browser</label>
+        <select [(ngModel)]="config.browserType" class="form-control selectpicker" id="browserType" name="browserType" required>
+          <option ngValue="firefox">firefox</option>
+          <option ngValue="firefox">chrome</option>
+        </select>      
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label" for="browserLocation">Browser Location</label>
+        <input class="form-control" placeholder="browserLocation" [(ngModel)]="config.browserLocation" id="browserLocation" name="browserLocation" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <button title="Submit" type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+

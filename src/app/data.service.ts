@@ -15,6 +15,7 @@ import { last } from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class DataService {
+
   public eventsChanged$ = new Subject<Event[]>();
   public projectsChanged$ = new Subject<Project[]>();
   public topTasksChanged$ = new Subject<Task[]>();
@@ -22,7 +23,9 @@ export class DataService {
   constructor(
     private eventDao: EventDaoService,
     private taskDao: TaskDaoService,
-    private projectDao: ProjectDaoService) {
+    private projectDao: ProjectDaoService,
+    private configService: ConfigService) {
+      configChanged
   }
 
   markEventAsRegistered(event: Event): void {
@@ -207,12 +210,5 @@ export class DataService {
   findEvent(id: number): Event {
     return this.eventDao.find(id);
   }
-
-  getConfig(): Config {
-    return new Config('/home/54706424372/Documentos/apropriacao',
-      '54706424372', 'firefox', 'selenium',
-      '/home/54706424372/bin/firefox-dev/firefox');
-  }
-
 
 }

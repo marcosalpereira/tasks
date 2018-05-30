@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-3">
       <accordion>
-        <accordion-group heading="Config">
+        <accordion-group [isOpen]="showConfigOpen" heading="Config">
           <app-config></app-config>
         </accordion-group>
         <accordion-group isOpen="true" heading="Top Tasks">

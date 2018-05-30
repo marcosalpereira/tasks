@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
+import { Config } from '../config.model';
 
 @Component({
   selector: 'app-config',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfigComponent implements OnInit {
 
-  constructor() { }
+  config: Config;
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.config = this.dataService.getConfig();
+  }
+
+  onSubmit() {
+    this.dataService.setConfig(this.config);
   }
 
 }
