@@ -21,26 +21,29 @@ export class ImportCsvService {
     let previousEvent: Event;
     const events: Event[] = [];
 
-    fs.readFileSync(csvFile).toString().split('\n').forEach(line => {
-      const tokens = line.split('|');
-      if (tokens && tokens[0] !== 'Reg' && tokens[1]) {
-        const registered = tokens[0] === 'Sim';
+    fs.readFileSync(csvFile).toString().split('\n')
+      .filter(line => line.indexOf('|') > 0 && !line.startsWith('Reg'))
+      .map(line => {
+        const tokens = line.split('|');
         const data = tokens[1].substring(0, 8);
-        const projectName = tokens[3];
         const workItem = tokens[4].split(';');
-        const comentario = tokens[5];
-        const inicio = tokens[6];
-        const fim = tokens[7];
-
-        const project = this.dataService.bulkImportAddProject(projectName);
-        const task = this.dataService.bulkImportAddTask(project, +workItem[0], workItem[1]);
-
-        const startDate = this.parseDate(data, inicio);
-        const endDate = this.parseDate(data, fim);
+        return {
+          registered: tokens[0] === 'Sim',
+          projectName: tokens[3],
+          taskCode: +workItem[0],
+          taskName: workItem[1],
+          remarks: tokens[5],
+          startDate: this.parseDate(data, tokens[6]),
+          endDate: this.parseDate(data, tokens[7])
+        };
+      })
+      .sort( (l, r) => l.startDate.getTime() - r.startDate.getTime())
+      .forEach(line => {
+        const project = this.dataService.bulkImportAddProject(line.projectName);
+        const task = this.dataService.bulkImportAddTask(project, line.taskCode, line.taskName);
         previousEvent = this.dataService.bulkImportAddEvent(previousEvent,
-            task, startDate, endDate, registered, comentario);
+            task, line.startDate, line.endDate, line.registered, line.remarks);
         events.push(previousEvent);
-      }
     });
 
     // set the property event.next
@@ -64,4 +67,16 @@ export class ImportCsvService {
     return undefined;
   }
 
+
 }
+
+interface Linha {
+  registered: boolean;
+  projectName: string;
+  taskCode: number;
+  taskName: string;
+  startDate: Date;
+  endDate: Date;
+  remarks: string;
+}
+

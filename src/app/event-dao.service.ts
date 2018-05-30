@@ -50,9 +50,13 @@ export class EventDaoService {
   }
 
   persist(event: Event): void {
-    if (!event.id) {
+    const events = this.getEvents();
+    if (event.id) {
+      const index = events.findIndex(e => e.id === event.id);
+      events[index] = event;
+    } else {
       event.id = event.startDate.getTime();
-      this.getEvents().unshift(event);
+      events.unshift(event);
       this.writeLastEvents();
     }
     const key = this.getKey(event.id);

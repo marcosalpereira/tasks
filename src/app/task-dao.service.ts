@@ -8,9 +8,13 @@ export class TaskDaoService {
   constructor() { }
 
   persist(task: Task): void {
-    if (!task.id) {
+    const tasks = this.getTasks();
+    if (task.id) {
+      const index = tasks.findIndex(e => e.id === task.id);
+      tasks[index] = task;
+    } else {
       task.id = task.code;
-      this.getTasks().push(task);
+      tasks.push(task);
       this.writeAllTasks();
     }
     const key = this.getKey(task.code);

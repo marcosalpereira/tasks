@@ -17,6 +17,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr *ngIf="!event.next">
+                                <td>Next (same day)</td>
+                                <td class="text-center" colspan="7">-</td>
+                            </tr>
                             <tr *ngIf="event.next">
                                 <td>Next (same day)</td>
                                 <td class="text-center">
@@ -66,10 +70,14 @@
                                 <td class="text-left">{{event.task.project.name}}</td>
                                 <td class="text-left">{{event.task.id}}-{{event.task.name}}</td>
                                 <td>
-                                    <input type="text" name="eventRemark" placeholder="Remark" 
+                                    <input type="text" name="eventRemark" placeholder="Remarks" 
                                         class="form-control" [(ngModel)]="event.remarks">
                                 </td>
                             </tr>
+                            <tr *ngIf="!event.previous">
+                                <td>Previous (same day)</td>
+                                <td class="text-center" colspan="7">-</td>
+                            </tr>                                
                             <tr *ngIf="event.previous">
                                 <td>Previous (same day)</td>
                                 <td class="text-center">

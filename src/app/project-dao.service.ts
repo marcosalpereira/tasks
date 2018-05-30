@@ -26,9 +26,13 @@ export class ProjectDaoService {
   }
 
   persist(project: Project) {
-    if (!project.id) {
+    const projects = this.getProjects();
+    if (project.id) {
+      const index = projects.findIndex(e => e.id === project.id);
+      projects[index] = project;
+    } else {
       project.id = new Date().getTime();
-      this.projects.push(project);
+      projects.push(project);
     }
     const key = 'tasks.projects';
     localStorage.setItem(key, JSON.stringify(this.projects));
