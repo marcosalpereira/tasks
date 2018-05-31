@@ -54,7 +54,7 @@ export class ExportCsvService {
         cols.push(event.remarks);
         cols.push(start.format('HH.mm'));
         cols.push(end.format('HH.mm'));
-        return cols.join('|');
+        return cols.join(',');
       });
 
     return regs.join('\n');

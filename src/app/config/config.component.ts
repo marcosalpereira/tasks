@@ -13,7 +13,11 @@ export class ConfigComponent implements OnInit {
   config: Config;
 
   constructor(private configService: ConfigService,
-  private dataService: DataService) { }
+    private dataService: DataService) { }
+
+  onReset() {
+    this.config = this.configService.getConfig();
+  }
 
   ngOnInit() {
     this.config = this.configService.getConfig();

@@ -26,11 +26,6 @@ export class TaskDaoService {
     this.storageService.setItem(`tasks.${task.code}`, task);
   }
 
-  deleteAll(): any {
-    this.storageService.clear();
-    this.tasks = undefined;
-  }
-
   findByCode(code: number): Task {
     return this.storageService.getItem(`tasks.${code}`);
   }

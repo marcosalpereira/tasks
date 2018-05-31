@@ -22,12 +22,12 @@ export class ImportCsvService {
     const events: Event[] = [];
 
     fs.readFileSync(csvFile).toString().split('\n')
-      .filter(line => line.indexOf('|') > 0 && !line.startsWith('Reg'))
-      .map(line => {
-        const tokens = line.split('|');
+      .map (line => line.split(','))
+      .filter(tokens => tokens.length > 1 && tokens[0] !== 'Reg' && tokens[1])
+      .map(tokens => {
         const data = tokens[1].substring(0, 8);
         const workItem = tokens[4].split(';');
-        return {
+        const linha = {
           registered: tokens[0] === 'Sim',
           projectName: tokens[3],
           taskCode: +workItem[0],
@@ -36,6 +36,8 @@ export class ImportCsvService {
           startDate: this.parseDate(data, tokens[6]),
           endDate: this.parseDate(data, tokens[7])
         };
+        // console.log('linha', linha);
+        return linha;
       })
       .sort( (l, r) => l.startDate.getTime() - r.startDate.getTime())
       .forEach(line => {

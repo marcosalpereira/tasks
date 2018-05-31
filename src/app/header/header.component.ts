@@ -4,21 +4,32 @@ import { ImportCsvService } from '../import-csv.service';
 import { ElectronService } from '../electron.service';
 import { BrowserService } from '../browser.service';
 import { ExportCsvService } from '../export-csv.service';
+import { ConfigService } from '../config.service';
+import { Config } from '../config.model';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   apropriando = false;
+  config: Config;
 
   constructor(
     private apropriateService: ApropriateService,
     private importCsvService: ImportCsvService,
     private exportCsvService: ExportCsvService,
     private electronService: ElectronService,
-    private browserService: BrowserService) {
+    private browserService: BrowserService,
+    private configService: ConfigService) {
+  }
+
+  ngOnInit() {
+    this.config = this.configService.getConfig();
+    this.configService.configChanged$.subscribe(
+      (config: Config) => this.config = config);
+
   }
 
   apropriate() {

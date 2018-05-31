@@ -38,8 +38,11 @@
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
-        <button title="Submit" type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">
+        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">
           Submit
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="onReset()">
+          Reset
         </button>
       </div>
     </div>

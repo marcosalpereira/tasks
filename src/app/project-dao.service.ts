@@ -15,11 +15,6 @@ export class ProjectDaoService {
     this.projects = undefined;
   }
 
-  deleteAll(): any {
-    this.storageService.clear();
-    this.projects = undefined;
-  }
-
   getProjects(): Project[] {
     if (!this.projects) {
       this.projects = this.storageService.getItem('projects') || [];

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './data.service';
 import { ConfigService } from './config.service';
+import { Config } from './config.model';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.showConfigOpen = this.configService.getConfig().cpf === undefined;
+    this.configService.configChanged$.subscribe(
+      (config: Config) => this.showConfigOpen = config.cpf === undefined);
   }
 
 }

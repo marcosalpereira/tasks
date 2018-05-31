@@ -70,9 +70,6 @@ export class DataService {
   }
 
   bulkImportBegin() {
-    this.eventDao.deleteAll();
-    this.taskDao.deleteAll();
-    this.projectDao.deleteAll();
   }
 
   bulkImportEnd() {

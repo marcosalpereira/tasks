@@ -18,11 +18,6 @@ export class EventDaoService {
     this.lastEvents = undefined;
   }
 
-  deleteAll(): any {
-    this.storageService.clear();
-    this.lastEvents = undefined;
-  }
-
   getEvents() {
     if (!this.lastEvents) {
       this.lastEvents = this.readLastEvents();
