@@ -7,19 +7,23 @@ import { DateUtil } from './date-util';
 import * as moment from 'moment';
 import { MessagesService } from './messages.service';
 import { Event } from './event.model';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class ApropriateService {
 
-  private config: Config;
   private events: Event[];
 
   constructor(
     private electronService: ElectronService,
     private dataService: DataService,
-    private alertService: MessagesService
+    private alertService: MessagesService,
+    private configService: ConfigService
   ) {
-    this.config = dataService.getConfig();
+  }
+
+  private getConfig() {
+    return this.configService.getConfig();
   }
 
   apropriate(callback) {
@@ -29,8 +33,8 @@ export class ApropriateService {
     this.alertService.clear();
     const path = this.electronService.path;
     const csvFile = this.writeCsvFile();
-    const script = path.resolve(this.config.workFolder, 'apropriacao.sh');
-    const jarFile = path.resolve(this.config.workFolder, 'alm-apropriator-2.10.jar');
+    const script = path.resolve(this.getConfig().workFolder, 'apropriacao.sh');
+    const jarFile = path.resolve(this.getConfig().workFolder, 'alm-apropriator-2.10.jar');
     const cmd = `${script} ${jarFile} ${csvFile}`;
     const output = this.electronService.childProcess.execSync(cmd);
     this.readReturnFile();
@@ -38,7 +42,7 @@ export class ApropriateService {
   }
 
   private readReturnFile() {
-    const retFile = this.electronService.path.resolve(this.config.workFolder, 'sgi.ret');
+    const retFile = this.electronService.path.resolve(this.getConfig().workFolder, 'sgi.ret');
 
     this.electronService.fs.readFileSync(retFile).toString().split('\n').forEach(line => {
       const tokens = line.split('|');
@@ -57,14 +61,14 @@ export class ApropriateService {
   }
 
   private writeCsvFile(): string {
-    const csvFile = this.electronService.path.resolve(this.config.workFolder, 'sgi.csv');
+    const csvFile = this.electronService.path.resolve(this.getConfig().workFolder, 'sgi.csv');
     const data = this.convertEventsToCsv();
     this.electronService.fs.writeFileSync(csvFile, data);
     return csvFile;
   }
 
   private convertEventsToCsv(): string {
-    const config = this.config;
+    const config = this.getConfig();
     const data: string[] = [];
 
     const regs = this.events

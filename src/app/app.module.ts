@@ -32,6 +32,7 @@ import { EventDaoService } from './event-dao.service';
 import { TaskDaoService } from './task-dao.service';
 import { ProjectDaoService } from './project-dao.service';
 import { ConfigService } from './config.service';
+import { StorageService } from './storage.service';
 
 const ROUTES: Route[] = [
   {
@@ -77,7 +78,8 @@ const ROUTES: Route[] = [
     EventDaoService,
     TaskDaoService,
     ProjectDaoService,
-    ConfigService
+    ConfigService,
+    StorageService
   ],
   bootstrap: [AppComponent]
 })

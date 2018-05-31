@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './data.service';
+import { ConfigService } from './config.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,10 @@ import { DataService } from './data.service';
 export class AppComponent implements OnInit {
   showConfigOpen = true;
 
-  constructor(private dataService: DataService) { }
+  constructor(private configService: ConfigService) { }
 
   ngOnInit() {
-    this.showConfigOpen = this.dataService.getConfig().cpf === undefined;
+    this.showConfigOpen = this.configService.getConfig().cpf === undefined;
   }
 
 }

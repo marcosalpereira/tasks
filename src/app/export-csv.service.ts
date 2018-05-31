@@ -7,30 +7,33 @@ import { DateUtil } from './date-util';
 import * as moment from 'moment';
 import { MessagesService } from './messages.service';
 import { Event } from './event.model';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class ExportCsvService {
 
-  private config: Config;
-
   constructor(
     private electronService: ElectronService,
     private dataService: DataService,
-    private alertService: MessagesService
+    private alertService: MessagesService,
+    private configService: ConfigService
   ) {
-    this.config = dataService.getConfig();
+  }
+
+  private getConfig() {
+    return this.configService.getConfig();
   }
 
   exportCsv(): void {
     this.alertService.clear();
-    const csvFile = this.electronService.path.resolve(this.config.workFolder, `dados-${new Date().getTime()}.csv`);
+    const csvFile = this.electronService.path.resolve(this.getConfig().workFolder, `dados-${new Date().getTime()}.csv`);
     const data = this.convertEventsToCsv();
     this.electronService.fs.writeFileSync(csvFile, data);
     this.alertService.info(`Exported to ${csvFile}`);
   }
 
   private convertEventsToCsv(): string {
-    const config = this.config;
+    const config = this.getConfig();
     const data: string[] = [];
 
     const events =

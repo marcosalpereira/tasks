@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
-import { ConfigService } from './config.service';
-import { Config } from './config.model';
 import { Event } from './event.model';
 import { TaskDaoService } from './task-dao.service';
+import { StorageService } from './storage.service';
 
 const MAX_LAST_EVENTS = 30;
 
 @Injectable()
 export class EventDaoService {
   private lastEvents: Event[];
-  private config: Config;
 
   constructor(
-    private configService: ConfigService,
+    private storageService: StorageService,
     private taskDao: TaskDaoService) {
-    this.config = this.configService.getConfig();
+  }
+
+  dataInit(): void {
+    this.lastEvents = undefined;
   }
 
   deleteAll(): any {
-    localStorage.clear();
+    this.storageService.clear();
     this.lastEvents = undefined;
   }
 
@@ -30,7 +31,7 @@ export class EventDaoService {
   }
 
   private readLastEvents(): Event[] {
-    const lastEventsIds: number[] = JSON.parse(localStorage.getItem('tasks.events.last')) || [];
+    const lastEventsIds: number[] = this.storageService.getItem('events.last') || [];
     return lastEventsIds
       .map(id => this.find(id));
   }
@@ -38,12 +39,11 @@ export class EventDaoService {
     const lastEventsIds = this.lastEvents
       .slice(0, MAX_LAST_EVENTS)
       .map(event => event.id);
-    localStorage.setItem('tasks.events.last', JSON.stringify(lastEventsIds));
+    this.storageService.setItem('events.last', lastEventsIds);
   }
 
   delete(event: Event): void {
-    const key = this.getKey(event.id);
-    localStorage.removeItem(key);
+    this.storageService.removeItem(`events.${event.id}`);
 
     this.lastEvents = this.lastEvents.filter(ev => ev.id !== event.id);
     this.writeLastEvents();
@@ -59,11 +59,10 @@ export class EventDaoService {
       events.unshift(event);
       this.writeLastEvents();
     }
-    const key = this.getKey(event.id);
-    localStorage.setItem(key, this.toEntity(event));
+    this.storageService.setItem(`events.${event.id}`, this.toEntity(event));
   }
 
-  private toEntity(event: Event): string {
+  private toEntity(event: Event): EventEntity {
     const entity: EventEntity = {
       id: event.id,
       endDate: event.endDate,
@@ -74,7 +73,7 @@ export class EventDaoService {
       task: event.task.code,
       startDate: event.startDate
     };
-    return JSON.stringify(entity);
+    return entity;
   }
 
   private toModel(entity: EventEntity): Event {
@@ -88,8 +87,7 @@ export class EventDaoService {
   }
 
   private load(id: number): EventEntity {
-    const key = this.getKey(id);
-    return JSON.parse(localStorage.getItem(key));
+    return this.storageService.getItem(`events.${id}`);
   }
 
   find(id: number): Event {
@@ -102,10 +100,6 @@ export class EventDaoService {
 
   selectLastEvent(): Event {
     return this.lastEvents[0] || undefined;
-  }
-
-  getKey(id: number): string {
-    return `ev-${id}`;
   }
 
 }

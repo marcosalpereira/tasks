@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Task } from './task.model';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class TaskDaoService {
   private tasks: Task[];
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private storageService: StorageService) { }
+
+  dataInit(): void {
+    this.tasks = undefined;
+  }
 
   persist(task: Task): void {
     const tasks = this.getTasks();
@@ -17,22 +23,16 @@ export class TaskDaoService {
       tasks.push(task);
       this.writeAllTasks();
     }
-    const key = this.getKey(task.code);
-    localStorage.setItem(key, JSON.stringify(task));
+    this.storageService.setItem(`tasks.${task.code}`, task);
   }
 
   deleteAll(): any {
-    localStorage.clear();
+    this.storageService.clear();
     this.tasks = undefined;
   }
 
   findByCode(code: number): Task {
-    const key = this.getKey(code);
-    return JSON.parse(localStorage.getItem(key));
-  }
-
-  getKey(code: number): string {
-    return `tc-${code}`;
+    return this.storageService.getItem(`tasks.${code}`);
   }
 
   getTopTasks(): any {
@@ -49,15 +49,14 @@ export class TaskDaoService {
   }
 
   private readAllTasks(): Task[] {
-    const key = 
-    const codes: number[] = JSON.parse(localStorage.getItem('tasks.all')) || [];
+    const codes: number[] = this.storageService.getItem('tasks') || [];
     return codes
         .map(code => this.findByCode(code));
   }
   private writeAllTasks(): void {
     const codes = this.getTasks()
       .map(task => task.code);
-    localStorage.setItem('tasks.all', JSON.stringify(codes));
+    this.storageService.setItem('tasks', codes);
   }
 
 }

@@ -11,7 +11,7 @@ import { Config } from './config.model';
 import { EventDaoService } from './event-dao.service';
 import { TaskDaoService } from './task-dao.service';
 import { ProjectDaoService } from './project-dao.service';
-import { last } from '@angular/router/src/utils/collection';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class DataService {
@@ -23,9 +23,7 @@ export class DataService {
   constructor(
     private eventDao: EventDaoService,
     private taskDao: TaskDaoService,
-    private projectDao: ProjectDaoService,
-    private configService: ConfigService) {
-      configChanged
+    private projectDao: ProjectDaoService) {
   }
 
   markEventAsRegistered(event: Event): void {
@@ -62,6 +60,15 @@ export class DataService {
     this.fireEventsChanged();
   }
 
+  reloadAll(): void {
+    this.taskDao.dataInit();
+    this.eventDao.dataInit();
+    this.projectDao.dataInit();
+    this.fireEventsChanged();
+    this.fireProjectsChanged();
+    this.fireTopTasksChanged();
+  }
+
   bulkImportBegin() {
     this.eventDao.deleteAll();
     this.taskDao.deleteAll();
@@ -69,9 +76,7 @@ export class DataService {
   }
 
   bulkImportEnd() {
-    this.fireEventsChanged();
-    this.fireProjectsChanged();
-    this.fireTopTasksChanged();
+    this.reloadAll();
   }
 
   bulkImportAddEvent(previousEvent: Event, task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string): Event {
