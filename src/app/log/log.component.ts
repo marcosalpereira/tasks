@@ -33,9 +33,18 @@ export class LogComponent implements OnInit, OnDestroy {
     this.eventsChanged$.unsubscribe();
   }
 
-  restartTask(event: Event) {
+  restartTask(event: Event, sameDay: boolean) {
     const task = event.task;
-    this.dataService.startTask(task.project, task.code, task.name, event.remarks);
+    if (sameDay) {
+      event.startDate = new Date(event.startDate);
+      const date = new Date();
+      date.setDate(event.startDate.getDate());
+      date.setMonth(event.startDate.getMonth());
+      date.setFullYear(event.startDate.getFullYear());
+      this.dataService.startTask(task.project, task.code, task.name, event.remarks, date);
+    } else {
+      this.dataService.startTask(task.project, task.code, task.name, event.remarks);
+    }
   }
   stopTask(event: Event) {
     this.dataService.stopTask(event);

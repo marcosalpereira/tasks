@@ -103,8 +103,7 @@ export class DataService {
     return task;
   }
 
-  startTask(project: Project, taskCode: number, taskName: string, remarks: string): void {
-    const date = new Date();
+  startTask(project: Project, taskCode: number, taskName: string, remarks: string, date = new Date()): void {
     const lastEvent: Event = this.eventDao.selectLastEvent();
 
     const task: Task = this.getTask(project, taskCode, taskName);

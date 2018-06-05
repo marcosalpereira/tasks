@@ -38,13 +38,14 @@ export class ExportCsvService {
 
     const events =
       this.dataService.getEvents()
+        .slice()
         .reverse();
 
     const regs = events
       .map( (event: Event, index: number) => {
         const cols: any[] = [];
         const start = moment(event.startDate);
-        const end = moment(event.endDate);
+        const end = event.endDate && moment(event.endDate);
 
         cols.push(event.registered ? 'Sim' : 'Não');
         cols.push(start.format('DD/MM/YY'));
@@ -53,7 +54,7 @@ export class ExportCsvService {
         cols.push(event.task.code + ';' + event.task.name);
         cols.push(event.remarks);
         cols.push(start.format('HH.mm'));
-        cols.push(end.format('HH.mm'));
+        cols.push(end ? end.format('HH.mm') : '');
         return cols.join(',');
       });
 
