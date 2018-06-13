@@ -5,7 +5,7 @@
           <tr>
             <th class="text-center">Actions</th>
             <th class="text-center">Reg</th>
-            <th class="text-left">Date</th>
+            <th class="text-center">Date</th>
             <th class="text-left">Start</th>
             <th class="text-left">End</th>
             <th class="text-left">Duration</th>
@@ -36,7 +36,7 @@
               </button>
             </td>
             <td class="text-center">{{event.registered | boolean}}</td>
-            <td class="text-left"><span title="{{event.startDate | date : 'EEEE' }}">{{event.startDate | date : 'dd/MM/yy' }}</span></td>
+            <td class="text-center"><span title="{{event.startDate | date : 'dd/MM/yy EEEE' }}">{{event.startDate | date : 'dd' }}</span></td>
             <td class="text-left">{{event.startDate | date : 'HH:mm:ss' }}</td>
             <td class="text-left">{{event?.endDate | date : 'HH:mm:ss' }}</td>
             <td class="text-left">{{event | eventDuration}}</td>
