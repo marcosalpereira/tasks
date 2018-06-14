@@ -34,12 +34,28 @@ export class ApropriateService {
     const path = this.electronService.path;
     const csvFile = this.writeCsvFile();
     const script = path.resolve(this.getConfig().workFolder, 'apropriacao.sh');
-    const jarFile = path.resolve(this.getConfig().workFolder, 'alm-apropriator-2.10.jar');
+    const jarFile = path.resolve(this.getConfig().workFolder, this.getLastJarFile());
     const cmd = `${script} ${jarFile} ${csvFile}`;
+    console.log(cmd);
     const output = this.electronService.childProcess.execSync(cmd);
     this.readReturnFile();
     callback();
   }
+
+  getLastJarFile(): any {
+    const fs = this.electronService.fs;
+    const er = /alm\-apropriator\-(\d+)\.(\d+)\.jar/g;
+    const jars: string[][] = fs.readdirSync(this.getConfig().workFolder)
+      .map(s => er.exec(s))
+      .filter(g => g !== null)
+      .sort( (ga, gb) => this.parseVersion(gb) - this.parseVersion(ga));
+    return jars[0][0];
+  }
+
+  private parseVersion(g: string[]): number {
+    return +g[1] * 1000 + +g[2];
+  }
+
 
   private readReturnFile() {
     const retFile = this.electronService.path.resolve(this.getConfig().workFolder, 'sgi.ret');
