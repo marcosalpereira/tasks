@@ -6,6 +6,7 @@ import { BrowserService } from '../browser.service';
 import { ExportCsvService } from '../export-csv.service';
 import { ConfigService } from '../config.service';
 import { Config } from '../config.model';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit {
     private exportCsvService: ExportCsvService,
     private electronService: ElectronService,
     private browserService: BrowserService,
-    private configService: ConfigService) {
+    private configService: ConfigService,
+    private appComponent: AppComponent) {
   }
 
   ngOnInit() {
@@ -30,6 +32,10 @@ export class HeaderComponent implements OnInit {
     this.configService.configChanged$.subscribe(
       (config: Config) => this.config = config);
 
+  }
+
+  openMenu() {
+    this.appComponent.meny.open();
   }
 
   apropriate() {

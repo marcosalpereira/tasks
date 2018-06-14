@@ -1,5 +1,8 @@
 <div class="panel panel-default">
     <div *ngIf="config?.cpf" class="panel-body">
+        <button class="btn btn-primary btn-xs" (click)="openMenu()" title="Open Menu">
+                <i class="fa fa-bars fa-lg"></i>
+        </button>        
         <button class="btn btn-primary btn-xs" (click)="apropriate()" title="Apropriate in ALM">
             <i [class.fa-spin]="apropriando" class="fa fa-font fa-lg"></i>
         </button>

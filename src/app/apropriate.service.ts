@@ -27,18 +27,22 @@ export class ApropriateService {
   }
 
   apropriate(callback) {
-    this.events = this.dataService.getEvents()
-      .filter( (event: Event) => event.endDate);
+    try {
+      this.events = this.dataService.getEvents()
+        .filter( (event: Event) => event.endDate);
 
-    this.alertService.clear();
-    const path = this.electronService.path;
-    const csvFile = this.writeCsvFile();
-    const script = path.resolve(this.getConfig().workFolder, 'apropriacao.sh');
-    const jarFile = path.resolve(this.getConfig().workFolder, this.getLastJarFile());
-    const cmd = `${script} ${jarFile} ${csvFile}`;
-    console.log(cmd);
-    const output = this.electronService.childProcess.execSync(cmd);
-    this.readReturnFile();
+      this.alertService.clear();
+      const path = this.electronService.path;
+      const csvFile = this.writeCsvFile();
+      const script = path.resolve(this.getConfig().workFolder, 'apropriacao.sh');
+      const jarFile = path.resolve(this.getConfig().workFolder, this.getLastJarFile());
+      const cmd = `${script} ${jarFile} ${csvFile}`;
+      console.log(cmd);
+      const output = this.electronService.childProcess.execSync(cmd);
+      this.readReturnFile();
+    } catch (e) {
+      console.log(e);
+    }
     callback();
   }
 
