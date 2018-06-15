@@ -17,38 +17,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngIf="!event.next">
+                            <tr *ngIf="!nextPrevious.next">
                                 <td>Next (same day)</td>
                                 <td class="text-center" colspan="7">-</td>
                             </tr>
-                            <tr *ngIf="event.next">
+                            <tr *ngIf="nextPrevious.next">
                                 <td>Next (same day)</td>
                                 <td class="text-center">
-                                    <input class="form-control" type="checkbox" [value]="event.next.registered" 
+                                    <input class="form-control" type="checkbox" [value]="nextPrevious.next.registered" 
                                         name="registeredNext" [disabled]="true">
                                 </td>
-                                <td class="text-left">{{event.next.startDate | date : 'dd/MM/yy' }}</td>
+                                <td class="text-left">{{nextPrevious.next.startDate | date : 'dd/MM/yy' }}</td>
                                 <td class="text-left">
-                                    <timepicker name="startTimeNext" [ngModel]="event.next.startDate" 
+                                    <timepicker name="startTimeNext" [ngModel]="nextPrevious.next.startDate" 
                                         [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
                                         [disabled]="true"></timepicker>
 
                                 </td>
                                 <td class="text-left">
-                                    <timepicker name="endTimeNext" [ngModel]="event.next?.endDate" 
+                                    <timepicker name="endTimeNext" [ngModel]="nextPrevious.next?.endDate" 
                                         [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
                                         [disabled]="true"></timepicker>
 
                                 </td>
-                                <td class="text-left">{{event.next.task.project.name}}</td>
-                                <td class="text-left">{{event.next.task.id}}-{{event.next.task.name}}</td>
-                                <td class="text-left">{{event.next.remarks}}</td>
+                                <td class="text-left">{{nextPrevious.next.task.project.name}}</td>
+                                <td class="text-left">{{nextPrevious.next.task.id}}-{{nextPrevious.next.task.name}}</td>
+                                <td class="text-left">{{nextPrevious.next.remarks}}</td>
                             </tr>
                             <tr>
                                 <td>Current</td>
                                 <td class="text-center">
-                                    <input class="form-control" type="checkbox" [(ngModel)]="event.registered" name="registered">
-
+                                    <input class="form-control" type="checkbox" [(ngModel)]="event.registered" 
+                                        name="registered">
                                 </td>
                                 <td class="text-left">{{event.startDate | date : 'dd/MM/yy' }}</td>
                                 <td class="text-left">
@@ -62,7 +62,7 @@
                                     <timepicker name="endTime" [(ngModel)]="event.endDate" 
                                         [showSpinners]="false" [showMeridian]="false" [mousewheel]="true"
                                         [showSeconds]="true" [disabled]="event.registered" 
-                                        [required]="event.next !== undefined">
+                                        [required]="nextPrevious.next !== undefined">
                                     </timepicker>
                                     <!-- [min]="event.startDate" [max]="maxTimeEnd" -->
 
@@ -74,32 +74,32 @@
                                         class="form-control" [(ngModel)]="event.remarks">
                                 </td>
                             </tr>
-                            <tr *ngIf="!event.previous">
+                            <tr *ngIf="!nextPrevious.previous">
                                 <td>Previous (same day)</td>
                                 <td class="text-center" colspan="7">-</td>
                             </tr>                                
-                            <tr *ngIf="event.previous">
+                            <tr *ngIf="nextPrevious.previous">
                                 <td>Previous (same day)</td>
                                 <td class="text-center">
-                                    <input class="form-control" type="checkbox" [value]="event.previous.registered" 
+                                    <input class="form-control" type="checkbox" [value]="nextPrevious.previous.registered" 
                                         name="registeredNext" [disabled]="true">
                                 </td>
-                                <td class="text-left">{{event.previous.startDate | date : 'dd/MM/yy' }}</td>
+                                <td class="text-left">{{nextPrevious.previous.startDate | date : 'dd/MM/yy' }}</td>
                                 <td class="text-left">
-                                    <timepicker name="startTimeNext" [ngModel]="event.previous.startDate" 
+                                    <timepicker name="startTimeNext" [ngModel]="nextPrevious.previous.startDate" 
                                         [showSpinners]="false" [showMeridian]="false"
                                         [showSeconds]="true" [disabled]="true"></timepicker>
 
                                 </td>
                                 <td class="text-left">
-                                    <timepicker name="endTimeNext" [ngModel]="event.previous.endDate" 
+                                    <timepicker name="endTimeNext" [ngModel]="nextPrevious.previous.endDate" 
                                         [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
                                         [disabled]="true"></timepicker>
 
                                 </td>
-                                <td class="text-left">{{event.previous.task.project.name}}</td>
-                                <td class="text-left">{{event.previous.task.id}}-{{event.previous.task.name}}</td>
-                                <td class="text-left">{{event.previous.remarks}}</td>
+                                <td class="text-left">{{nextPrevious.previous.task.project.name}}</td>
+                                <td class="text-left">{{nextPrevious.previous.task.id}}-{{nextPrevious.previous.task.name}}</td>
+                                <td class="text-left">{{nextPrevious.previous.remarks}}</td>
                             </tr>
                         </tbody>
                     </table>

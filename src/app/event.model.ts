@@ -5,11 +5,13 @@ export class Event {
     public endDate: Date;
     public registered = false;
     public remarks = '';
-    public next: Event;
-    public previous: Event;
     constructor(
         public task: Task,
         public startDate: Date
     ) { }
 }
 
+export class NextPreviousEvent {
+    public next: Event;
+    public previous: Event;
+}

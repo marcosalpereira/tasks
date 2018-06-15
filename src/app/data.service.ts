@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Project } from './project.model';
 import { Task } from './task.model';
-import { Event } from './event.model';
+import { Event, NextPreviousEvent } from './event.model';
 import * as moment from 'moment';
 import { Subject } from 'rxjs/Subject';
 import { Summary, TaskSummary } from './summary.model';
@@ -15,7 +15,6 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class DataService {
-
   public eventsChanged$ = new Subject<Event[]>();
   public projectsChanged$ = new Subject<Project[]>();
   public topTasksChanged$ = new Subject<Task[]>();
@@ -48,14 +47,6 @@ export class DataService {
   }
 
   deleteEvent(event: Event) {
-    if (event.next) {
-      event.next.previous = event.previous;
-      this.eventDao.persist(event.next);
-    }
-    if (event.previous) {
-      event.previous.next = event.next;
-      this.eventDao.persist(event.previous);
-    }
     this.eventDao.delete(event);
     this.fireEventsChanged();
   }
@@ -76,18 +67,13 @@ export class DataService {
     this.reloadAll();
   }
 
-  bulkImportAddEvent(previousEvent: Event, task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string): Event {
+  bulkImportAddEvent(task: Task, startDate: Date, endDate: Date, registered: boolean, remarks: string): Event {
     const event: Event = new Event(task, startDate);
     event.registered = registered;
     event.remarks = remarks;
     event.endDate = endDate;
-    event.previous = previousEvent;
     this.eventDao.persist(event);
     return event;
-  }
-
-  bulkImportPersistEvent(event: Event): void {
-    this.eventDao.persist(event);
   }
 
   bulkImportAddProject(projectName: string): Project {
@@ -112,7 +98,6 @@ export class DataService {
     this.fireTopTasksChanged();
 
     const newEvent = new Event(task, date);
-    newEvent.previous = lastEvent;
     newEvent.remarks = remarks;
     this.eventDao.persist(newEvent);
 
@@ -120,7 +105,6 @@ export class DataService {
       if (!lastEvent.endDate) {
         lastEvent.endDate = date;
       }
-      lastEvent.next = newEvent;
       this.eventDao.persist(lastEvent);
     }
 
@@ -211,5 +195,19 @@ export class DataService {
   findEvent(id: number): Event {
     return this.eventDao.find(id);
   }
+
+  findNextPreviousEvent(event: Event): NextPreviousEvent {
+    const events = this.eventDao.getEvents();
+    const index = events.findIndex(e => e.id === event.id);
+    const npe = new NextPreviousEvent();
+    if (index > 0) {
+      npe.next = events[index - 1];
+    }
+    if (index > 0 && index < events.length - 1) {
+      npe.previous = events[index + 1];
+    }
+    return npe;
+  }
+
 
 }

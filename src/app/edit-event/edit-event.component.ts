@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DataService } from '../data.service';
-import { Event } from '../event.model';
+import { Event, NextPreviousEvent } from '../event.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
@@ -20,6 +20,7 @@ export class EditEventComponent implements OnInit {
   endMoment: moment.Moment;
 
   event: Event;
+  nextPrevious: NextPreviousEvent;
 
   constructor(
     private dataService: DataService,
@@ -42,14 +43,17 @@ export class EditEventComponent implements OnInit {
 
     const now = moment();
 
-    if (this.event.previous) {
-      this.minTimeStart = this.event.previous.endDate;
+    this.nextPrevious = this.dataService.findNextPreviousEvent(this.event);
+    console.log(this.nextPrevious);
+
+    if (this.nextPrevious.previous) {
+      this.minTimeStart = this.nextPrevious.previous.endDate;
     } else {
       this.minTimeStart = now.subtract(1, 'months').toDate();
     }
 
-    if (this.event.next) {
-      this.maxTimeEnd = this.event.next.startDate;
+    if (this.nextPrevious.next) {
+      this.maxTimeEnd = this.nextPrevious.next.startDate;
     } else {
       this.minTimeStart = new Date();
     }

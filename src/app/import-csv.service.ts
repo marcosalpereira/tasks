@@ -18,8 +18,6 @@ export class ImportCsvService {
   importCsv(csvFile: string): void {
     this.dataService.bulkImportBegin();
     const fs = this.electronService.fs;
-    let previousEvent: Event;
-    const events: Event[] = [];
 
     fs.readFileSync(csvFile).toString().split('\n')
       .map (line => line.split(','))
@@ -43,19 +41,9 @@ export class ImportCsvService {
       .forEach(line => {
         const project = this.dataService.bulkImportAddProject(line.projectName);
         const task = this.dataService.bulkImportAddTask(project, line.taskCode, line.taskName);
-        previousEvent = this.dataService.bulkImportAddEvent(previousEvent,
-            task, line.startDate, line.endDate, line.registered, line.remarks);
-        events.push(previousEvent);
+        this.dataService.bulkImportAddEvent(
+          task, line.startDate, line.endDate, line.registered, line.remarks);
     });
-
-    // set the property event.next
-    let nextEvent: Event;
-    for (let i = events.length - 1; i >= 0; i--) {
-      const event = events[i];
-      event.next = nextEvent;
-      nextEvent = event;
-      this.dataService.bulkImportPersistEvent(event);
-    }
 
     this.dataService.bulkImportEnd();
 

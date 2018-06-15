@@ -63,8 +63,6 @@ export class EventDaoService {
       endDate: event.endDate,
       registered: event.registered,
       remarks: event.remarks,
-      next: event.next && event.id,
-      previous: event.previous && event.previous.id,
       task: event.task.code,
       startDate: event.startDate
     };
@@ -88,8 +86,6 @@ export class EventDaoService {
   find(id: number): Event {
     const eventEntity = this.load(id);
     const event = this.toModel(eventEntity);
-    event.previous = eventEntity.previous && this.toModel(this.load(eventEntity.previous));
-    event.next = eventEntity.next && this.toModel(this.load(eventEntity.next));
     return event;
   }
 
@@ -104,8 +100,6 @@ class EventEntity {
   public endDate: Date;
   public registered: boolean;
   public remarks: string;
-  public next: number;
-  public previous: number;
   public task: number;
   public startDate: Date;
 }
