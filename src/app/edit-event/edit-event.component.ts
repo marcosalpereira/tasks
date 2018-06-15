@@ -5,6 +5,7 @@ import { Event, NextPreviousEvent } from '../event.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
+import { DateUtil } from '../../../tasks-linux-x64/resources/app/src/app/date-util';
 
 const TIME_FORMAT = 'HH:mm:ss';
 
@@ -44,19 +45,25 @@ export class EditEventComponent implements OnInit {
     const now = moment();
 
     this.nextPrevious = this.dataService.findNextPreviousEvent(this.event);
-    console.log(this.nextPrevious);
 
     if (this.nextPrevious.previous) {
       this.minTimeStart = this.nextPrevious.previous.endDate;
     } else {
-      this.minTimeStart = now.subtract(1, 'months').toDate();
+      this.minTimeStart = new Date(0);
     }
 
     if (this.nextPrevious.next) {
       this.maxTimeEnd = this.nextPrevious.next.startDate;
     } else {
-      this.minTimeStart = new Date();
+      this.maxTimeEnd = now.add('minutes', 10).toDate();
     }
+    this.clearDate(this.minTimeStart);
+    this.clearDate(this.maxTimeEnd);
+  }
+
+  private clearDate(date: Date) {
+    //  date.setFullYear(0);
+    //  date.setFullYear(0);
   }
 
   onSubmit() {

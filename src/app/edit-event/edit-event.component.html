@@ -1,116 +1,40 @@
-<div class="panel panel-default">
-    <div class="panel-body">
-        <form #form="ngForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th class="text-center"></th>
-                                <th class="text-center">Reg</th>
-                                <th class="text-left">Date</th>
-                                <th class="text-left">Start</th>
-                                <th class="text-left">End</th>
-                                <th class="text-left">Project</th>
-                                <th class="text-left">Task</th>
-                                <th class="text-left">Remarks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngIf="!nextPrevious.next">
-                                <td>Next (same day)</td>
-                                <td class="text-center" colspan="7">-</td>
-                            </tr>
-                            <tr *ngIf="nextPrevious.next">
-                                <td>Next (same day)</td>
-                                <td class="text-center">
-                                    <input class="form-control" type="checkbox" [value]="nextPrevious.next.registered" 
-                                        name="registeredNext" [disabled]="true">
-                                </td>
-                                <td class="text-left">{{nextPrevious.next.startDate | date : 'dd/MM/yy' }}</td>
-                                <td class="text-left">
-                                    <timepicker name="startTimeNext" [ngModel]="nextPrevious.next.startDate" 
-                                        [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
-                                        [disabled]="true"></timepicker>
-
-                                </td>
-                                <td class="text-left">
-                                    <timepicker name="endTimeNext" [ngModel]="nextPrevious.next?.endDate" 
-                                        [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
-                                        [disabled]="true"></timepicker>
-
-                                </td>
-                                <td class="text-left">{{nextPrevious.next.task.project.name}}</td>
-                                <td class="text-left">{{nextPrevious.next.task.id}}-{{nextPrevious.next.task.name}}</td>
-                                <td class="text-left">{{nextPrevious.next.remarks}}</td>
-                            </tr>
-                            <tr>
-                                <td>Current</td>
-                                <td class="text-center">
-                                    <input class="form-control" type="checkbox" [(ngModel)]="event.registered" 
-                                        name="registered">
-                                </td>
-                                <td class="text-left">{{event.startDate | date : 'dd/MM/yy' }}</td>
-                                <td class="text-left">
-                                    <timepicker name="startTime" [(ngModel)]="event.startDate" 
-                                        [showSpinners]="false" [showMeridian]="false" [mousewheel]="true"
-                                        [showSeconds]="true" [disabled]="event.registered" 
-                                        required></timepicker>
-                                        <!-- [min]="minTimeStart"  -->
-                                    </td>
-                                <td class="text-left">
-                                    <timepicker name="endTime" [(ngModel)]="event.endDate" 
-                                        [showSpinners]="false" [showMeridian]="false" [mousewheel]="true"
-                                        [showSeconds]="true" [disabled]="event.registered" 
-                                        [required]="nextPrevious.next !== undefined">
-                                    </timepicker>
-                                    <!-- [min]="event.startDate" [max]="maxTimeEnd" -->
-
-                                </td>
-                                <td class="text-left">{{event.task.project.name}}</td>
-                                <td class="text-left">{{event.task.id}}-{{event.task.name}}</td>
-                                <td>
-                                    <input type="text" name="eventRemark" placeholder="Remarks" 
-                                        class="form-control" [(ngModel)]="event.remarks">
-                                </td>
-                            </tr>
-                            <tr *ngIf="!nextPrevious.previous">
-                                <td>Previous (same day)</td>
-                                <td class="text-center" colspan="7">-</td>
-                            </tr>                                
-                            <tr *ngIf="nextPrevious.previous">
-                                <td>Previous (same day)</td>
-                                <td class="text-center">
-                                    <input class="form-control" type="checkbox" [value]="nextPrevious.previous.registered" 
-                                        name="registeredNext" [disabled]="true">
-                                </td>
-                                <td class="text-left">{{nextPrevious.previous.startDate | date : 'dd/MM/yy' }}</td>
-                                <td class="text-left">
-                                    <timepicker name="startTimeNext" [ngModel]="nextPrevious.previous.startDate" 
-                                        [showSpinners]="false" [showMeridian]="false"
-                                        [showSeconds]="true" [disabled]="true"></timepicker>
-
-                                </td>
-                                <td class="text-left">
-                                    <timepicker name="endTimeNext" [ngModel]="nextPrevious.previous.endDate" 
-                                        [showSpinners]="false" [showMeridian]="false" [showSeconds]="true"
-                                        [disabled]="true"></timepicker>
-
-                                </td>
-                                <td class="text-left">{{nextPrevious.previous.task.project.name}}</td>
-                                <td class="text-left">{{nextPrevious.previous.task.id}}-{{nextPrevious.previous.task.name}}</td>
-                                <td class="text-left">{{nextPrevious.previous.remarks}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <form #form="ngForm" (ngSubmit)="onSubmit()">            
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-1">Reg</div>
+                    <div class="col-lg-1">Date</div>
+                    <div class="col-lg-2">Start</div>
+                    <div class="col-lg-2">End</div>
+                    <div class="col-lg-1">Project</div>
+                    <div class="col-lg-1">Task</div>
+                    <div class="col-lg-3">Remarks</div>
+                </div>
+                <app-edit-event-row
+                    [event]="nextPrevious.next"
+                    label="Next"
+                    [disabled]="true"
+                    [required]="false">
+                </app-edit-event-row>
+                <app-edit-event-row
+                    [form]="form"
+                    [event]="event"
+                    label="Current"
+                    [minTimeStart]="minTimeStart"
+                    [maxTimeEnd]="maxTimeEnd"
+                    [disabled]="event.registered"
+                    [required]="nextPrevious.next !== undefined">
+                </app-edit-event-row>
+                <app-edit-event-row 
+                    [event]="nextPrevious.previous"
+                    label="Previous"
+                    [disabled]="true"
+                    [required]="false">
+                </app-edit-event-row>
+                <div class="row">
+                    <div class="col-lg-12">
                         <button class="btn btn-success" type="submit" [disabled]="!form.valid">Save</button>
                         <button class="btn btn-primary" type="button" (click)="goBack()">Back</button>
                     </div>
                 </div>
-            </div>
+            
         </form>
-    </div>
-</div>

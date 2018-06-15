@@ -33,6 +33,8 @@ import { TaskDaoService } from './task-dao.service';
 import { ProjectDaoService } from './project-dao.service';
 import { ConfigService } from './config.service';
 import { StorageService } from './storage.service';
+import { EditEventRowComponent } from './edit-event/edit-event-row.component';
+import { MaskDirective } from './mask.directive';
 
 const ROUTES: Route[] = [
   {
@@ -55,9 +57,11 @@ const ROUTES: Route[] = [
     EventDurationPipe,
     FormatMinutesPipe,
     EditEventComponent,
+    EditEventRowComponent,
     SummaryComponent,
     MessagesComponent,
     ConfigComponent,
+    MaskDirective,
   ],
   imports: [
     BrowserModule,

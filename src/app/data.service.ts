@@ -200,10 +200,10 @@ export class DataService {
     const events = this.eventDao.getEvents();
     const index = events.findIndex(e => e.id === event.id);
     const npe = new NextPreviousEvent();
-    if (index > 0) {
+    if (index >= 0) {
       npe.next = events[index - 1];
     }
-    if (index > 0 && index < events.length - 1) {
+    if (index >= 0 && index < events.length - 1) {
       npe.previous = events[index + 1];
     }
     return npe;
