@@ -33,8 +33,10 @@ import { TaskDaoService } from './task-dao.service';
 import { ProjectDaoService } from './project-dao.service';
 import { ConfigService } from './config.service';
 import { StorageService } from './storage.service';
-import { EditEventRowComponent } from './edit-event/edit-event-row.component';
 import { MaskDirective } from './mask.directive';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { DateValidatorDirective } from './date-validator.directive';
+import { TimeValidatorDirective } from './time-validator.directive';
 
 const ROUTES: Route[] = [
   {
@@ -57,11 +59,12 @@ const ROUTES: Route[] = [
     EventDurationPipe,
     FormatMinutesPipe,
     EditEventComponent,
-    EditEventRowComponent,
     SummaryComponent,
     MessagesComponent,
     ConfigComponent,
     MaskDirective,
+    DateValidatorDirective,
+    TimeValidatorDirective,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +74,7 @@ const ROUTES: Route[] = [
     TimepickerModule.forRoot(),
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   providers: [DataService,
     ElectronService,

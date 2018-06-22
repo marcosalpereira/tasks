@@ -5,7 +5,6 @@ import { Event, NextPreviousEvent } from '../event.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
-import { DateUtil } from '../../../tasks-linux-x64/resources/app/src/app/date-util';
 
 const TIME_FORMAT = 'HH:mm:ss';
 
@@ -19,6 +18,10 @@ export class EditEventComponent implements OnInit {
   minTimeStart: Date;
   startMoment: moment.Moment;
   endMoment: moment.Moment;
+
+  startDate: string;
+  startTime: string;
+  endTime: string;
 
   event: Event;
   nextPrevious: NextPreviousEvent;
@@ -38,45 +41,67 @@ export class EditEventComponent implements OnInit {
     const id = +param.get('id');
     this.event = this.dataService.findEvent(id);
 
-    if (!this.event.endDate) {
-      this.event.endDate = moment(this.event.startDate).startOf('day').toDate();
-    }
-
     const now = moment();
 
     this.nextPrevious = this.dataService.findNextPreviousEvent(this.event);
-
+    
     if (this.nextPrevious.previous) {
       this.minTimeStart = this.nextPrevious.previous.endDate;
     } else {
-      this.minTimeStart = new Date(0);
+      this.minTimeStart = now.startOf('day').toDate();
     }
 
     if (this.nextPrevious.next) {
       this.maxTimeEnd = this.nextPrevious.next.startDate;
     } else {
-      this.maxTimeEnd = now.add('minutes', 10).toDate();
+      this.maxTimeEnd = now.endOf('day').toDate();
     }
-    this.clearDate(this.minTimeStart);
-    this.clearDate(this.maxTimeEnd);
-  }
 
-  private clearDate(date: Date) {
-    //  date.setFullYear(0);
-    //  date.setFullYear(0);
+    const startMoment = moment(this.event.startDate);
+    this.startDate = startMoment.format('DD/MM/YY');
+
+    this.startTime = startMoment.format('HH:mm');
+    if (this.event.endDate) {
+      const endMoment = moment(this.event.endDate);
+      this.endTime = endMoment.format('HH:mm');
+    }
+
   }
 
   onSubmit() {
-
-    if (this.event.endDate
-      && this.event.endDate.getHours() === 0
-      && this.event.endDate.getMinutes() === 0
-      && this.event.endDate.getSeconds() === 0) {
+    if (!this.endTime) {
       this.event.endDate = undefined;
     }
-
     this.dataService.updateEvent(this.event);
     this.goBack();
   }
+
+  onInputStartTime() {
+    const m = moment(this.startTime, 'HH:mm');
+    const msd = moment(this.event.startDate);
+    msd.hour(m.hour());
+    msd.minute(m.minute());
+    this.event.startDate = msd.toDate();
+  }
+
+  onInputEndTime() {
+    const m = moment(this.endTime, 'HH:mm');
+    const med = moment(this.event.endDate);
+    med.hour(m.hour());
+    med.minute(m.minute());
+    this.event.endDate = med.toDate();
+  }
+
+  onInputStartDate() {
+    const m = moment(this.startDate, 'DD/MM/YY');
+
+    const msd = moment(this.event.startDate);
+    msd.month(m.month());
+    msd.year(m.year());
+    msd.day(m.day());
+    this.event.startDate = msd.toDate();
+
+  }
+
 
 }
