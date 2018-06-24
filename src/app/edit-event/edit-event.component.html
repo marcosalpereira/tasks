@@ -1,4 +1,4 @@
-        <form #form="ngForm">
+        <form #form="ngForm" (ngSubmit)="onSubmit()">
                 <div class="row">
                     <div class="col-lg-1"></div>
                     <div class="col-lg-1">Reg</div>
@@ -42,29 +42,28 @@
                     <div class="col-lg-1">Current</div>
                     <div class="col-lg-1">
                         <input class="form-control" type="checkbox" 
-                            [disabled]="event.registered"
                             [(ngModel)]="event.registered" name="registered">
                     </div>
                     <div class="col-lg-2">
                         <input class="form-control" #startDateEl="ngModel" name="startDate" id="startDate"
-                            [(ngModel)]="startDate" [disabled]="event.registered"
+                            [(ngModel)]="startDate"
                             appDateValidator [minDate]="minTimeStart" [maxDate]="maxTimeEnd"
                             appMask="99/99/99"
                             required
                             (input)="onInputStartDate()">
 
-                        <div *ngIf="startDateEl.invalid && (startDateEl.dirty || startDateEl.touched)" class="alert alert-danger">
-                            <div *ngIf="startDateEl.errors.required">
+                        <div *ngIf="startDateEl.invalid" class="alert alert-danger">
+                            <div *ngIf="startDateEl.hasError('required') && startDateEl.dirty">
                                 Date Required.
                             </div>                        
-                            <div *ngIf="startDateEl.errors.invalidDate">
+                            <div *ngIf="startDateEl.hasError('invalidDate')">
                                 Invalid Date.
                             </div>
-                            <div *ngIf="startDateEl.errors.invalidDateMin">
-                                Date before {{minTimeStart | date : 'dd/MM/yy'}}.
+                            <div *ngIf="startDateEl.hasError('invalidDateMin')">
+                                Date should be from {{minTimeStart | date : 'dd/MM/yy'}} to {{maxTimeEnd | date : 'dd/MM/yy'}}.
                             </div>
-                            <div *ngIf="startDateEl.errors.invalidDateMax">
-                                Date after {{maxTimeEnd | date : 'dd/MM/yy'}}.
+                            <div *ngIf="startDateEl.hasError('invalidDateMax')">
+                                Date should be from {{minTimeStart | date : 'dd/MM/yy'}} to {{maxTimeEnd | date : 'dd/MM/yy'}}.
                             </div>
                         
                         </div>
@@ -77,20 +76,20 @@
                             appTimeValidator [minTime]="minTimeStart" [maxTime]="maxTimeEnd"
                             (input)="onInputStartTime()"
                             [(ngModel)]="startTime"
-                            [disabled]="event.registered" required="true">
+                            required="true">
 
-                        <div *ngIf="startTimeEl.invalid && (startTimeEl.dirty || startTimeEl.touched)" class="alert alert-danger">
-                            <div *ngIf="startTimeEl.errors.required">
+                        <div *ngIf="startTimeEl.invalid" class="alert alert-danger">
+                            <div *ngIf="startTimeEl.hasError('required') && startDateEl.dirty">
                                 Time Required.
                             </div>                        
-                            <div *ngIf="startTimeEl.errors.invalidTime">
+                            <div *ngIf="startTimeEl.hasError('invalidTime')">
                                 Invalid Time.
                             </div>
-                            <div *ngIf="startTimeEl.errors.invalidTimeMin">
-                                Time before {{minTimeStart | date : 'HH:mm'}}.
+                            <div *ngIf="startTimeEl.hasError('invalidTimeMin')">
+                                Time should be from {{minTimeStart | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
                             </div>
-                            <div *ngIf="startTimeEl.errors.invalidTimeMax">
-                                Time after {{maxTimeEnd | date : 'HH:mm'}}.
+                            <div *ngIf="startTimeEl.hasError('invalidTimeMax')">
+                                Time should be from {{minTimeStart | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
                             </div>
                         
                         </div>
@@ -98,26 +97,26 @@
                     </div>
                     <div class="col-lg-1">
                         <input class="form-control" type="text" 
-                            #endTimeEl="ngModel" name="endTime" 
+                            #endTimeEl="ngModel"
+                            name="endTime" 
                             appMask="99:99"
                             appTimeValidator [minTime]="event.startDate" [maxTime]="maxTimeEnd"
                             (input)="onInputEndTime()"
                             [(ngModel)]="endTime"
-                            [disabled]="event.registered" 
                             [required]="nextPrevious.next !== undefined">
 
-                        <div *ngIf="endTimeEl.invalid && (endTimeEl.dirty || endTimeEl.touched)" class="alert alert-danger">
-                            <div *ngIf="endTimeEl.errors.required">
+                        <div *ngIf="endTimeEl.invalid" class="alert alert-danger">
+                            <div *ngIf="endTimeEl.hasError('required') && endTimeEl.dirty">
                                 Time Required.
                             </div>                        
-                            <div *ngIf="endTimeEl.errors.invalidTime">
+                            <div *ngIf="endTimeEl.hasError('invalidTime')">
                                 Invalid Time.
                             </div>
-                            <div *ngIf="endTimeEl.errors.invalidTimeMin">
-                                Time before {{minTimeStart | date : 'HH:mm'}}.
+                            <div *ngIf="endTimeEl.hasError('invalidTimeMin')">
+                                Time should be from {{event.startDate | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
                             </div>
-                            <div *ngIf="endTimeEl.errors.invalidTimeMax">
-                                Time after {{maxTimeEnd | date : 'HH:mm'}}.
+                            <div *ngIf="endTimeEl.hasError('invalidTimeMax')">
+                                Time should be from {{event.startDate | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
                             </div>
                         
                         </div>
@@ -166,7 +165,7 @@
 
                 <div class="row">
                     <div class="col-lg-12">
-                        <button class="btn btn-success" type="button" (click)="onSubmit()" [disabled]="!form.valid">Save</button>
+                        <button class="btn btn-success" type="submit" [disabled]="!form.valid">Save</button>
                         <button class="btn btn-primary" type="button" (click)="goBack()">Back</button>
                     </div>
                 </div>

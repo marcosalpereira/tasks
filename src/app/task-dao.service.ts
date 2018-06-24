@@ -33,7 +33,7 @@ export class TaskDaoService {
   getTopTasks(): any {
     return this.getTasks()
       .sort((left: Task, right: Task) => right.counter - left.counter)
-      .slice(0, 7);
+      .slice(0, 9);
   }
 
   getTasks() {

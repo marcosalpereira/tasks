@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { NgForm, NgModel } from '@angular/forms';
 import { DataService } from '../data.service';
 import { Event, NextPreviousEvent } from '../event.model';
 import { ActivatedRoute } from '@angular/router';
@@ -26,6 +26,9 @@ export class EditEventComponent implements OnInit {
   event: Event;
   nextPrevious: NextPreviousEvent;
 
+  @ViewChild('endTimeEl') endTimeEl: NgModel;
+  @ViewChild('form') form: NgForm;
+
   constructor(
     private dataService: DataService,
     private activeRoute: ActivatedRoute,
@@ -44,7 +47,7 @@ export class EditEventComponent implements OnInit {
     const now = moment();
 
     this.nextPrevious = this.dataService.findNextPreviousEvent(this.event);
-    
+
     if (this.nextPrevious.previous) {
       this.minTimeStart = this.nextPrevious.previous.endDate;
     } else {
