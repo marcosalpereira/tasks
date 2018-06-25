@@ -48,17 +48,17 @@ export class EditEventComponent implements OnInit {
 
     this.nextPrevious = this.dataService.findNextPreviousEvent(this.event);
 
-    if (this.nextPrevious.previous) {
-      this.minTimeStart = this.nextPrevious.previous.endDate;
-    } else {
-      this.minTimeStart = now.startOf('day').toDate();
-    }
+    // if (this.nextPrevious.previous) {
+    //   this.minTimeStart = this.nextPrevious.previous.endDate;
+    // } else {
+      this.minTimeStart = undefined;
+    // }
 
-    if (this.nextPrevious.next) {
-      this.maxTimeEnd = this.nextPrevious.next.startDate;
-    } else {
-      this.maxTimeEnd = now.endOf('day').toDate();
-    }
+    // if (this.nextPrevious.next) {
+    //   this.maxTimeEnd = this.nextPrevious.next.startDate;
+    // } else {
+      this.maxTimeEnd = undefined;
+    // }
 
     const startMoment = moment(this.event.startDate);
     this.startDate = startMoment.format('DD/MM/YY');
@@ -81,29 +81,40 @@ export class EditEventComponent implements OnInit {
 
   onInputStartTime() {
     const m = moment(this.startTime, 'HH:mm');
-    const msd = moment(this.event.startDate);
-    msd.hour(m.hour());
-    msd.minute(m.minute());
+    const msd = moment(this.event.startDate)
+      .hour(m.hour())
+      .minute(m.minute());
     this.event.startDate = msd.toDate();
+    if (this.event.endDate) {
+      this.event.endDate = this.updateDate(this.event.endDate);
+    }
   }
 
   onInputEndTime() {
     const m = moment(this.endTime, 'HH:mm');
-    const med = moment(this.event.endDate);
-    med.hour(m.hour());
-    med.minute(m.minute());
+    const med = moment(this.event.endDate)
+      .hour(m.hour())
+      .minute(m.minute());
     this.event.endDate = med.toDate();
+    if (this.event.endDate) {
+      this.event.endDate = this.updateDate(this.event.endDate);
+    }
   }
 
   onInputStartDate() {
+    this.event.startDate = this.updateDate(this.event.startDate);
+    if (this.event.endDate) {
+      this.event.endDate = this.updateDate(this.event.endDate);
+    }
+  }
+
+  private updateDate(target: Date): Date {
     const m = moment(this.startDate, 'DD/MM/YY');
-
-    const msd = moment(this.event.startDate);
-    msd.month(m.month());
-    msd.year(m.year());
-    msd.day(m.day());
-    this.event.startDate = msd.toDate();
-
+    const msd = moment(target)
+      .year(m.year())
+      .month(m.month())
+      .date(m.date());
+    return msd.toDate();
   }
 
 

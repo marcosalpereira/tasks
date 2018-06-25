@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     this.configService.configChanged$.subscribe(
       (config: Config) => this.showConfigOpen = config.cpf === undefined);
 
-      this.meny = require('assets/meny.js').create({
+    this.meny = require('assets/meny.js').create({
       // The element that will be animated in from off screen
       menuElement: document.querySelector('.meny'),
 
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
       angle: 30,
 
       // The mouse distance from menu position which can trigger menu to open.
-      threshold: 10,
+      threshold: 0,
 
       // Width(in px) of the thin line you see on screen when menu is in closed position.
       overlap: 6,
@@ -59,8 +59,7 @@ export class AppComponent implements OnInit {
       // Use touch swipe events to open/close
       touch: true
     });
-  }
 
-  
+  }
 
 }

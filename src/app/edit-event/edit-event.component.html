@@ -47,11 +47,11 @@
                     <div class="col-lg-2">
                         <input class="form-control" #startDateEl="ngModel" name="startDate" id="startDate"
                             [(ngModel)]="startDate"
-                            appDateValidator [minDate]="minTimeStart" [maxDate]="maxTimeEnd"
                             appMask="99/99/99"
                             required
-                            (input)="onInputStartDate()">
-
+                            (change)="onInputStartDate()">
+                            <!-- appDateValidator [minDate]="minTimeStart" [maxDate]="maxTimeEnd" -->
+                            
                         <div *ngIf="startDateEl.invalid" class="alert alert-danger">
                             <div *ngIf="startDateEl.hasError('required') && startDateEl.dirty">
                                 Date Required.
@@ -73,10 +73,10 @@
                         <input class="form-control" type="text" 
                             #startTimeEl="ngModel" name="startTime" 
                             appMask="99:99" 
-                            appTimeValidator [minTime]="minTimeStart" [maxTime]="maxTimeEnd"
-                            (input)="onInputStartTime()"
-                            [(ngModel)]="startTime"
-                            required="true">
+                            (change)="onInputStartTime()"
+                            [(ngModel)]="startTime">
+                            <!-- required -->
+                            <!-- appTimeValidator [minTime]="minTimeStart" [maxTime]="maxTimeEnd" -->
 
                         <div *ngIf="startTimeEl.invalid" class="alert alert-danger">
                             <div *ngIf="startTimeEl.hasError('required') && startDateEl.dirty">
@@ -100,10 +100,10 @@
                             #endTimeEl="ngModel"
                             name="endTime" 
                             appMask="99:99"
-                            appTimeValidator [minTime]="event.startDate" [maxTime]="maxTimeEnd"
-                            (input)="onInputEndTime()"
-                            [(ngModel)]="endTime"
-                            [required]="nextPrevious.next !== undefined">
+                            (change)="onInputEndTime()"
+                            [(ngModel)]="endTime">
+                            <!-- [required]="nextPrevious.next !== undefined" -->
+                            <!-- appTimeValidator [minTime]="event.startDate" [maxTime]="maxTimeEnd" -->
 
                         <div *ngIf="endTimeEl.invalid" class="alert alert-danger">
                             <div *ngIf="endTimeEl.hasError('required') && endTimeEl.dirty">
