@@ -41,7 +41,6 @@ export class DataService {
   }
 
   updateEvent(event: Event) {
-    console.log(event);
     this.eventDao.persist(event);
     this.fireEventsChanged();
   }

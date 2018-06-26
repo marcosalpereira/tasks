@@ -49,8 +49,8 @@
                             [(ngModel)]="startDate"
                             appMask="99/99/99"
                             required
+                            appDateValidator [minDate]="minTimeStart" [maxDate]="maxTimeEnd"
                             (change)="onInputStartDate()">
-                            <!-- appDateValidator [minDate]="minTimeStart" [maxDate]="maxTimeEnd" -->
                             
                         <div *ngIf="startDateEl.invalid" class="alert alert-danger">
                             <div *ngIf="startDateEl.hasError('required') && startDateEl.dirty">
@@ -74,9 +74,9 @@
                             #startTimeEl="ngModel" name="startTime" 
                             appMask="99:99" 
                             (change)="onInputStartTime()"
+                            required
+                            appTimeValidator [minTime]="minTimeStart" [maxTime]="maxTimeEnd"
                             [(ngModel)]="startTime">
-                            <!-- required -->
-                            <!-- appTimeValidator [minTime]="minTimeStart" [maxTime]="maxTimeEnd" -->
 
                         <div *ngIf="startTimeEl.invalid" class="alert alert-danger">
                             <div *ngIf="startTimeEl.hasError('required') && startDateEl.dirty">
@@ -101,9 +101,9 @@
                             name="endTime" 
                             appMask="99:99"
                             (change)="onInputEndTime()"
+                            [required]="nextPrevious.next !== undefined"
+                            appTimeValidator [minTime]="event.startDate" [maxTime]="maxTimeEnd"
                             [(ngModel)]="endTime">
-                            <!-- [required]="nextPrevious.next !== undefined" -->
-                            <!-- appTimeValidator [minTime]="event.startDate" [maxTime]="maxTimeEnd" -->
 
                         <div *ngIf="endTimeEl.invalid" class="alert alert-danger">
                             <div *ngIf="endTimeEl.hasError('required') && endTimeEl.dirty">

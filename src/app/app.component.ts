@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
       angle: 30,
 
       // The mouse distance from menu position which can trigger menu to open.
-      threshold: 0,
+      threshold: 40,
 
       // Width(in px) of the thin line you see on screen when menu is in closed position.
       overlap: 6,

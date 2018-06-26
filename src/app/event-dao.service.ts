@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Event } from './event.model';
 import { TaskDaoService } from './task-dao.service';
 import { StorageService } from './storage.service';
+import * as moment from 'moment';
 
 const MAX_LAST_EVENTS = 30;
 
@@ -31,8 +32,11 @@ export class EventDaoService {
       .map(id => this.find(id));
   }
   private writeLastEvents(): void {
-    const lastEventsIds = this.lastEvents
+    this.lastEvents = this.lastEvents
       .slice(0, MAX_LAST_EVENTS)
+      .sort( (l, r) => r.startDate.getTime() - l.startDate.getTime());
+
+    const lastEventsIds = this.lastEvents
       .map(event => event.id);
     this.storageService.setItem('events.last', lastEventsIds);
   }
@@ -45,13 +49,20 @@ export class EventDaoService {
   }
 
   persist(event: Event): void {
+    let forceWriteEvents = false;
     const events = this.getEvents();
     if (event.id) {
       const index = events.findIndex(e => e.id === event.id);
+      if (!moment(events[index].startDate).isSame(event.startDate, 'day')) {
+        forceWriteEvents = true;
+      }
       events[index] = event;
     } else {
       event.id = event.startDate.getTime();
       events.unshift(event);
+      forceWriteEvents = true;
+    }
+    if (forceWriteEvents) {
       this.writeLastEvents();
     }
     this.storageService.setItem(`events.${event.id}`, this.toEntity(event));
@@ -71,7 +82,7 @@ export class EventDaoService {
 
   private toModel(entity: EventEntity): Event {
     const task = this.taskDao.findByCode(entity.task);
-    const model = new Event(task, entity.startDate);
+    const model = new Event(task, new Date(entity.startDate));
     model.id = entity.id;
     model.endDate = entity.endDate;
     model.registered = entity.registered;

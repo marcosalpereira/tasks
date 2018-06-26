@@ -3,31 +3,33 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th class="text-center">Actions</th>
+            <th class="text-center">Ações</th>
             <th class="text-center">Reg</th>
-            <th class="text-center">Date</th>
-            <th class="text-left">Start</th>
-            <th class="text-left">End</th>
-            <th class="text-left">Duration</th>
-            <th class="text-left">Task</th>
+            <th class="text-center">Dia</th>
+            <th class="text-left">Início</th>
+            <th class="text-left">Fim</th>
+            <th class="text-left">Duração</th>
+            <th class="text-left">Tarefa</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let event of events">
             <td class="text-center">
-              <button *ngIf="canStopTask(event)" title="Current Task, click to stop" 
+              <button *ngIf="canStopTask(event)" title="Parar tarefa corrente" 
                     (click)="stopTask(event)" type="button" class="btn btn-success btn-xs">
                   <i class="fa fa-spinner fa-spin fa-lg"></i>
               </button>  
-              <button *ngIf="!canStopTask(event)" title="Restart Task, Right+Click to use same day" 
+              <button *ngIf="!canStopTask(event)" title="Reiniciar tarefa" 
                   (click)="restartTask(event, false)" 
                   (contextmenu)="restartTask(event, true)" 
                   type="button" class="btn btn-success btn-xs">
                 <i class="fa fa-recycle fa-lg"></i>
               </button>
-              <button *ngIf="!event.registered" title="Delete Event" 
-                  (click)="deleteEvent(event)" 
-                  type="button" class="btn btn-danger btn-xs">
+              <button *ngIf="!event.registered"
+                  (dblclick)="deleteEvent(event)" 
+                  type="button" class="btn btn-danger btn-xs"
+                  title="Duplo click para remover evento"
+                  >
                 <i class="fa fa-trash fa-lg"></i>
               </button>
               <button *ngIf="!event.registered" title="Edit Event" 

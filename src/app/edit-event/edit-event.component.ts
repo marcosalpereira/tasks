@@ -48,17 +48,17 @@ export class EditEventComponent implements OnInit {
 
     this.nextPrevious = this.dataService.findNextPreviousEvent(this.event);
 
-    // if (this.nextPrevious.previous) {
-    //   this.minTimeStart = this.nextPrevious.previous.endDate;
-    // } else {
+    if (this.nextPrevious.previous) {
+      this.minTimeStart = this.nextPrevious.previous.endDate;
+    } else {
       this.minTimeStart = undefined;
-    // }
+    }
 
-    // if (this.nextPrevious.next) {
-    //   this.maxTimeEnd = this.nextPrevious.next.startDate;
-    // } else {
+    if (this.nextPrevious.next) {
+      this.maxTimeEnd = this.nextPrevious.next.startDate;
+    } else {
       this.maxTimeEnd = undefined;
-    // }
+    }
 
     const startMoment = moment(this.event.startDate);
     this.startDate = startMoment.format('DD/MM/YY');
@@ -102,18 +102,23 @@ export class EditEventComponent implements OnInit {
   }
 
   onInputStartDate() {
-    this.event.startDate = this.updateDate(this.event.startDate);
+    const newDate = this.updateDate(this.event.startDate);
+    if (newDate.getDate() !== this.event.startDate.getDate()) {
+      this.minTimeStart = undefined;
+      this.maxTimeEnd = undefined;
+    }
+    this.event.startDate = newDate;
     if (this.event.endDate) {
       this.event.endDate = this.updateDate(this.event.endDate);
     }
   }
 
   private updateDate(target: Date): Date {
-    const m = moment(this.startDate, 'DD/MM/YY');
+    const base = moment(this.startDate, 'DD/MM/YY');
     const msd = moment(target)
-      .year(m.year())
-      .month(m.month())
-      .date(m.date());
+      .year(base.year())
+      .month(base.month())
+      .date(base.date());
     return msd.toDate();
   }
 

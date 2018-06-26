@@ -19,7 +19,7 @@ export class TaskDaoService {
       const index = tasks.findIndex(e => e.id === task.id);
       tasks[index] = task;
     } else {
-      task.id = this.tasks.length;
+      task.id = this.tasks.length + 1;
       tasks.push(task);
       this.writeAllTasks();
     }
