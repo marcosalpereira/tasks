@@ -2,9 +2,8 @@
                 <div class="row">
                     <div class="col-lg-1"></div>
                     <div class="col-lg-1">Reg</div>
-                    <div class="col-lg-2">Date</div>
-                    <div class="col-lg-1">Start</div>
-                    <div class="col-lg-1">End</div>
+                    <div class="col-lg-2">Start</div>
+                    <div class="col-lg-2">End</div>
                     <div class="col-lg-3">Project/Task</div>
                     <div class="col-lg-3">Remarks</div>
                 </div>
@@ -17,13 +16,9 @@
                     </div>
                     <div class="col-lg-2">
                         <input class="form-control" 
-                            [value]="nextPrevious.next.startDate | date : 'dd/MM/yy'" [disabled]="true">                            
+                            [value]="nextPrevious.next.startDate | date : 'dd/MM/yyyy HH:mm'" [disabled]="true">                            
                     </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" 
-                            [value]="nextPrevious.next.startDate | date : 'HH:mm'" [disabled]="true">                            
-                    </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         <input class="form-control" 
                             [value]="nextPrevious.next.endDate | date : 'HH:mm'" [disabled]="true">                            
                     </div>
@@ -45,82 +40,29 @@
                             [(ngModel)]="event.registered" name="registered">
                     </div>
                     <div class="col-lg-2">
-                        <input class="form-control" #startDateEl="ngModel" name="startDate" id="startDate"
-                            [(ngModel)]="startDate"
-                            appMask="99/99/99"
+                        <p-calendar name="startDate"
                             required
-                            appDateValidator [minDate]="minTimeStart" [maxDate]="maxTimeEnd"
-                            (change)="onInputStartDate()">
-                            
-                        <div *ngIf="startDateEl.invalid" class="alert alert-danger">
-                            <div *ngIf="startDateEl.hasError('required') && startDateEl.dirty">
-                                Date Required.
-                            </div>                        
-                            <div *ngIf="startDateEl.hasError('invalidDate')">
-                                Invalid Date.
-                            </div>
-                            <div *ngIf="startDateEl.hasError('invalidDateMin')">
-                                Date should be from {{minTimeStart | date : 'dd/MM/yy'}} to {{maxTimeEnd | date : 'dd/MM/yy'}}.
-                            </div>
-                            <div *ngIf="startDateEl.hasError('invalidDateMax')">
-                                Date should be from {{minTimeStart | date : 'dd/MM/yy'}} to {{maxTimeEnd | date : 'dd/MM/yy'}}.
-                            </div>
-                        
+                            (onInput)="periodoInvalido = undefined"
+                            [showIcon]="true"
+                            [showOnFocus]="false"
+                            [(ngModel)]="event.startDate"
+                            [showTime]="true"
+                            dateFormat="dd/mm/yy"
+                            ></p-calendar>
+                        <div *ngIf="periodoInvalido === 'start'" class="alert alert-danger">
+                            Data/Hora inicial deve estar entre [{{nextPrevious?.previous?.endDate | date : 'dd/MM/yyyy HH:mm'}} - {{nextPrevious?.next?.startDate | date : 'dd/MM/yyyy HH:mm'}}]
                         </div>
-
                     </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" type="text" 
-                            #startTimeEl="ngModel" name="startTime" 
-                            appMask="99:99" 
-                            (change)="onInputStartTime()"
-                            required
-                            appTimeValidator [minTime]="minTimeStart" [maxTime]="maxTimeEnd"
-                            [(ngModel)]="startTime">
-
-                        <div *ngIf="startTimeEl.invalid" class="alert alert-danger">
-                            <div *ngIf="startTimeEl.hasError('required') && startDateEl.dirty">
-                                Time Required.
-                            </div>                        
-                            <div *ngIf="startTimeEl.hasError('invalidTime')">
-                                Invalid Time.
-                            </div>
-                            <div *ngIf="startTimeEl.hasError('invalidTimeMin')">
-                                Time should be from {{minTimeStart | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
-                            </div>
-                            <div *ngIf="startTimeEl.hasError('invalidTimeMax')">
-                                Time should be from {{minTimeStart | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
-                            </div>
-                        
-                        </div>
-    
-                    </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" type="text" 
-                            #endTimeEl="ngModel"
-                            name="endTime" 
-                            appMask="99:99"
-                            (change)="onInputEndTime()"
+                    <div class="col-lg-2">
+                        <p-calendar name="endTime"
+                            [timeOnly]="true" 
+                            (onInput)="periodoInvalido = undefined"
                             [required]="nextPrevious.next !== undefined"
-                            appTimeValidator [minTime]="event.startDate" [maxTime]="maxTimeEnd"
-                            [(ngModel)]="endTime">
-
-                        <div *ngIf="endTimeEl.invalid" class="alert alert-danger">
-                            <div *ngIf="endTimeEl.hasError('required') && endTimeEl.dirty">
-                                Time Required.
-                            </div>                        
-                            <div *ngIf="endTimeEl.hasError('invalidTime')">
-                                Invalid Time.
-                            </div>
-                            <div *ngIf="endTimeEl.hasError('invalidTimeMin')">
-                                Time should be from {{event.startDate | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
-                            </div>
-                            <div *ngIf="endTimeEl.hasError('invalidTimeMax')">
-                                Time should be from {{event.startDate | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
-                            </div>
-                        
+                            [(ngModel)]="event.endDate"
+                        ></p-calendar>
+                        <div *ngIf="periodoInvalido === 'end'" class="alert alert-danger">
+                                Data/Hora final deve estar entre [{{event.startDate | date : 'HH:mm'}} - {{nextPrevious?.next?.startDate | date : 'dd/MM/yyyy HH:mm'}}]
                         </div>
-    
                     </div>
                     <div class="col-lg-3">
                         <input class="form-control" type="text" disabled 
@@ -142,13 +84,9 @@
                     </div>
                     <div class="col-lg-2">
                         <input class="form-control" 
-                            [value]="nextPrevious.previous.startDate | date : 'dd/MM/yy'" [disabled]="true">                            
+                            [value]="nextPrevious.previous.startDate | date : 'dd/MM/yyyy HH:mm'" [disabled]="true">                            
                     </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" 
-                            [value]="nextPrevious.previous.startDate | date : 'HH:mm'" [disabled]="true">                            
-                    </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         <input class="form-control" 
                             [value]="nextPrevious.previous.endDate | date : 'HH:mm'" [disabled]="true">                            
                     </div>

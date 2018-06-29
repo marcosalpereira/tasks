@@ -1,3 +1,5 @@
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CalendarModule} from 'primeng/calendar';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -33,10 +35,6 @@ import { TaskDaoService } from './task-dao.service';
 import { ProjectDaoService } from './project-dao.service';
 import { ConfigService } from './config.service';
 import { StorageService } from './storage.service';
-import { MaskDirective } from './mask.directive';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { DateValidatorDirective } from './date-validator.directive';
-import { TimeValidatorDirective } from './time-validator.directive';
 
 const ROUTES: Route[] = [
   {
@@ -62,19 +60,16 @@ const ROUTES: Route[] = [
     SummaryComponent,
     MessagesComponent,
     ConfigComponent,
-    MaskDirective,
-    DateValidatorDirective,
-    TimeValidatorDirective,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     CommonModule,
     RouterModule.forRoot(ROUTES),
-    TimepickerModule.forRoot(),
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
-    BsDatepickerModule.forRoot(),
+    CalendarModule,
   ],
   providers: [DataService,
     ElectronService,
