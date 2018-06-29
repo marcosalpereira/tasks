@@ -1,173 +1,108 @@
-        <form #form="ngForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-1">Reg</div>
-                    <div class="col-lg-2">Date</div>
-                    <div class="col-lg-1">Start</div>
-                    <div class="col-lg-1">End</div>
-                    <div class="col-lg-3">Project/Task</div>
-                    <div class="col-lg-3">Remarks</div>
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-1">Reg</div>
+            <div class="col-lg-2">Start</div>
+            <div class="col-lg-2">End</div>
+            <div class="col-lg-3">Project/Task</div>
+            <div class="col-lg-3">Remarks</div>
+        </div>
+
+        <div class="row" *ngIf="nextPrevious.next">
+            <div class="col-lg-1">Next</div>
+            <div class="col-lg-1">
+                <input class="form-control" type="checkbox" [disabled]="true"
+                    [value]="nextPrevious.next.registered">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" 
+                    [value]="nextPrevious.next.startDate | date : 'dd/MM/yyyy HH:mm'" [disabled]="true">                            
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" 
+                    [value]="nextPrevious.next.endDate | date : 'HH:mm'" [disabled]="true">                            
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" type="text" disabled 
+                    value="{{nextPrevious.next.task.project.name}}-{{nextPrevious.next.task.id}}-{{nextPrevious.next.task.name}}">
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" type="text" placeholder="Remarks" 
+                    [disabled]="true"
+                    [value]="nextPrevious.next.remarks">
+            </div>    
+        </div>                
+
+        <div class="row">
+            <div class="col-lg-1">Current</div>
+            <div class="col-lg-1">
+                <input class="form-control" type="checkbox" 
+                    [(ngModel)]="event.registered" name="registered">
+            </div>
+            <div class="col-lg-2">
+                <input type="text" name="startDate"
+                    required
+                    (input)="periodoInvalido = undefined"
+                    [(ngModel)]="event.startDate"
+                    bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YY HH:mm' }"
+                    >
+                <div *ngIf="periodoInvalido === 'start'" class="alert alert-danger">
+                    Data/Hora inicial deve estar entre [{{nextPrevious?.previous?.endDate | date : 'dd/MM/yyyy HH:mm'}} - {{nextPrevious?.next?.startDate | date : 'dd/MM/yyyy HH:mm'}}]
                 </div>
+            </div>
+            <div class="col-lg-2">
+                <timepicker name="endTime"
+                    (input)="periodoInvalido = undefined"
+                    [required]="nextPrevious.next !== undefined"
+                    [(ngModel)]="event.endDate"
+                    [showMeridian]="false" [showSpinners]="false"
+                ></timepicker>
+                <div *ngIf="periodoInvalido === 'end'" class="alert alert-danger">
+                        Data/Hora final deve estar entre [{{event.startDate | date : 'HH:mm'}} - {{nextPrevious?.next?.startDate | date : 'dd/MM/yyyy HH:mm'}}]
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" type="text" disabled 
+                    value="{{event.task.project.name}}-{{event.task.id}}-{{event.task.name}}">
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" type="text" name="eventRemark" 
+                    placeholder="Remarks" 
+                    [disabled]="event.registered"
+                    [(ngModel)]="event.remarks">
+            </div>    
+        </div>
 
-                <div class="row" *ngIf="nextPrevious.next">
-                    <div class="col-lg-1">Next</div>
-                    <div class="col-lg-1">
-                        <input class="form-control" type="checkbox" [disabled]="true"
-                            [value]="nextPrevious.next.registered">
-                    </div>
-                    <div class="col-lg-2">
-                        <input class="form-control" 
-                            [value]="nextPrevious.next.startDate | date : 'dd/MM/yy'" [disabled]="true">                            
-                    </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" 
-                            [value]="nextPrevious.next.startDate | date : 'HH:mm'" [disabled]="true">                            
-                    </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" 
-                            [value]="nextPrevious.next.endDate | date : 'HH:mm'" [disabled]="true">                            
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-control" type="text" disabled 
-                            value="{{nextPrevious.next.task.project.name}}-{{nextPrevious.next.task.id}}-{{nextPrevious.next.task.name}}">
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-control" type="text" placeholder="Remarks" 
-                            [disabled]="true"
-                            [value]="nextPrevious.next.remarks">
-                    </div>    
-                </div>                
+        <div class="row" *ngIf="nextPrevious.previous">
+            <div class="col-lg-1">Previous</div>
+            <div class="col-lg-1">
+                <input class="form-control" type="checkbox" [disabled]="true"
+                    [value]="nextPrevious.previous.registered">
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" 
+                    [value]="nextPrevious.previous.startDate | date : 'dd/MM/yyyy HH:mm'" [disabled]="true">                            
+            </div>
+            <div class="col-lg-2">
+                <input class="form-control" 
+                    [value]="nextPrevious.previous.endDate | date : 'HH:mm'" [disabled]="true">                            
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" type="text" disabled 
+                    value="{{nextPrevious.previous.task.project.name}}-{{nextPrevious.previous.task.id}}-{{nextPrevious.previous.task.name}}">
+            </div>
+            <div class="col-lg-3">
+                <input class="form-control" type="text" placeholder="Remarks" 
+                    [disabled]="true"
+                    [value]="nextPrevious.previous.remarks">
+            </div>    
+        </div>                
 
-                <div class="row">
-                    <div class="col-lg-1">Current</div>
-                    <div class="col-lg-1">
-                        <input class="form-control" type="checkbox" 
-                            [(ngModel)]="event.registered" name="registered">
-                    </div>
-                    <div class="col-lg-2">
-                        <input class="form-control" #startDateEl="ngModel" name="startDate" id="startDate"
-                            [(ngModel)]="startDate"
-                            appMask="99/99/99"
-                            required
-                            appDateValidator [minDate]="minTimeStart" [maxDate]="maxTimeEnd"
-                            (change)="onInputStartDate()">
-                            
-                        <div *ngIf="startDateEl.invalid" class="alert alert-danger">
-                            <div *ngIf="startDateEl.hasError('required') && startDateEl.dirty">
-                                Date Required.
-                            </div>                        
-                            <div *ngIf="startDateEl.hasError('invalidDate')">
-                                Invalid Date.
-                            </div>
-                            <div *ngIf="startDateEl.hasError('invalidDateMin')">
-                                Date should be from {{minTimeStart | date : 'dd/MM/yy'}} to {{maxTimeEnd | date : 'dd/MM/yy'}}.
-                            </div>
-                            <div *ngIf="startDateEl.hasError('invalidDateMax')">
-                                Date should be from {{minTimeStart | date : 'dd/MM/yy'}} to {{maxTimeEnd | date : 'dd/MM/yy'}}.
-                            </div>
-                        
-                        </div>
-
-                    </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" type="text" 
-                            #startTimeEl="ngModel" name="startTime" 
-                            appMask="99:99" 
-                            (change)="onInputStartTime()"
-                            required
-                            appTimeValidator [minTime]="minTimeStart" [maxTime]="maxTimeEnd"
-                            [(ngModel)]="startTime">
-
-                        <div *ngIf="startTimeEl.invalid" class="alert alert-danger">
-                            <div *ngIf="startTimeEl.hasError('required') && startDateEl.dirty">
-                                Time Required.
-                            </div>                        
-                            <div *ngIf="startTimeEl.hasError('invalidTime')">
-                                Invalid Time.
-                            </div>
-                            <div *ngIf="startTimeEl.hasError('invalidTimeMin')">
-                                Time should be from {{minTimeStart | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
-                            </div>
-                            <div *ngIf="startTimeEl.hasError('invalidTimeMax')">
-                                Time should be from {{minTimeStart | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
-                            </div>
-                        
-                        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-success" type="submit" [disabled]="!form.valid">Save</button>
+                <button class="btn btn-primary" type="button" (click)="goBack()">Back</button>
+            </div>
+        </div>
     
-                    </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" type="text" 
-                            #endTimeEl="ngModel"
-                            name="endTime" 
-                            appMask="99:99"
-                            (change)="onInputEndTime()"
-                            [required]="nextPrevious.next !== undefined"
-                            appTimeValidator [minTime]="event.startDate" [maxTime]="maxTimeEnd"
-                            [(ngModel)]="endTime">
-
-                        <div *ngIf="endTimeEl.invalid" class="alert alert-danger">
-                            <div *ngIf="endTimeEl.hasError('required') && endTimeEl.dirty">
-                                Time Required.
-                            </div>                        
-                            <div *ngIf="endTimeEl.hasError('invalidTime')">
-                                Invalid Time.
-                            </div>
-                            <div *ngIf="endTimeEl.hasError('invalidTimeMin')">
-                                Time should be from {{event.startDate | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
-                            </div>
-                            <div *ngIf="endTimeEl.hasError('invalidTimeMax')">
-                                Time should be from {{event.startDate | date : 'HH:mm'}} to {{maxTimeEnd | date : 'HH:mm'}}.
-                            </div>
-                        
-                        </div>
-    
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-control" type="text" disabled 
-                            value="{{event.task.project.name}}-{{event.task.id}}-{{event.task.name}}">
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-control" type="text" name="eventRemark" 
-                            placeholder="Remarks" 
-                            [disabled]="event.registered"
-                            [(ngModel)]="event.remarks">
-                    </div>    
-                </div>
-
-                <div class="row" *ngIf="nextPrevious.previous">
-                    <div class="col-lg-1">Previous</div>
-                    <div class="col-lg-1">
-                        <input class="form-control" type="checkbox" [disabled]="true"
-                            [value]="nextPrevious.previous.registered">
-                    </div>
-                    <div class="col-lg-2">
-                        <input class="form-control" 
-                            [value]="nextPrevious.previous.startDate | date : 'dd/MM/yy'" [disabled]="true">                            
-                    </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" 
-                            [value]="nextPrevious.previous.startDate | date : 'HH:mm'" [disabled]="true">                            
-                    </div>
-                    <div class="col-lg-1">
-                        <input class="form-control" 
-                            [value]="nextPrevious.previous.endDate | date : 'HH:mm'" [disabled]="true">                            
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-control" type="text" disabled 
-                            value="{{nextPrevious.previous.task.project.name}}-{{nextPrevious.previous.task.id}}-{{nextPrevious.previous.task.name}}">
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="form-control" type="text" placeholder="Remarks" 
-                            [disabled]="true"
-                            [value]="nextPrevious.previous.remarks">
-                    </div>    
-                </div>                
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button class="btn btn-success" type="submit" [disabled]="!form.valid">Save</button>
-                        <button class="btn btn-primary" type="button" (click)="goBack()">Back</button>
-                    </div>
-                </div>
-            
-        </form>
+</form>
