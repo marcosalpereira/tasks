@@ -23,16 +23,14 @@ export class DateUtil {
     }
 
     public static durationMinutes(start: moment.Moment, end: moment.Moment): number {
-        const milis = end.diff(start);
-        const minutes: number = milis / 1000 / 60;
-        return Math.round(minutes);
+        return end.diff(start, 'minutes');
     }
 
     public static formatHour(mins: number): string {
         if (mins === 0) {
             return '';
         }
-        return (mins / 60).toFixed() + ':' + DateUtil.lpadMask('00', (mins % 60).toFixed());
+        return Math.trunc(mins / 60) + ':' + DateUtil.lpadMask('00', (mins % 60));
     }
 
     public static formatDecimalHour(mins: number): string {
