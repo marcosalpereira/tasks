@@ -61,8 +61,8 @@
             <td style="width: 10px"></td>
             <td colspan="2"></td>
             <td class="text-left"><span class="font-weight-bold">Total</span></td>
-            <td *ngFor="let i of [0,1,2,3,4,5,6]" class="text-center">
-              <span class="font-weight-bold" [title]="calcDate(summary, i) | date : 'dd/MM/yy'"
+            <td *ngFor="let i of [0,1,2,3,4,5,6]" class="text-center" [title]="calcDate(summary, i) | date : 'dd/MM/yy'">
+              <span class="font-weight-bold" 
                   [class.text-danger]="isAtipicTime(summary.minutesTotal[i])">{{summary.minutesTotal[i] | formatMinutes}}</span>
             </td>
           </tr>
