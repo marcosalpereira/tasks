@@ -14,6 +14,7 @@ const TIME_FORMAT = 'HH:mm:ss';
   styleUrls: ['./edit-event.component.css']
 })
 export class EditEventComponent implements OnInit {
+
   event: Event;
   nextPrevious: NextPreviousEvent;
   periodoInvalido: 'start' | 'end';
@@ -36,7 +37,11 @@ export class EditEventComponent implements OnInit {
     this.nextPrevious = this.dataService.findNextPreviousEvent(this.event);
   }
 
-  onSubmit() {
+  saveAnyWay() {
+    this.onSubmit(false);
+  }
+
+  onSubmit(doValidation = true) {
     if (this.event.endDate) {
       this.event.endDate.setDate(this.event.startDate.getDate());
       this.event.endDate.setMonth(this.event.startDate.getMonth());
@@ -45,21 +50,25 @@ export class EditEventComponent implements OnInit {
 
     this.periodoInvalido = undefined;
 
-    if (this.nextPrevious.next) {
-      if (this.event.endDate.getTime() > this.nextPrevious.next.startDate.getTime()) {
-        this.periodoInvalido = 'end';
+    if (!doValidation) {
+      console.log('no-validation-active');
+    } else {
+      if (this.nextPrevious.next) {
+        if (this.event.endDate.getTime() > this.nextPrevious.next.startDate.getTime()) {
+          this.periodoInvalido = 'end';
+        }
       }
-    }
 
-    if (this.nextPrevious.previous) {
-      if (this.event.startDate.getTime() < this.nextPrevious.previous.endDate.getTime()) {
-        this.periodoInvalido = 'start';
+      if (this.nextPrevious.previous) {
+        if (this.event.startDate.getTime() < this.nextPrevious.previous.endDate.getTime()) {
+          this.periodoInvalido = 'start';
+        }
       }
-    }
 
-    if (this.event.endDate) {
-      if (this.event.endDate.getTime() < this.event.startDate.getTime()) {
-        this.periodoInvalido = 'end';
+      if (this.event.endDate) {
+        if (this.event.endDate.getTime() < this.event.startDate.getTime()) {
+          this.periodoInvalido = 'end';
+        }
       }
     }
 
