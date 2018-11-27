@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../data.service';
 import { Event } from '../event.model';
-import { Subscription } from 'rxjs/Subscription';
 import { Task } from '../task.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BrowserService } from '../browser.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-log',

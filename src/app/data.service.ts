@@ -3,7 +3,7 @@ import { Project } from './project.model';
 import { Task } from './task.model';
 import { Event, NextPreviousEvent } from './event.model';
 import * as moment from 'moment';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Summary, TaskSummary } from './summary.model';
 
 import { WeekRange, DateUtil } from './date-util';

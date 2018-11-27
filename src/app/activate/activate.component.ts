@@ -5,8 +5,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Task } from '../task.model';
 import { Project } from '../project.model';
 import { DataService } from '../data.service';
-import { Subscription } from 'rxjs/Subscription';
 import { NgForm, NgModel } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-activate',

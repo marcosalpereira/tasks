@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 export class MessagesService {
   error$ = new Subject<string[]>();
@@ -16,7 +16,7 @@ export class MessagesService {
     this.errors.push(msg);
     this.error$.next(this.errors);
   }
-  
+
   info(msg: string): void {
     this.infos.push(msg);
     this.info$.next(this.infos);

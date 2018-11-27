@@ -5,7 +5,7 @@
     <div class="col-md-4 meny">
       <accordion>
         <accordion-group [isOpen]="showConfigOpen" heading="Config">
-          <app-config></app-config>               
+          <app-config></app-config>
         </accordion-group>
         <accordion-group isOpen="true" heading="Top Tasks">
           <app-top-tasks></app-top-tasks>
@@ -15,10 +15,13 @@
         </accordion-group>
       </accordion>
     </div>
-    
+
     <div class="col-md-12 meny-content">
       <app-header></app-header>
       <accordion>
+        <accordion-group heading="Gráficos">
+            <app-charts></app-charts>
+        </accordion-group>
         <accordion-group heading="Summary">
           <app-summary></app-summary>
         </accordion-group>

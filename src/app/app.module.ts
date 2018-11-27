@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -37,6 +37,16 @@ import { MaskDirective } from './mask.directive';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DateValidatorDirective } from './date-validator.directive';
 import { TimeValidatorDirective } from './time-validator.directive';
+import { ChartsComponent } from './charts/charts.component';
+import { ChartModule } from 'angular-highcharts';
+
+// NOTE: foi usado 'pt' e nao 'pt-BR' isso pq 'pt' tem as definicoes do brasil
+// portugal deveria usar 'pt-PT'
+import { registerLocaleData } from '@angular/common';
+import localesPt from '@angular/common/locales/pt';
+registerLocaleData(localesPt);
+
+
 
 const ROUTES: Route[] = [
   {
@@ -65,6 +75,7 @@ const ROUTES: Route[] = [
     MaskDirective,
     DateValidatorDirective,
     TimeValidatorDirective,
+    ChartsComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +86,7 @@ const ROUTES: Route[] = [
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    ChartModule
   ],
   providers: [DataService,
     ElectronService,
@@ -87,7 +99,9 @@ const ROUTES: Route[] = [
     TaskDaoService,
     ProjectDaoService,
     ConfigService,
-    StorageService
+    StorageService,
+    { provide: LOCALE_ID, useValue: 'pt' }
+
   ],
   bootstrap: [AppComponent]
 })
