@@ -5,11 +5,16 @@
 
 .panel-default > .panel-heading {
     background-color: lightgray;
-    padding-left: 6px;
-    padding-top: 2px;
-    padding-right: 2px;
-    padding-bottom: 2px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 5px;
 }
+
+.accordion-toggle > .btn {
+    padding: 0px;
+    font-weight: bold;
+}
+
 
 .panel-default > .panel-body {
     background-color: lightgray;

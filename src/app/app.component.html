@@ -4,13 +4,13 @@
     <!-- <div class="meny-arrow"></div> -->
     <div class="col-md-4 meny">
       <accordion>
-        <accordion-group [isOpen]="showConfigOpen" heading="Config">
+        <accordion-group [isOpen]="showConfigOpen" heading="Configuração">
           <app-config></app-config>
         </accordion-group>
-        <accordion-group isOpen="true" heading="Top Tasks">
+        <accordion-group isOpen="true" heading="Tarefas frequentes">
           <app-top-tasks></app-top-tasks>
         </accordion-group>
-        <accordion-group heading="Create/Start Task">
+        <accordion-group heading="Criar/Iniciar Tarefa">
           <app-activate></app-activate>
         </accordion-group>
       </accordion>
@@ -19,13 +19,13 @@
     <div class="col-md-12 meny-content">
       <app-header></app-header>
       <accordion>
-        <accordion-group heading="Gráficos">
+        <accordion-group heading="Gráfico">
             <app-charts></app-charts>
         </accordion-group>
-        <accordion-group heading="Summary">
+        <accordion-group heading="Resumo">
           <app-summary></app-summary>
         </accordion-group>
-        <accordion-group isOpen="true" heading="Log">
+        <accordion-group isOpen="true" heading="Eventos">
           <router-outlet></router-outlet>
         </accordion-group>
       </accordion>
