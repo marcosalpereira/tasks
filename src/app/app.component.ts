@@ -12,7 +12,8 @@ export class AppComponent implements OnInit {
   showConfigOpen = true;
   meny: any;
 
-  constructor(private configService: ConfigService) { }
+  constructor(private configService: ConfigService,
+    private dataService: DataService) { }
 
   ngOnInit() {
     this.showConfigOpen = this.configService.getConfig().cpf === undefined;
@@ -59,6 +60,8 @@ export class AppComponent implements OnInit {
       // Use touch swipe events to open/close
       touch: true
     });
+
+    this.dataService.reloadAll();
 
   }
 

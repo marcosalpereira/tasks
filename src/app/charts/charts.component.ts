@@ -4,6 +4,7 @@ import { DataService } from '../data.service';
 import * as moment from 'moment';
 import { Event } from '../event.model';
 import { DateUtil } from '../date-util';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-charts',
@@ -11,12 +12,17 @@ import { DateUtil } from '../date-util';
   styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent implements OnInit {
-
+  eventsChanged$: Subscription;
   summaryChart: Chart;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.eventsChanged$ = this.dataService.eventsChanged$.subscribe(
+      events => this.renderChart(events)
+    );
+  }
+  renderChart(events: Event[]): void {
     const options = {
       chart: {
         type: 'line',
@@ -43,10 +49,9 @@ export class ChartsComponent implements OnInit {
       series: [],
     };
 
-    const events = this.dataService.getEvents();
     const fim = moment(new Date(events[0].startDate));
     const ini = moment(events[events.length - 1].startDate);
-    console.log({ini, fim});
+    console.log({ ini, fim });
     const base = +ini.format('YYYYMMDD');
     const end = +fim.format('YYYYMMDD');
     const qtdDias = end - base + 1;
@@ -83,13 +88,11 @@ export class ChartsComponent implements OnInit {
     options.xAxis.categories = [];
     let index = 0;
     for (let dia = ini; index < qtdDias; index++) {
-      options.xAxis.categories[index] = dia.format('DD/MM/YYYY');
+      options.xAxis.categories[index] = dia.format('DD/MM ddd');
       dia = dia.add(1, 'days');
     }
     this.summaryChart = new Chart(options);
   }
-
-
 }
 
 

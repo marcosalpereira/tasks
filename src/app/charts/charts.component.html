@@ -1,7 +1,7 @@
 <div class="panel-body">
     <div class="row">
         <div class="col-lg-12">
-            <div [chart]="summaryChart"></div>
+            <div *ngIf="summaryChart" [chart]="summaryChart"></div>
         </div>
     </div>
 </div>

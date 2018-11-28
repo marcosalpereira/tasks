@@ -3,7 +3,7 @@ import { Project } from './project.model';
 import { Task } from './task.model';
 import { Event, NextPreviousEvent } from './event.model';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Summary, TaskSummary } from './summary.model';
 
 import { WeekRange, DateUtil } from './date-util';
@@ -15,7 +15,7 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class DataService {
-  public eventsChanged$ = new Subject<Event[]>();
+  public eventsChanged$ = new BehaviorSubject<Event[]>(undefined);
   public projectsChanged$ = new Subject<Project[]>();
   public topTasksChanged$ = new Subject<Task[]>();
 
