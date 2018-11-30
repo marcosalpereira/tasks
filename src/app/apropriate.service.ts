@@ -29,7 +29,7 @@ export class ApropriateService {
   apropriate(callback) {
     try {
       this.events = this.dataService.getEvents()
-        .filter( (event: Event) => event.endDate);
+        .filter((event: Event) => event.endDate);
 
       this.alertService.clear();
       const path = this.electronService.path;
@@ -52,7 +52,7 @@ export class ApropriateService {
     const jars: string[][] = fs.readdirSync(this.getConfig().workFolder)
       .map(s => er.exec(s))
       .filter(g => g !== null)
-      .sort( (ga, gb) => this.parseVersion(gb) - this.parseVersion(ga));
+      .sort((ga, gb) => this.parseVersion(gb) - this.parseVersion(ga));
     return jars[0][0];
   }
 
@@ -92,7 +92,7 @@ export class ApropriateService {
     const data: string[] = [];
 
     const regs = this.events
-      .map( (event: Event, index: number) => {
+      .map((event: Event, index: number) => {
         const cols: any[] = [];
         const start = moment(event.startDate);
         const end = moment(event.endDate);
@@ -118,7 +118,7 @@ export class ApropriateService {
     data.push(`cfg|version|1.13`);
     data.push(`cfg|login.cpf|${config.cpf}`);
     data.push(`cfg|browser.type|${config.browserType}`);
-    data.push(`cfg|browser.firefox.profile|${config.browserFirefoxProfile}`);
+    if (config.browserFirefoxProfile) { data.push(`cfg|browser.firefox.profile|${config.browserFirefoxProfile}`) };
     data.push(`cfg|browser.location|${config.browserLocation}`);
 
     return data.join('\n')
