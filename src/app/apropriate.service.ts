@@ -48,7 +48,7 @@ export class ApropriateService {
 
   getLastJarFile(): any {
     const fs = this.electronService.fs;
-    const er = /^alm\-apropriator\-(\d+)\.(\d+)\.jar/g;
+    const er = /^alm\-apropriator\-(\d+)\.(\d+)\.jar/;
     const jars: string[][] = fs.readdirSync(this.getConfig().workFolder)
       .map(s => er.exec(s))
       .filter(g => g !== null)
