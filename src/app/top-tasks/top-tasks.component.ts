@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../data.service';
 import { Subscription } from 'rxjs';
 import { Task } from '../task.model';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-top-tasks',
@@ -12,7 +13,10 @@ export class TopTasksComponent implements OnInit, OnDestroy {
 
   topTaskSub: Subscription;
   topTasks: Task[];
-  constructor(private dataService: DataService) { }
+  constructor(
+    private dataService: DataService,
+    private appComponent: AppComponent) {
+  }
 
   ngOnInit() {
     this.topTasks = this.dataService.getTopTasks();
@@ -28,6 +32,6 @@ export class TopTasksComponent implements OnInit, OnDestroy {
 
   onClick(task: Task) {
     this.dataService.startTask(task.project, task.code, task.name, '');
+    this.appComponent.meny.close();
   }
-
 }
