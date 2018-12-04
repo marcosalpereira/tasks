@@ -118,8 +118,14 @@ export class ApropriateService {
     data.push(`cfg|version|1.13`);
     data.push(`cfg|login.cpf|${config.cpf}`);
     data.push(`cfg|browser.type|${config.browserType}`);
-    if (config.browserFirefoxProfile) { data.push(`cfg|browser.firefox.profile|${config.browserFirefoxProfile}`) };
-    data.push(`cfg|browser.location|${config.browserLocation}`);
+
+    if (config.browserFirefoxProfile) {
+      data.push(`cfg|browser.firefox.profile|${config.browserFirefoxProfile}`) ;
+    }
+
+    if (config.browserLocation) {
+      data.push(`cfg|browser.location|${config.browserLocation}`);
+    }
 
     return data.join('\n')
       .concat('\n')

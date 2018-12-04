@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div class="form-group">
         <label class="control-label" for="workFolder">Pasta onde se encontra o alm-apropriator-?-jar</label>
-        <input class="form-control" placeholder="Pasta de trabalho da apropriação" 
+        <input class="form-control" placeholder="Pasta de trabalho da apropriação"
             [(ngModel)]="config.workFolder" id="workFolder" name="workFolder" required />
       </div>
     </div>
@@ -23,7 +23,16 @@
         <select [(ngModel)]="config.browserType" class="form-control selectpicker" id="browserType" name="browserType" required>
           <option ngValue="firefox">firefox</option>
           <option ngValue="chrome">chrome</option>
-        </select>      
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="config.browserType === 'firefox'">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label" for="browserFirefoxProfile">Nome de um profile do firefox</label>
+        <input class="form-control" placeholder="Nome profile"
+            [(ngModel)]="config.browserFirefoxProfile" id="browserFirefoxProfile" name="browserFirefoxProfile" />
       </div>
     </div>
   </div>
