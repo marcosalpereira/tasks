@@ -30,9 +30,14 @@
 
 label.required:before {
     content:"* ";
-    color:  red; 
+    color:  red;
 }
 
 .font-weight-bold {
     font-weight: bold;
 }
+
+.obrigatorio::after {
+    color: #a8001f;
+    content: " *";
+  }

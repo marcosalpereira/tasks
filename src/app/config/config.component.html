@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
-        <label class="control-label" for="workFolder">Pasta onde se encontra o alm-apropriator-?-jar</label>
+        <label class="control-label obrigatorio" for="workFolder">Pasta onde se encontra o alm-apropriator-?-jar</label>
         <input class="form-control" placeholder="Pasta de trabalho da apropriação"
             [(ngModel)]="config.workFolder" id="workFolder" name="workFolder" required />
       </div>
@@ -11,7 +11,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
-        <label class="control-label" for="cpf">CPF</label>
+        <label class="control-label obrigatorio" for="cpf">CPF</label>
         <input class="form-control" placeholder="CPF" [(ngModel)]="config.cpf" id="cpf" name="cpf" required />
       </div>
     </div>
@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
-        <label class="control-label" for="browserType">Navegador</label>
+        <label class="control-label obrigatorio" for="browserType">Navegador</label>
         <select [(ngModel)]="config.browserType" class="form-control selectpicker" id="browserType" name="browserType" required>
           <option ngValue="firefox">firefox</option>
           <option ngValue="chrome">chrome</option>
