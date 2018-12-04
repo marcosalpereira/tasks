@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from './data.service';
 import { ConfigService } from './config.service';
 import { Config } from './config.model';
+import moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,8 @@ export class AppComponent implements OnInit {
     private dataService: DataService) { }
 
   ngOnInit() {
+    moment.locale('pt-br');
+
     this.showConfigOpen = this.configService.getConfig().cpf === undefined;
     this.configService.configChanged$.subscribe(
       (config: Config) => this.showConfigOpen = config.cpf === undefined);

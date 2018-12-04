@@ -49,12 +49,11 @@ export class ChartsComponent implements OnInit {
       series: [],
     };
 
-    const fim = moment(new Date(events[0].startDate));
-    const ini = moment(events[events.length - 1].startDate);
-    console.log({ ini, fim });
-    const base = +ini.format('YYYYMMDD');
-    const end = +fim.format('YYYYMMDD');
-    const qtdDias = end - base + 1;
+    const fim = moment(events[0].startDate).startOf('day');
+    const ini = moment(events[events.length - 1].startDate).startOf('day');
+    const qtdDias = fim.diff(ini, 'days');
+
+    console.log({ ini, fim, qtdDias });
 
     const total = new Array(qtdDias);
     total.fill(0);
@@ -63,7 +62,7 @@ export class ChartsComponent implements OnInit {
       if (event.endDate) {
         const startMoment = moment(event.startDate);
         const minutes = DateUtil.durationMinutes(startMoment, moment(event.endDate));
-        const dia = +startMoment.format('YYYYMMDD') - base;
+        const dia = startMoment.startOf('day').diff(ini, 'days');
         const key = event.task.name;
 
         let data: number[] = map[key];
@@ -75,19 +74,21 @@ export class ChartsComponent implements OnInit {
         } else {
           data[dia] += minutes;
         }
+
         total[dia] += minutes;
       }
       return map;
     }, new Map());
 
-    for (const [name, data] of Object.entries(tmpMap)) {
+    for (const [name, dados] of Object.entries(tmpMap)) {
+      const data = dados.map(n => Math.round( (n / 60) * 100 ) / 100);
       options.series.push({ name, data });
     }
-    options.series.push({ name: 'Total', data: total });
+    options.series.push({ name: 'Total', data: total.map(n => Math.round( (n / 60) * 100 ) / 100)});
 
     options.xAxis.categories = [];
     let index = 0;
-    for (let dia = ini; index < qtdDias; index++) {
+    for (let dia = moment(ini); index < qtdDias; index++) {
       options.xAxis.categories[index] = dia.format('DD/MM ddd');
       dia = dia.add(1, 'days');
     }
