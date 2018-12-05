@@ -15,28 +15,28 @@
                     [value]="nextPrevious.next.registered">
             </div>
             <div class="col-lg-2">
-                <input class="form-control" 
-                    [value]="nextPrevious.next.startDate | date : 'dd/MM/yyyy HH:mm'" [disabled]="true">                            
+                <input class="form-control"
+                    [value]="nextPrevious.next.startDate | date : 'dd/MM/yyyy HH:mm'" [disabled]="true">
             </div>
             <div class="col-lg-2">
-                <input class="form-control" 
-                    [value]="nextPrevious.next.endDate | date : 'HH:mm'" [disabled]="true">                            
+                <input class="form-control"
+                    [value]="nextPrevious.next.endDate | date : 'HH:mm'" [disabled]="true">
             </div>
             <div class="col-lg-3">
-                <input class="form-control" type="text" disabled 
+                <input class="form-control" type="text" disabled
                     value="{{nextPrevious.next.task.project.name}}-{{nextPrevious.next.task.id}}-{{nextPrevious.next.task.name}}">
             </div>
             <div class="col-lg-3">
-                <input class="form-control" type="text" placeholder="Remarks" 
+                <input class="form-control" type="text" placeholder="Remarks"
                     [disabled]="true"
                     [value]="nextPrevious.next.remarks">
-            </div>    
-        </div>                
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-lg-1">Current</div>
             <div class="col-lg-1">
-                <input class="form-control" type="checkbox" 
+                <input class="form-control" type="checkbox"
                     [(ngModel)]="event.registered" name="registered">
             </div>
             <div class="col-lg-2">
@@ -62,15 +62,17 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <input class="form-control" type="text" disabled 
-                    value="{{event.task.project.name}}-{{event.task.id}}-{{event.task.name}}">
+                <select [(ngModel)]="event.task" title="Change Task" [compareWith]="compareTaskFn"
+                        class="form-control" name="task" required>
+                    <option *ngFor="let t of tasks" [ngValue]="t">{{t.code}}-{{t.name}}</option>
+                </select>
             </div>
             <div class="col-lg-3">
-                <input class="form-control" type="text" name="eventRemark" 
-                    placeholder="Remarks" 
+                <input class="form-control" type="text" name="eventRemark"
+                    placeholder="Remarks"
                     [disabled]="event.registered"
                     [(ngModel)]="event.remarks">
-            </div>    
+            </div>
         </div>
 
         <div class="row" *ngIf="nextPrevious.previous">
@@ -80,23 +82,23 @@
                     [value]="nextPrevious.previous.registered">
             </div>
             <div class="col-lg-2">
-                <input class="form-control" 
-                    [value]="nextPrevious.previous.startDate | date : 'dd/MM/yyyy HH:mm'" [disabled]="true">                            
+                <input class="form-control"
+                    [value]="nextPrevious.previous.startDate | date : 'dd/MM/yyyy HH:mm'" [disabled]="true">
             </div>
             <div class="col-lg-2">
-                <input class="form-control" 
-                    [value]="nextPrevious.previous.endDate | date : 'HH:mm'" [disabled]="true">                            
+                <input class="form-control"
+                    [value]="nextPrevious.previous.endDate | date : 'HH:mm'" [disabled]="true">
             </div>
             <div class="col-lg-3">
-                <input class="form-control" type="text" disabled 
+                <input class="form-control" type="text" disabled
                     value="{{nextPrevious.previous.task.project.name}}-{{nextPrevious.previous.task.id}}-{{nextPrevious.previous.task.name}}">
             </div>
             <div class="col-lg-3">
-                <input class="form-control" type="text" placeholder="Remarks" 
+                <input class="form-control" type="text" placeholder="Remarks"
                     [disabled]="true"
                     [value]="nextPrevious.previous.remarks">
-            </div>    
-        </div>                
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-lg-12">
@@ -105,5 +107,5 @@
                 <button class="btn btn-primary" type="button" (click)="goBack()">Back</button>
             </div>
         </div>
-    
+
 </form>

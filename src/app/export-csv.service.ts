@@ -26,7 +26,8 @@ export class ExportCsvService {
 
   exportCsv(): void {
     this.alertService.clear();
-    const csvFile = this.electronService.path.resolve(this.getConfig().workFolder, `dados-${new Date().getTime()}.csv`);
+    const timeStamp = moment().format('DD-MM-YY-HH-mm-ss');
+    const csvFile = this.electronService.path.resolve(this.getConfig().workFolder, `dados-${timeStamp}.csv`);
     const data = this.convertEventsToCsv();
     this.electronService.fs.writeFileSync(csvFile, data);
     this.alertService.info(`Exported to ${csvFile}`);

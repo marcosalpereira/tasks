@@ -74,14 +74,14 @@ export class EventDaoService {
       endDate: event.endDate,
       registered: event.registered,
       remarks: event.remarks,
-      task: event.task.code,
+      task: event.task.id,
       startDate: event.startDate
     };
     return entity;
   }
 
   private toModel(entity: EventEntity): Event {
-    const task = this.taskDao.findByCode(entity.task);
+    const task = this.taskDao.findById(entity.task);
     const model = new Event(task, new Date(entity.startDate));
     model.id = entity.id;
     model.endDate = entity.endDate ? new Date(entity.endDate) : undefined;

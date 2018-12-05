@@ -5,6 +5,7 @@ import { Event, NextPreviousEvent } from '../event.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
+import { Task } from '../task.model';
 
 const TIME_FORMAT = 'HH:mm:ss';
 
@@ -18,6 +19,7 @@ export class EditEventComponent implements OnInit {
   event: Event;
   nextPrevious: NextPreviousEvent;
   periodoInvalido: 'start' | 'end';
+  tasks: Task[];
 
   constructor(
     private dataService: DataService,
@@ -30,10 +32,11 @@ export class EditEventComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.tasks = this.dataService.getTasks();
+
     const param = this.activeRoute.snapshot.paramMap;
     const id = +param.get('id');
     this.event = this.dataService.findEvent(id);
-
     this.nextPrevious = this.dataService.findNextPreviousEvent(this.event);
   }
 
@@ -77,6 +80,10 @@ export class EditEventComponent implements OnInit {
     }
     this.dataService.updateEvent(this.event);
     this.goBack();
+  }
+
+  compareTaskFn = (t1: Task, t2: Task): boolean => {
+    return t1 && t2 && t1.id === t2.id;
   }
 
 }

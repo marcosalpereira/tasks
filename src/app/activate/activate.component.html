@@ -4,7 +4,8 @@
       <div class="form-group">
         <label class="control-label" for="project">Project</label>
         <div id="project">
-          <select ngModel="" title="Select project" style="width:75%" class="f_orm-control selectpicker" name="project" required>
+          <select ngModel="" title="Select project" style="width:75%" class="f_orm-control selectpicker" name="project"
+            required>
             <option *ngFor="let p of projects" [ngValue]="p">{{p.name}}</option>
           </select>
           <button title="Create new Project" type="button" class="btn btn-primary btn-sm" (click)="onClickNewProject(newProjectTemplate)">
@@ -18,13 +19,12 @@
     <div class="col-md-12">
       <div class="form-group">
         <label class="control-label" for="code">Task Code</label>
-        <input class="form-control" placeholder="Task Code" ngModel id="code" name="code" required pattern="[1-9][0-9]{0,10}" size="6"
-          maxlength="10" />
+        <input class="form-control" placeholder="Task Code" ngModel id="code" name="code" required pattern="[1-9][0-9]{0,10}"
+          size="6" maxlength="10" />
       </div>
     </div>
   </div>
   <div class="row">
-
     <div class="col-md-12">
       <div class="form-group">
         <label class="control-label" for="code">Task Name</label>
@@ -33,7 +33,14 @@
     </div>
   </div>
   <div class="row">
-
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="startTask" class="control-label">Já iniciar essa tarefa</label>
+        <input id="startTask" class="form-control" type="checkbox" [(ngModel)]="startTask" name="startTask">
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="startTask">
     <div class="col-md-12">
       <div class="form-group">
         <label class="control-label" for="code">Observação</label>
@@ -59,14 +66,15 @@
         <div class="col-md-12">
           <div class="form-group">
             <label for="newProjectName" class="control-label">Nome do Projeto</label>
-            <input id="newProjectName" class="form-control" #newProjectNameInput ngModel 
-              type="text" name="newProjectName" required>
+            <input id="newProjectName" class="form-control" #newProjectNameInput ngModel type="text" name="newProjectName"
+              required>
           </div>
         </div>
         <div class="row">
           <div class="col-m2-12">
             <div class="form-group">
-              <button type="button" class="btn btn-success" (click)="confirmNewProject(newProjectNameInput.value)" [disabled]="!formModal.valid">OK</button>
+              <button type="button" class="btn btn-success" (click)="confirmNewProject(newProjectNameInput.value)"
+                [disabled]="!formModal.valid">OK</button>
               <button type="button" class="btn btn-primary" (click)="cancelNewProject()">Cancelar</button>
             </div>
           </div>

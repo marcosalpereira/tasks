@@ -12,6 +12,7 @@ import { EventDaoService } from './event-dao.service';
 import { TaskDaoService } from './task-dao.service';
 import { ProjectDaoService } from './project-dao.service';
 import { ConfigService } from './config.service';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class DataService {
@@ -22,7 +23,8 @@ export class DataService {
   constructor(
     private eventDao: EventDaoService,
     private taskDao: TaskDaoService,
-    private projectDao: ProjectDaoService) {
+    private projectDao: ProjectDaoService,
+    private storageService: StorageService) {
   }
 
   markEventAsRegistered(event: Event): void {
@@ -33,6 +35,11 @@ export class DataService {
   getTopTasks() {
     return this.taskDao.getTopTasks();
   }
+
+  getTasks(): Task[] {
+    return this.taskDao.getTasks();
+  }
+
 
   stopTask(event: Event) {
     event.endDate = new Date();
@@ -86,6 +93,11 @@ export class DataService {
     task.counter++;
     this.taskDao.persist(task);
     return task;
+  }
+
+  createTask(project: Project, taskCode: number, taskName: string) {
+    const task = new Task(project, taskCode, taskName);
+    this.taskDao.persist(task);
   }
 
   startTask(project: Project, taskCode: number, taskName: string, remarks: string, date = new Date()): void {

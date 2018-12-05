@@ -19,6 +19,7 @@ export class ActivateComponent implements OnInit, OnDestroy {
   modalRef: BsModalRef;
   projectsChangedSub: Subscription;
   projects: Project[] = [];
+  startTask = true;
 
   @ViewChild('form') form: NgForm;
 
@@ -51,7 +52,11 @@ export class ActivateComponent implements OnInit, OnDestroy {
         const taskName: string = this.form.value['taskName'];
         const code: number = +this.form.value['code'];
         const remarks = this.form.value['eventRemarks'];
-        this.dataService.startTask(project, code, taskName, remarks);
+        if (this.startTask) {
+          this.dataService.startTask(project, code, taskName, remarks);
+        } else {
+          this.dataService.createTask(project, code, taskName);
+        }
         this.appComponent.meny.close();
       }
 

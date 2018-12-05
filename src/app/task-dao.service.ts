@@ -19,15 +19,19 @@ export class TaskDaoService {
       const index = tasks.findIndex(e => e.id === task.id);
       tasks[index] = task;
     } else {
-      task.id = this.tasks.length + 1;
+      task.id = new Date().getTime();
       tasks.push(task);
       this.writeAllTasks();
     }
-    this.storageService.setItem(`tasks.${task.code}`, task);
+    this.storageService.setItem(`tasks.${task.id}`, task);
+  }
+
+  findById(id: number): Task {
+    return this.storageService.getItem(`tasks.${id}`);
   }
 
   findByCode(code: number): Task {
-    return this.storageService.getItem(`tasks.${code}`);
+    return this.getTasks().find(task => task.code === code);
   }
 
   getTopTasks(): any {
@@ -46,12 +50,12 @@ export class TaskDaoService {
   private readAllTasks(): Task[] {
     const codes: number[] = this.storageService.getItem('tasks') || [];
     return codes
-        .map(code => this.findByCode(code));
+        .map(code => this.findById(code));
   }
   private writeAllTasks(): void {
-    const codes = this.getTasks()
-      .map(task => task.code);
-    this.storageService.setItem('tasks', codes);
+    const ids = this.getTasks()
+      .map(task => task.id);
+    this.storageService.setItem('tasks', ids);
   }
 
 }
