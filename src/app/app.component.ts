@@ -3,6 +3,8 @@ import { DataService } from './data.service';
 import { ConfigService } from './config.service';
 import { Config } from './config.model';
 import moment from 'moment';
+import { VersionService } from './version.service';
+import { ElectronService } from './electron.service';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +15,23 @@ export class AppComponent implements OnInit {
   showConfigOpen = true;
   meny: any;
 
-  constructor(private configService: ConfigService,
-    private dataService: DataService) { }
+  constructor(
+    private configService: ConfigService,
+    private dataService: DataService,
+    private versionMigrationService: VersionService,
+    private electronService: ElectronService,
+  ) { }
 
   ngOnInit() {
+
+    document.addEventListener('keydown', e => {
+      if (e.which === 123) {  // F12
+        this.electronService.remote.getCurrentWindow().webContents.openDevTools();
+      }
+    });
+
     moment.locale('pt-br');
+    this.versionMigrationService.migrateData();
 
     this.showConfigOpen = this.configService.getConfig().cpf === undefined;
     this.configService.configChanged$.subscribe(
