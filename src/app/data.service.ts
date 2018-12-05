@@ -67,6 +67,10 @@ export class DataService {
   }
 
   bulkImportBegin() {
+    this.storageService.clear();
+    this.taskDao.dataInit();
+    this.eventDao.dataInit();
+    this.projectDao.dataInit();
   }
 
   bulkImportEnd() {

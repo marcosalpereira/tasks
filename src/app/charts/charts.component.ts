@@ -23,6 +23,8 @@ export class ChartsComponent implements OnInit {
     );
   }
   renderChart(events: Event[]): void {
+    if (!events || events.length === 0) { return; }
+
     const options = {
       chart: {
         type: 'line',

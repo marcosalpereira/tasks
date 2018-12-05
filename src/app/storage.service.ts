@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
+import { VersionService } from './version.service';
 
 @Injectable()
 export class StorageService {
 
   constructor(
-    private configService: ConfigService) { }
+    private configService: ConfigService,
+    private versionService: VersionService) { }
 
   getItem(context: string): any {
     const key = this.getKey(context);
@@ -23,7 +25,10 @@ export class StorageService {
   }
 
   clear() {
+    const config = this.configService.getConfig();
     localStorage.clear();
+    this.configService.setConfig(config);
+    this.versionService.defineCurrentVersion();
   }
 
   private getKey(context: any): string {
