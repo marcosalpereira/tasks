@@ -8,12 +8,14 @@ import * as moment from 'moment';
 import { MessagesService } from './messages.service';
 import { Event } from './event.model';
 import { Task } from './task.model';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class BrowserService {
 
   constructor(
-    private electronService: ElectronService
+    private electronService: ElectronService,
+    private configService: ConfigService,
   ) {
   }
 
@@ -23,17 +25,27 @@ export class BrowserService {
     const action = `#action=com.ibm.team.workitem.viewWorkItem&id=${task.code}`;
     const tab = '&tab=rastreamentodehoras';
     const url = `${almUrl}/${project}${action}${tab}`;
-    const cmd = `firefox "${url}"`;
+    const browser = this.getBrowser();
+    const cmd = `${browser} "${url}"`;
     console.log(cmd);
     const output = this.electronService.childProcess.exec(cmd);
     console.log('output', output.toString());
+  }
+
+  getBrowser() {
+    const config = this.configService.getConfig();
+    if (config.browserLocation) {
+      return config.browserLocation;
+    }
+    return 'fiefox';
   }
 
   openBiCorporativo() {
     const url = 'https://bicorporativo.serpro.gov.br/dwcorporativo/'
       + 'api/repos/%3Ahome%3ASUPDE%3APaineis%3AGestao%3Aapropriacao-empregado%3Aapropriacao-empregado.wcdf'
       + '/generatedContent';
-      const cmd = `firefox "${url}"`;
+      const browser = this.getBrowser();
+      const cmd = `${browser} "${url}"`;
       console.log(cmd);
       const output = this.electronService.childProcess.exec(cmd);
       console.log('output', output.toString());
