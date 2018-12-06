@@ -44,9 +44,8 @@ import { ChartModule } from 'angular-highcharts';
 // portugal deveria usar 'pt-PT'
 import { registerLocaleData } from '@angular/common';
 import localesPt from '@angular/common/locales/pt';
+import { EditTaskComponent } from './edit-task/edit-task.component';
 registerLocaleData(localesPt);
-
-
 
 const ROUTES: Route[] = [
   {
@@ -54,6 +53,9 @@ const ROUTES: Route[] = [
   },
   {
     path: 'event/:id', component: EditEventComponent
+  },
+  {
+    path: 'tasks/:id', component: EditTaskComponent
   },
   { path: '', redirectTo: 'log', pathMatch: 'full' }
 ];
@@ -76,6 +78,7 @@ const ROUTES: Route[] = [
     DateValidatorDirective,
     TimeValidatorDirective,
     ChartsComponent,
+    EditTaskComponent,
   ],
   imports: [
     BrowserModule,

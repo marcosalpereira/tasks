@@ -4,7 +4,6 @@ import { DataService } from '../data.service';
 import { Event, NextPreviousEvent } from '../event.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import * as moment from 'moment';
 import { Task } from '../task.model';
 
 const TIME_FORMAT = 'HH:mm:ss';

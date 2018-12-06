@@ -104,6 +104,10 @@ export class DataService {
     this.taskDao.persist(task);
   }
 
+  updateTask(task: Task) {
+    this.taskDao.persist(task);
+  }
+
   startTask(project: Project, taskCode: number, taskName: string, remarks: string, date = new Date()): void {
     const lastEvent: Event = this.eventDao.selectLastEvent();
 
@@ -136,6 +140,10 @@ export class DataService {
 
   private getTask(project, code, name) {
     return this.taskDao.findByCode(code) || new Task(project, code, name);
+  }
+
+  findTask(id: number): Task {
+    return this.taskDao.findById(id);
   }
 
   addProject(projectName: string): Project {

@@ -1,0 +1,35 @@
+<h2>Editar Tarefa</h2>
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label" for="project">Project</label>
+        <input class="form-control" type="text" readonly id="project" [value]="task.project.name">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label" for="code">Task Code</label>
+        <input class="form-control" placeholder="Task Code" [(ngModel)]="task.code" id="code" name="code" required pattern="[1-9][0-9]{0,10}"
+          size="6" maxlength="10" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="control-label" for="code">Task Name</label>
+        <input class="form-control" placeholder="Task Name" [(ngModel)]="task.name" id="taskName" name="taskName" required maxlength="50" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+        <button class="btn btn-success" type="submit" [disabled]="!form.valid">Save</button>
+        <button class="btn btn-primary" type="button" (click)="goBack()">Back</button>
+    </div>
+</div>
+</form>
+
