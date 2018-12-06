@@ -27,7 +27,7 @@ export class ChartsComponent implements OnInit {
 
     const options = {
       chart: {
-        type: 'line',
+        type: 'column',
       },
       title: {
         text: 'Apropriações',
@@ -36,29 +36,48 @@ export class ChartsComponent implements OnInit {
         categories: [],
       },
       yAxis: {
+        min: 0,
         title: {
-          text: 'Minutos',
+          text: 'Horas decimais',
         },
+        stackLabels: {
+          enabled: true,
+          style: {
+              fontWeight: 'bold',
+              color: 'gray'
+          }
+        }
+      },
+      legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor: 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+      },
+      tooltip: {
+          headerFormat: '<b>{point.x}</b><br/>',
+          pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
       },
       plotOptions: {
-        line: {
-          dataLabels: {
-            enabled: true,
-          },
-          enableMouseTracking: false,
-        },
+          column: {
+              stacking: 'normal',
+              dataLabels: {
+                  enabled: true,
+                  color: 'white'
+              }
+          }
       },
       series: [],
     };
 
     const fim = moment(events[0].startDate).startOf('day');
     const ini = moment(events[events.length - 1].startDate).startOf('day');
-    const qtdDias = fim.diff(ini, 'days');
-
-    console.log({ ini, fim, qtdDias });
-
-    const total = new Array(qtdDias);
-    total.fill(0);
+    const qtdDias = fim.diff(ini, 'days') + 1;
 
     const tmpMap = events.reduce(function (map, event: Event) {
       if (event.endDate) {
@@ -70,31 +89,51 @@ export class ChartsComponent implements OnInit {
         let data: number[] = map[key];
         if (!data) {
           data = new Array(qtdDias);
-          data.fill(0);
+          data.fill(null);
           data[dia] = minutes;
           map[key] = data;
         } else {
           data[dia] += minutes;
         }
-
-        total[dia] += minutes;
       }
       return map;
     }, new Map());
 
     for (const [name, dados] of Object.entries(tmpMap)) {
-      const data = dados.map(n => Math.round( (n / 60) * 100 ) / 100);
+      const data = dados.map(n => n ? Math.round( (n / 60) * 100 ) / 100 : null);
       options.series.push({ name, data });
     }
-    options.series.push({ name: 'Total', data: total.map(n => Math.round( (n / 60) * 100 ) / 100)});
 
     options.xAxis.categories = [];
-    let index = 0;
-    for (let dia = moment(ini); index < qtdDias; index++) {
-      options.xAxis.categories[index] = dia.format('DD/MM ddd');
+    let dia = moment(ini);
+    for (let count = 0; count < qtdDias; count++) {
+      const dataIndex = options.xAxis.categories.length;
+      if ( this.isWeekend(dia) && !this.existeDados(options.series, dataIndex)) {
+        this.removeDados(options.series, dataIndex);
+      } else {
+        options.xAxis.categories.push(dia.format('D/M ddd'));
+      }
       dia = dia.add(1, 'days');
     }
+
     this.summaryChart = new Chart(options);
+  }
+
+  isWeekend(dia: moment.Moment): boolean {
+    const d = dia.toDate().getDay();
+    return d === 6 || d === 0;
+  }
+
+  removeDados(series: any[], index: number): void {
+    for (let i = 0; i < series.length; i++) {
+      series[i].data.splice(index, 1);
+    }
+  }
+  existeDados(series: any[], index: number): boolean {
+    for (let i = 0; i < series.length; i++) {
+      if (series[i].data[index]) { return true; }
+    }
+    return false;
   }
 }
 

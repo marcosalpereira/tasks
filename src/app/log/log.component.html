@@ -15,30 +15,30 @@
         <tbody>
           <tr *ngFor="let event of events">
             <td class="text-center">
-              <button *ngIf="canStopTask(event)" title="Parar tarefa corrente" 
+              <button *ngIf="canStopTask(event)" title="Parar tarefa corrente"
                     (click)="stopTask(event)" type="button" class="btn btn-success btn-xs">
                   <i class="fa fa-spinner fa-spin fa-lg"></i>
-              </button>  
-              <button *ngIf="!canStopTask(event)" title="Reiniciar tarefa" 
-                  (click)="restartTask(event, false)" 
-                  (contextmenu)="restartTask(event, true)" 
+              </button>
+              <button *ngIf="!canStopTask(event)" title="Reiniciar tarefa"
+                  (click)="restartTask(event, false)"
+                  (contextmenu)="restartTask(event, true)"
                   type="button" class="btn btn-success btn-xs">
                 <i class="fa fa-recycle fa-lg"></i>
               </button>
               <button *ngIf="!event.registered"
-                  (dblclick)="deleteEvent(event)" 
+                  (dblclick)="deleteEvent(event)"
                   type="button" class="btn btn-danger btn-xs"
                   title="Duplo click para remover evento"
                   >
                 <i class="fa fa-trash fa-lg"></i>
               </button>
-              <button *ngIf="!event.registered" title="Edit Event" 
+              <button *ngIf="!event.registered" title="Edit Event"
                     (click)="editEvent(event)" type="button" class="btn btn-danger btn-xs">
                   <i class="fa fa-edit fa-lg"></i>
               </button>
             </td>
             <td class="text-center">{{event.registered | boolean}}</td>
-            <td class="text-center"><span title="{{event.startDate | date : 'dd/MM/yy EEEE' }}">{{event.startDate | date : 'dd' }}</span></td>
+            <td class="text-center"><span title="{{event.startDate | date : 'dd/MM/yy EEEE' }}">{{event.startDate | date : 'dd EEE' }}</span></td>
             <td class="text-left">{{event.startDate | date : 'HH:mm:ss' }}</td>
             <td class="text-left">{{event?.endDate | date : 'HH:mm:ss' }}</td>
             <td class="text-left">{{event | eventDuration}}</td>
