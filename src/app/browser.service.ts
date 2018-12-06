@@ -37,7 +37,7 @@ export class BrowserService {
     if (config.browserLocation) {
       return config.browserLocation;
     }
-    return 'fiefox';
+    return 'firefox';
   }
 
   openBiCorporativo() {
