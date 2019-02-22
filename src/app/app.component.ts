@@ -5,6 +5,8 @@ import { Config } from './config.model';
 import moment from 'moment';
 import { VersionService } from './version.service';
 import { ElectronService } from './electron.service';
+import { ExportCsvService } from './export-csv.service';
+
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,7 @@ export class AppComponent implements OnInit {
   meny: any;
 
   constructor(
+    private exportCsvService: ExportCsvService,
     private configService: ConfigService,
     private dataService: DataService,
     private versionMigrationService: VersionService,
@@ -77,6 +80,8 @@ export class AppComponent implements OnInit {
       // Use touch swipe events to open/close
       touch: true
     });
+
+    this.exportCsvService.exportCsv();
 
     this.dataService.reloadAll();
 
