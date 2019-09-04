@@ -3,6 +3,7 @@ import { DataService } from '../data.service';
 import { Task } from '../task.model';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { BrowserService } from '../browser.service';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class EditTaskComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private activeRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    public browserService: BrowserService
     ) { }
 
     goBack() {

@@ -41,3 +41,7 @@ label.required:before {
     color: #a8001f;
     content: " *";
   }
+
+button + button {
+    margin-left: 5px;
+}
