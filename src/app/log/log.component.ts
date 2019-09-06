@@ -5,6 +5,7 @@ import { Task } from '../task.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BrowserService } from '../browser.service';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-log',
@@ -61,6 +62,13 @@ export class LogComponent implements OnInit, OnDestroy {
   canStopTask(event: Event) {
     return !event.endDate
       && new Date(event.startDate).getDate() === new Date().getDate();
+  }
+
+  isSameWeek(event: Event) {
+    const eventWeek = moment(event.startDate).week();
+    const currentWeek = moment().week();
+    console.log( { eventWeek, currentWeek});
+    return eventWeek === currentWeek;
   }
 
 

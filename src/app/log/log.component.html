@@ -36,6 +36,13 @@
                     (click)="editEvent(event)" type="button" class="btn btn-danger btn-xs">
                   <i class="fa fa-edit fa-lg"></i>
               </button>
+              <button *ngIf="event.registered && isSameWeek(event)"
+                  (dblclick)="event.registered = false"
+                  type="button" class="btn btn-warning btn-xs"
+                  title="Duplo click para marcar como não apropriado"
+                  >
+                <i class="fa fa-eraser fa-lg"></i>
+              </button>
             </td>
             <td class="text-center">{{event.registered | boolean}}</td>
             <td class="text-center"><span title="{{event.startDate | date : 'dd/MM/yy EEEE' }}">{{event.startDate | date : 'dd EEE' }}</span></td>
