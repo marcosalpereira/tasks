@@ -57,6 +57,12 @@ export class DataService {
     this.fireEventsChanged();
   }
 
+  unregisterEvent(event: Event) {
+    event.registered = false;
+    this.eventDao.persist(event);
+    this.fireEventsChanged();
+  }
+
   reloadAll(): void {
     this.taskDao.dataInit();
     this.eventDao.dataInit();

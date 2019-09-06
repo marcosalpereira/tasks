@@ -71,5 +71,9 @@ export class LogComponent implements OnInit, OnDestroy {
     return eventWeek === currentWeek;
   }
 
+  unregister(event: Event) {
+    this.dataService.unregisterEvent(event);
+  }
+
 
 }

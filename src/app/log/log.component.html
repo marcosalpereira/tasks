@@ -37,7 +37,7 @@
                   <i class="fa fa-edit fa-lg"></i>
               </button>
               <button *ngIf="event.registered && isSameWeek(event)"
-                  (dblclick)="event.registered = false"
+                  (dblclick)="unregister(event)"
                   type="button" class="btn btn-warning btn-xs"
                   title="Duplo click para marcar como não apropriado"
                   >
