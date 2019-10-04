@@ -30,7 +30,7 @@
     "font-awesome": "^4.7.0",
     "highcharts": "^6.2.0",
     "moment": "^2.21.0",
-    "ngx-bootstrap": "^3.3.0",
+    "ngx-bootstrap": "^5.1.2",
     "ngx-childprocess": "0.0.6",
     "rxjs": "^6.5.3",
     "zone.js": "^0.9.1"

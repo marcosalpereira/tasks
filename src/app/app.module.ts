@@ -1,3 +1,5 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -89,7 +91,8 @@ const ROUTES: Route[] = [
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    ChartModule
+    ChartModule,
+    BrowserAnimationsModule
   ],
   providers: [DataService,
     ElectronService,
