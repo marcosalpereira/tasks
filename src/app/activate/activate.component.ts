@@ -21,7 +21,7 @@ export class ActivateComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
   startTask = true;
 
-  @ViewChild('form') form: NgForm;
+  @ViewChild('form', {static: true}) form: NgForm;
 
   constructor(
     private dataService: DataService,
