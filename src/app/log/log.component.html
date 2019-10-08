@@ -50,7 +50,7 @@
             <td class="text-left">{{event?.endDate | date : 'HH:mm:ss' }}</td>
             <td class="text-left">{{event | eventDuration}}</td>
             <td class="text-left">
-              <span class="badge task-color-{{event.task.id %9}}">&nbsp;&nbsp;</span>
+              <span class="badge task-color-{{event.task.colorIndex}}">&nbsp;&nbsp;</span>
               <a [routerLink]="['/tasks', event.task.id]" title="{{event.task.project.name}}-{{event.task.id}}">
                   {{event.remarks ? event.remarks + '@' : ''}}{{event.task.name}}
               </a>

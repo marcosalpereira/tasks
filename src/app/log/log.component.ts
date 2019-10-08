@@ -23,11 +23,31 @@ export class LogComponent implements OnInit, OnDestroy {
     private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.events = this.dataService.getEvents();
+    this.updateData(this.dataService.getEvents());
 
     this.eventsChanged$ = this.dataService.eventsChanged$.subscribe(
-      events => this.events = events
+      events => this.updateData(events)
     );
+  }
+
+  updateData(events) {
+    this.events = events;
+    this.assignColors();
+  }
+
+  assignColors() {
+    let colorIndex = 0;
+    const assigneds = [];
+    this.events.forEach(e => {
+      const assigned = assigneds.find(t => e.task.id === t.id);
+      if (assigned) {
+        e.task.colorIndex = assigned.colorIndex;
+      } else {
+        e.task.colorIndex = colorIndex;
+        colorIndex = colorIndex % 9 + 1;
+        assigneds.push(e.task);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -67,7 +87,6 @@ export class LogComponent implements OnInit, OnDestroy {
   isSameWeek(event: Event) {
     const eventWeek = moment(event.startDate).week();
     const currentWeek = moment().week();
-    console.log( { eventWeek, currentWeek});
     return eventWeek === currentWeek;
   }
 
