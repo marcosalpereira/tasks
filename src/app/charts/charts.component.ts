@@ -83,17 +83,17 @@ export class ChartsComponent implements OnInit {
       if (event.endDate) {
         const startMoment = moment(event.startDate);
         const minutes = DateUtil.durationMinutes(startMoment, moment(event.endDate));
-        const dia = startMoment.startOf('day').diff(ini, 'days');
+        const daysAfterFirstDay = startMoment.startOf('day').diff(ini, 'days');
         const key = event.task.name;
 
         let data: number[] = map[key];
         if (!data) {
           data = new Array(qtdDias);
           data.fill(null);
-          data[dia] = minutes;
+          data[daysAfterFirstDay] = minutes;
           map[key] = data;
         } else {
-          data[dia] += minutes;
+          data[daysAfterFirstDay] += minutes;
         }
       }
       return map;
