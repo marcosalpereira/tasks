@@ -17,6 +17,8 @@ export class LogComponent implements OnInit, OnDestroy {
   eventsChanged$: Subscription;
   events: Event[];
 
+  assignedsColors = [];
+
   constructor(
     private dataService: DataService,
     private router: Router,
@@ -37,15 +39,14 @@ export class LogComponent implements OnInit, OnDestroy {
 
   assignColors() {
     let colorIndex = 0;
-    const assigneds = [];
     this.events.forEach(e => {
-      const assigned = assigneds.find(t => e.task.id === t.id);
+      const assigned = this.assignedsColors.find(t => e.task.id === t.id);
       if (assigned) {
         e.task.colorIndex = assigned.colorIndex;
       } else {
         e.task.colorIndex = colorIndex;
         colorIndex = colorIndex % 9 + 1;
-        assigneds.push(e.task);
+        this.assignedsColors.push(e.task);
       }
     });
   }
