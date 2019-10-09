@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
-import { Event } from './event.model';
 import { DateUtil } from './date-util';
 
 @Pipe({
@@ -8,10 +7,10 @@ import { DateUtil } from './date-util';
 })
 export class EventDurationPipe implements PipeTransform {
 
-  transform(event: Event): string {
-    const start = moment(event.startDate);
-    if (event.endDate) {
-      const end = moment(event.endDate);
+  transform(startDate: Date, endDate: Date): string {
+    const start = moment(startDate);
+    if (endDate) {
+      const end = moment(endDate);
       const minutes = DateUtil.durationMinutes(start, end);
       return DateUtil.formatHour(minutes);
     } else {

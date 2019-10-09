@@ -48,7 +48,7 @@
             <td class="text-center"><span title="{{event.startDate | date : 'dd/MM/yy EEEE' }}">{{event.startDate | date : 'dd EEE' }}</span></td>
             <td class="text-left">{{event.startDate | date : 'HH:mm:ss' }}</td>
             <td class="text-left">{{event?.endDate | date : 'HH:mm:ss' }}</td>
-            <td class="text-left">{{event | eventDuration}}</td>
+            <td class="text-left">{{event.startDate | eventDuration : event?.endDate}}</td>
             <td class="text-left">
               <span class="badge task-color-{{event.task.colorIndex}}">&nbsp;&nbsp;</span>
               <a [routerLink]="['/tasks', event.task.id]" title="{{event.task.project.name}}-{{event.task.id}}">
