@@ -4,7 +4,8 @@ export class Config {
         public cpf: string,
         public browserType = 'firefox',
         public browserFirefoxProfile?: string,
-        public browserLocation?: string
+        public browserLocation?: string,
+        public maxTopTasks = 20,
     ) {
     }
 

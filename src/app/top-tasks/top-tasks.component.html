@@ -1,4 +1,4 @@
-<div class="row" *ngFor="let task of topTasks">
+<div class="row" *ngFor="let task of topTasks | slice : 1 : maxTopTasks">
   <div class="col-md-12">
     <button type="button" title="Start Again" (click)="onClick(task)">
       {{task.code}}-{{task.name}}

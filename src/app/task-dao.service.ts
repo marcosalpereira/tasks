@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Task } from './task.model';
 import { StorageService } from './storage.service';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class TaskDaoService {
   private tasks: Task[];
 
   constructor(
-    private storageService: StorageService) { }
+    private storageService: StorageService) {}
 
   dataInit(): void {
     this.tasks = undefined;
@@ -36,8 +37,7 @@ export class TaskDaoService {
 
   getTopTasks(): any {
     return this.getTasks()
-      .sort((left: Task, right: Task) => right.counter - left.counter)
-      .slice(0, 9);
+      .sort((left: Task, right: Task) => right.counter - left.counter);
   }
 
   getTasks() {
