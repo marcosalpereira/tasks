@@ -45,3 +45,7 @@ label.required:before {
 button + button {
     margin-left: 5px;
 }
+
+button {
+    box-shadow: 2px 2px 4px #242121a2;
+}
