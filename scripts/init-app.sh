@@ -13,6 +13,8 @@ chmod +x bin/apropriacao.sh bin/geckodriver bin/chromedriver
 
 mv tasks-linux-x64/ bin/
 
+cp src/favicon.ico bin
+
 echo "Executando bin/tasks-linux-x64/tasks..."
 
 bin/tasks-linux-x64/tasks &
