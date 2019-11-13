@@ -11,6 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "bin": "ng build --prod && electron-packager . --no-prune --overwrite",
+    "init-app": "scripts/init-app.sh",
     "electron": "ng build && electron .",
     "electron-aot": "ng build --prod && electron ."
   },

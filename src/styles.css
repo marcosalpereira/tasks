@@ -42,6 +42,8 @@ label.required:before {
     content: " *";
   }
 
+/* melhorar essas regras super abrangentes   */
+
 button + button {
     margin-left: 5px;
 }

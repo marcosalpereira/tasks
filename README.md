@@ -1,27 +1,78 @@
 # Tasks
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+Essa aplicação tem o objetivo de controlar o tempo apropriado no ALM de forma mais precisa.
 
-## Development server
+Ela é composta de um aplicativo frontend escrito em angular e contruído para executar em modo standalone com o electron. E um backend java com o selenium para fazer as apropriações no ALM.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Como executar
 
-## Build
+Temporariamente (kkkk), para executar o *apropriator* faça:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+```bash
+git clone https://github.com/marcosalpereira/tasks.git
+cd tasks
 
-## Running unit tests
+npm run init-app
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Como configurar
 
-## Running end-to-end tests
+Clique no icone do menu *hamburger* para ver o formulario de configuração:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+- Pasta onde se encontra o alm-apropriator-?-jar
 
-## Further help
+    EX: '/path/to/tasks/bin'
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- CPF:
+
+    informe seu CPF
+
+- Navegador:
+
+    informe 'firefox' ou 'chrome'
+
+- Nome de um profile do firefox (caso tenha escolhido firefox)
+
+    Opcionalmente, informe um profile do firefox
+
+- Caminho para o Navegador:
+
+    Ex: /usr/bin/firefox
+
+- Tamanho da Lista tarefas frequentes
+
+    Tamanho desejado;M eX: 20
+
+## Criar uma tarefa
+
+Clique no icone do menu *hamburger* para abrir ver o formulario de Criar/Iniciar Tarefa:
+
+- Project
+
+    Use o botão '+' para criar um novo projeto. Esse projeto tem que ser o nome da área no ALM. Ex: 'DEDAT - Departamento de Arquitetura'
+
+- Task Code
+
+    O número do item de trabalho que o ALM gera quando se cria uma nova tarefa: Ex: 1866327
+
+- Task Name:
+
+    O nome da tarefa. Pode ser qualquer nome, por exemplo o próprio nome do item no ALM
+
+- Já iniciar essa tarefa
+
+    Marque se desejar que ao submeter a tarefa já comece a contar o tempo
+
+- Observação
+
+    Um complemento descritivo, opcional, para a tarefa
+
+## Registro das atividades
+
+No dia a dia, a idéia, é ao começar uma tarefa, iniciar a contagem de tempo nela.
+Para tarefas existente, no painel de 'Evento', clique no icone de 'reciclagem'
+
+to be continued...
+
