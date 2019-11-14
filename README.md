@@ -77,7 +77,9 @@ Para novas tarefas, acesse o menu e crie a tarefa nova.
 
 Ao final do dia, verifique os paineis de **Resumo** ou **Gráfico** para ver os totais trabalhados. Clique no botão de Apropriação (Icone com um **A**)
 
-![Veja esse vídeo para maiores informações](demo.ogv)
+Veja esse vídeo para maiores informações
+
+![demo](demo.gif)
 
 
 
