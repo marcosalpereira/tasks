@@ -3,6 +3,8 @@
 # stop on first error
 set -e
 
+npm install
+
 # warn: very slow task, be patient!
 npm run bin
 
