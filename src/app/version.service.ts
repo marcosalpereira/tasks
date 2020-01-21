@@ -19,7 +19,6 @@ export class VersionService {
 
   private migrate(from: string, to: string) {
     const version = localStorage.getItem('tasks.version');
-    console.log({version});
     if (from !== version) { return; }
 
     const newItens = new Map();

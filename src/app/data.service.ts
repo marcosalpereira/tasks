@@ -114,6 +114,13 @@ export class DataService {
     this.taskDao.persist(task);
   }
 
+  deleteTask(task: Task) {
+    this.taskDao.delete(task);
+    this.eventDao.deleteAll(task);
+    this.fireEventsChanged();
+    this.fireTopTasksChanged();
+  }
+
   startTask(project: Project, taskCode: number, taskName: string, remarks: string, date = new Date()): void {
     const lastEvent: Event = this.eventDao.selectLastEvent();
 

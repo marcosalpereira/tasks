@@ -1,0 +1,28 @@
+.task {
+  background-color: rgb(221,221,221);
+  width: 100%;
+  padding: 5px;
+  padding-right: 60px;
+  margin-top: 10px;
+  border-radius: 6px;
+  box-shadow: 2px 2px 4px #242121a2;
+  position: relative;
+  display: block;
+  /* white-space: nowrap; */
+  /* width: 100%; */
+  /* max-width: 100%; */
+}
+
+button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+
+button + button{
+  position: absolute;
+  right: 34px;
+  top: 4px;
+
+}
+

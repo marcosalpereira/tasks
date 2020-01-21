@@ -14,6 +14,11 @@ export class TaskDaoService {
     this.tasks = undefined;
   }
 
+  delete(task: Task) {
+    this.storageService.removeItem(`tasks.${task.id}`);
+    this.tasks = this.tasks.filter(t => task.id !== task.id);
+  }
+
   persist(task: Task): void {
     const tasks = this.getTasks();
     if (task.id) {

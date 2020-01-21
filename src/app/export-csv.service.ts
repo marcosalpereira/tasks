@@ -25,6 +25,7 @@ export class ExportCsvService {
   }
 
   exportCsv(): void {
+    if (!this.electronService.path) { return; }
     this.alertService.clear();
     const timeStamp = moment().format('DD-MM-YY-HH-mm-ss');
     const csvFile = this.electronService.path.resolve(this.getConfig().workFolder, `dados-${timeStamp}.csv`);
