@@ -47,6 +47,7 @@ import { ChartModule } from 'angular-highcharts';
 import { registerLocaleData } from '@angular/common';
 import localesPt from '@angular/common/locales/pt';
 import { EditTaskComponent } from './edit-task/edit-task.component';
+import { AllTasksComponent } from './all-tasks/all-tasks.component';
 registerLocaleData(localesPt);
 
 const ROUTES: Route[] = [
@@ -81,6 +82,7 @@ const ROUTES: Route[] = [
     TimeValidatorDirective,
     ChartsComponent,
     EditTaskComponent,
+    AllTasksComponent,
   ],
   imports: [
     BrowserModule,

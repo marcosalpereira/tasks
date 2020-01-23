@@ -1,0 +1,13 @@
+<div class="row task" *ngFor="let task of tasks">
+  <a title="Edit task" [routerLink]="['/tasks', task.id]" (click)="appComponent.meny.close()">
+    {{task.code}}-{{task.name}}
+  </a>
+    <button title="Iniciar tarefa" (click)="restartTask(task)" type="button" class="btn btn-primary btn-xs">
+      <i class="fa fa-play fa-lg"></i>
+    </button>
+
+    <button (dblclick)="deleteTask(task)" type="button" class="btn btn-danger btn-xs"
+      title="Duplo click para remover a tarefa e todos os eventos">
+      <i class="fa fa-trash fa-lg"></i>
+    </button>
+</div>

@@ -3,6 +3,7 @@ import { Event } from './event.model';
 import { TaskDaoService } from './task-dao.service';
 import { StorageService } from './storage.service';
 import * as moment from 'moment';
+import { Task } from './task.model';
 
 const MAX_LAST_EVENTS = 30;
 
@@ -36,6 +37,19 @@ export class EventDaoService {
       .slice(0, MAX_LAST_EVENTS)
       .sort( (l, r) => r.startDate.getTime() - l.startDate.getTime());
 
+    const lastEventsIds = this.lastEvents
+      .map(event => event.id);
+    this.storageService.setItem('events.last', lastEventsIds);
+  }
+
+  deleteAll(task: Task) {
+    const events = this.getEvents();
+    events.forEach(event => {
+      if (event.task.id === task.id) {
+        this.storageService.removeItem(`events.${event.id}`);
+        this.lastEvents = this.lastEvents.filter(e => e.id !== event.id);
+      }
+    });
     const lastEventsIds = this.lastEvents
       .map(event => event.id);
     this.storageService.setItem('events.last', lastEventsIds);

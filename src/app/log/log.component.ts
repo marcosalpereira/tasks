@@ -38,6 +38,7 @@ export class LogComponent implements OnInit, OnDestroy {
   }
 
   assignColors() {
+    if (!this.events) { return; }
     let colorIndex = 0;
     this.events.forEach(e => {
       const assigned = this.assignedsColors.find(t => e.task.id === t.id);

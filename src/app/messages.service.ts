@@ -23,11 +23,13 @@ export class MessagesService {
   }
 
   clearInfo(msg: any) {
-    this.info$.next(this.infos.filter(i => i !== msg));
+    this.infos = this.infos.filter(i => i !== msg);
+    this.info$.next(this.infos);
   }
 
   clearError(msg: any): any {
-    this.error$.next(this.errors.filter(i => i !== msg));
+    this.errors = this.errors.filter(i => i !== msg);
+    this.error$.next(this.errors);
   }
 
 }
