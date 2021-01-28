@@ -45,7 +45,7 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
-    "electron": "^3.0.10",
+    "electron": "^9.4.0",
     "electron-packager": "^14.0.6",
     "git-release-notes": "^3.0.0",
     "jasmine-core": "~2.8.0",
